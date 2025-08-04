@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Méthode Fusionnée d'Innovation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --primary-dark: #2c3e50;
+        --secondary-blue: #3498db;
+        --accent-orange: #ff7f2a;
+        --success-green: #27ae60;
+        --danger-red: #e74c3c;
+        --light-bg: #f4f7f6;
+        --card-bg: #ffffff;
+        --text-color: #34495e;
+        --border-color: #ecf0f1;
+        --shadow-sm: 0 2px 8px rgba(0,0,0,0.1);
+        --shadow-md: 0 4px 12px rgba(0,0,0,0.15);
+        --transition: all 0.3s ease;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--light-bg);
+        color: var(--text-color);
+        padding: 2rem 0;
+        line-height: 1.6;
+    }
+
+    .quiz-container {
+        max-width: 800px;
+        margin: auto;
+        background-color: var(--card-bg);
+        padding: 2.5rem;
+        border-radius: 15px;
+        box-shadow: var(--shadow-md);
+        transition: var(--transition);
+    }
+
+    .quiz-header h1 {
+        color: var(--primary-dark);
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 1rem;
+        font-size: 2.2rem;
+        position: relative;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .quiz-header h1 i {
+        margin-right: 12px;
+        color: var(--accent-orange);
+    }
+
+    .quiz-header p {
+        color: var(--primary-dark);
+        opacity: 0.8;
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+
+    .phase-tag {
+        display: inline-block;
+        padding: 0.35rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: var(--shadow-sm);
+        transition: var(--transition);
+    }
+
+    .phase-empathy { 
+        background-color: #9b59b6; 
+        color: white; 
+    }
+    .phase-analyse { 
+        background-color: #3498db; 
+        color: white; 
+    }
+    .phase-ideation { 
+        background-color: #2ecc71; 
+        color: white; 
+    }
+    .phase-prototypage { 
+        background-color: #f39c12; 
+        color: white; 
+    }
+    .phase-data { 
+        background-color: #e74c3c; 
+        color: white; 
+    }
+    .phase-deploiement { 
+        background-color: #1abc9c; 
+        color: white; 
+    }
+
+    #question-card {
+        border-left: 5px solid var(--secondary-blue);
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: var(--shadow-sm);
+        transition: var(--transition);
+        overflow: hidden;
+    }
+
+    #question-card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    #question-text {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin: 1rem 0 1.5rem;
+        color: var(--primary-dark);
+    }
+
+    #options-container {
+        display: grid;
+        gap: 12px;
+    }
+
+    .option-btn {
+        padding: 1rem 1.5rem;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        text-align: left;
+        font-size: 1rem;
+        transition: var(--transition);
+        cursor: pointer;
+        background-color: white;
+        color: var(--text-color);
+    }
+
+    .option-btn:hover:not(.disabled) {
+        background-color: #f8f9fa;
+        border-color: var(--secondary-blue);
+        transform: translateX(5px);
+    }
+
+    .option-btn.correct {
+        background-color: rgba(39, 174, 96, 0.1);
+        border-color: var(--success-green);
+        color: var(--success-green);
+        font-weight: 600;
+    }
+
+    .option-btn.incorrect {
+        background-color: rgba(231, 76, 60, 0.1);
+        border-color: var(--danger-red);
+        color: var(--danger-red);
+    }
+
+    .option-btn.disabled {
+        cursor: not-allowed;
+        opacity: 0.7;
+    }
+
+    #explanation-box {
+        border-left: 4px solid var(--secondary-blue);
+        background-color: #f8fafb;
+        padding: 1.25rem;
+        border-radius: 0 0 8px 8px;
+        margin-top: 1rem;
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    #explanation-text {
+        margin: 0;
+        color: var(--text-color);
+    }
+
+    .quiz-navigation {
+        margin-top: 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .quiz-navigation button {
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    #question-counter {
+        font-weight: 600;
+        color: var(--primary-dark);
+        background-color: rgba(52, 152, 219, 0.1);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .quiz-container {
+            padding: 1.5rem;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        #question-text {
+            font-size: 1.1rem;
+        }
+        
+        .option-btn {
+            padding: 0.8rem 1rem;
+        }
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="quiz-container">
+            <div class="quiz-header">
+                <h1><i class="fas fa-lightbulb"></i> Quiz Méthode Fusionnée d'Innovation</h1>
+                <p class="text-center">Testez vos connaissances sur les 6 phases de la méthode</p>
+            </div>
+
+            <div id="question-card" class="card mb-4">
+                <div class="card-body">
+                    <span id="phase-tag" class="phase-tag">Phase</span>
+                    <h2 id="question-text" class="mt-2">Question...</h2>
+                    <div id="options-container" class="mt-4">
+                        <!-- Options will be inserted here -->
+                    </div>
+                    <div id="explanation-box" class="mt-4 p-3 d-none">
+                        <p id="explanation-text"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-navigation d-flex justify-content-between">
+                <button id="prev-btn" class="btn btn-outline-secondary"><i class="fas fa-arrow-left"></i> Précédent</button>
+                <span id="question-counter">1/40</span>
+                <button id="next-btn" class="btn btn-primary">Suivant <i class="fas fa-arrow-right"></i></button>
+                <button id="finish-btn" class="btn btn-success d-none">Terminer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Modal -->
+    <div class="modal fade" id="resultsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Vos Résultats</h5>
+                </div>
+                <div class="modal-body">
+                    <h4 class="text-center mb-4">Score Final: <span id="score">0</span>/40</h4>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Par Phase:</h5>
+                            <ul id="phase-results" class="list-group">
+                                <!-- Phase results will be inserted here -->
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Recommandations:</h5>
+                            <div id="recommendations">
+                                <!-- Recommendations will be inserted here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="restart-btn" class="btn btn-primary">Recommencer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+     
+    const quizData = [
+        // Phase 1: Empathie & Immersion (8 questions)
+        {
+            question: "Quel est l'objectif principal de la phase d'Empathie & Immersion?",
+            options: [
+                "Développer un prototype fonctionnel",
+                "Comprendre profondément les besoins des utilisateurs",
+                "Analyser les données de marché",
+                "Prioriser les fonctionnalités du produit"
+            ],
+            correctAnswer: "Comprendre profondément les besoins des utilisateurs",
+            explanation: "Cette phase vise à se mettre à la place des utilisateurs pour comprendre leurs besoins, frustrations et contextes réels.",
+            phase: "1️⃣ Empathie & Immersion"
+        },
+        {
+            question: "Quel outil permet de synthétiser les ressentis et pensées des utilisateurs?",
+            options: [
+                "Business Model Canvas",
+                "Empathy Map",
+                "Diagramme de Gantt",
+                "Matrice SWOT"
+            ],
+            correctAnswer: "Empathy Map",
+            explanation: "L'Empathy Map est un outil visuel qui permet de synthétiser ce que les utilisateurs disent, pensent, font et ressentent.",
+            phase: "1️⃣ Empathie & Immersion"
+        },
+        {
+            question: "Quelle technique est la plus adaptée pour comprendre les comportements réels des utilisateurs?",
+            options: [
+                "Enquête en ligne",
+                "Observation terrain",
+                "Analyse de données secondaires",
+                "Benchmark concurrentiel"
+            ],
+            correctAnswer: "Observation terrain",
+            explanation: "L'observation terrain permet de capturer les comportements naturels et non biaisés des utilisateurs dans leur contexte réel.",
+            phase: "1️⃣ Empathie & Immersion"
+        },
+        {
+            question: "Qu'est-ce qu'une User Journey Map?",
+            options: [
+                "Un diagramme des flux financiers",
+                "Une cartographie du parcours utilisateur avec ses points de contact et émotions",
+                "Un organigramme des équipes projet",
+                "Un planning des étapes de développement"
+            ],
+            correctAnswer: "Une cartographie du parcours utilisateur avec ses points de contact et émotions",
+            explanation: "La User Journey Map visualise l'expérience complète de l'utilisateur à travers les différentes étapes de son interaction avec le produit/service.",
+            phase: "1️⃣ Empathie & Immersion"
+        },
+        {
+            question: "Quel est l'avantage principal d'un Urban Lab?",
+            options: [
+                "Réduire les coûts de développement",
+                "Tester des concepts en environnement réel avec de vrais utilisateurs",
+                "Automatiser la collecte de données",
+                "Accélérer le prototypage technique"
+            ],
+            correctAnswer: "Tester des concepts en environnement réel avec de vrais utilisateurs",
+            explanation: "L'Urban Lab permet une immersion totale dans le contexte réel d'utilisation et des retours authentiques.",
+            phase: "1️⃣ Empathie & Immersion"
+        },
+        {
+            question: "Combien de catégories comporte généralement une Empathy Map?",
+            options: [
+                "3 (Pensées, Actions, Sentiments)",
+                "4 (Dit, Fait, Pense, Ressent)",
+                "5 (avec en plus Besoins)",
+                "6 (avec en plus Motivations et Frustrations)"
+            ],
+            correctAnswer: "4 (Dit, Fait, Pense, Ressent)",
+            explanation: "L'Empathy Map standard comporte 4 quadrants : Ce que l'utilisateur Dit, Fait, Pense et Ressent.",
+            phase: "1️⃣ Empathie & Immersion"
+        },
+        {
+            question: "Quel type d'entretien est le plus adapté en phase d'immersion?",
+            options: [
+                "Entretien directif avec questionnaire fermé",
+                "Entretien semi-directif guidé par des thèmes",
+                "Entretien non-directif totalement libre",
+                "Questionnaire en ligne à choix multiples"
+            ],
+            correctAnswer: "Entretien semi-directif guidé par des thèmes",
+            explanation: "L'entretien semi-directif permet d'aborder des thèmes tout en laissant la liberté à l'utilisateur de développer ses réponses.",
+            phase: "1️⃣ Empathie & Immersion"
+        },
+        {
+            question: "Quelle information ne fait PAS partie des personas?",
+            options: [
+                "Données démographiques",
+                "Objectifs et motivations",
+                "Frustrations et difficultés",
+                "Revenu fiscal exact"
+            ],
+            correctAnswer: "Revenu fiscal exact",
+            explanation: "Les personas sont des archétypes fictifs basés sur des données réelles mais ne contiennent pas d'informations fiscales précises.",
+            phase: "1️⃣ Empathie & Immersion"
+        },
+
+        // Phase 2: Analyse & Priorisation (8 questions)
+        {
+            question: "Quelle méthode permet d'identifier les 20% de causes responsables de 80% des effets?",
+            options: [
+                "Méthode des 5 Pourquoi",
+                "Analyse SWOT",
+                "Principe de Pareto",
+                "Diagramme d'Ishikawa"
+            ],
+            correctAnswer: "Principe de Pareto",
+            explanation: "Le principe de Pareto (ou loi des 80/20) aide à identifier les causes les plus significatives à traiter en priorité.",
+            phase: "2️⃣ Analyse & Priorisation"
+        },
+        {
+            question: "Combien de fois doit-on généralement poser la question 'Pourquoi?' dans la méthode des 5 Pourquoi?",
+            options: [
+                "Exactement 5 fois",
+                "3 à 5 fois ou jusqu'à trouver la cause racine",
+                "Au moins 7 fois",
+                "2 fois suffisent"
+            ],
+            correctAnswer: "3 à 5 fois ou jusqu'à trouver la cause racine",
+            explanation: "On pose la question 'Pourquoi?' plusieurs fois (généralement 3 à 5) jusqu'à identifier la cause fondamentale du problème.",
+            phase: "2️⃣ Analyse & Priorisation"
+        },
+        {
+            question: "Quelles sont les 6 catégories traditionnelles du diagramme d'Ishikawa?",
+            options: [
+                "Méthodes, Machines, Matières, Main-d'œuvre, Milieu, Management",
+                "Technologie, Organisation, Humain, Financier, Juridique, Environnemental",
+                "Produit, Prix, Place, Promotion, Processus, Preuve physique",
+                "Stratégie, Structure, Systèmes, Style, Staff, Compétences, Valeurs partagées"
+            ],
+            correctAnswer: "Méthodes, Machines, Matières, Main-d'œuvre, Milieu, Management",
+            explanation: "Ces 6 M (Méthodes, Machines, Matières, Main-d'œuvre, Milieu, Management) couvrent les principales causes possibles d'un problème.",
+            phase: "2️⃣ Analyse & Priorisation"
+        },
+        {
+            question: "Quel outil permet de prioriser des idées selon leur impact et facilité de mise en œuvre?",
+            options: [
+                "Matrice d'Eisenhower",
+                "Diagramme de Gantt",
+                "Matrice Impact/Effort",
+                "Business Model Canvas"
+            ],
+            correctAnswer: "Matrice Impact/Effort",
+            explanation: "La matrice Impact/Effort permet de visualiser quelles idées apportent le plus de valeur pour un effort raisonnable.",
+            phase: "2️⃣ Analyse & Priorisation"
+        },
+        {
+            question: "Qu'est-ce qu'une 'douleur utilisateur' dans le contexte de l'analyse?",
+            options: [
+                "Un problème physique ressenti par l'utilisateur",
+                "Un point de friction dans l'expérience utilisateur",
+                "Un coût financier pour l'utilisateur",
+                "Une difficulté technique à résoudre"
+            ],
+            correctAnswer: "Un point de friction dans l'expérience utilisateur",
+            explanation: "Les douleurs utilisateurs représentent les problèmes, frustrations ou difficultés rencontrées dans leur parcours.",
+            phase: "2️⃣ Analyse & Priorisation"
+        },
+        {
+            question: "Quelle technique permet de transformer des problèmes en opportunités?",
+            options: [
+                "Analyse SWOT",
+                "Benchmark",
+                "Prototypage rapide",
+                "Tests A/B"
+            ],
+            correctAnswer: "Analyse SWOT",
+            explanation: "L'analyse SWOT (Forces, Faiblesses, Opportunités, Menaces) permet d'identifier des opportunités à partir des faiblesses.",
+            phase: "2️⃣ Analyse & Priorisation"
+        },
+        {
+            question: "Quel est l'objectif principal de la phase d'analyse?",
+            options: [
+                "Générer un maximum d'idées",
+                "Identifier et hiérarchiser les causes racines",
+                "Développer des prototypes",
+                "Collecter des données quantitatives"
+            ],
+            correctAnswer: "Identifier et hiérarchiser les causes racines",
+            explanation: "Cette phase vise à comprendre les problèmes en profondeur avant de passer à la génération de solutions.",
+            phase: "2️⃣ Analyse & Priorisation"
+        },
+        {
+            question: "Quel outil permet de visualiser les relations cause-effet?",
+            options: [
+                "Diagramme d'affinité",
+                "Carte mentale",
+                "Diagramme d'Ishikawa",
+                "Matrice de priorisation"
+            ],
+            correctAnswer: "Diagramme d'Ishikawa",
+            explanation: "Aussi appelé diagramme en arêtes de poisson, il montre les relations entre un effet et toutes ses causes possibles.",
+            phase: "2️⃣ Analyse & Priorisation"
+        },
+
+        // Phase 3: Idéation Collaborative (8 questions)
+        {
+            question: "Qu'est-ce qu'un 'nudge' dans le contexte de l'innovation?",
+            options: [
+                "Une incitation financière",
+                "Un coup de pouce qui influence les comportements",
+                "Un prototype rapide",
+                "Une réunion de brainstorming"
+            ],
+            correctAnswer: "Un coup de pouce qui influence les comportements",
+            explanation: "Un nudge est une intervention qui modifie l'architecture des choix pour influencer les comportements de manière prévisible.",
+            phase: "3️⃣ Idéation Collaborative"
+        },
+        {
+            question: "Quelle technique permet de générer des idées en se mettant dans la peau d'autres personnes?",
+            options: [
+                "Brainstorming classique",
+                "Méthode SCAMPER",
+                "Thinking Hats",
+                "Persona-based ideation"
+            ],
+            correctAnswer: "Persona-based ideation",
+            explanation: "Cette technique consiste à imaginer des solutions en adoptant le point de vue de différents personas utilisateurs.",
+            phase: "3️⃣ Idéation Collaborative"
+        },
+        {
+            question: "Quel est l'avantage principal des ateliers de co-création?",
+            options: [
+                "Réduire les coûts de développement",
+                "Intégrer des perspectives diverses dès la conception",
+                "Accélérer le prototypage technique",
+                "Automatiser la génération d'idées"
+            ],
+            correctAnswer: "Intégrer des perspectives diverses dès la conception",
+            explanation: "La co-création permet de combiner les expertises et points de vue des différentes parties prenantes.",
+            phase: "3️⃣ Idéation Collaborative"
+        },
+        {
+            question: "Que signifie l'acronyme SCAMPER?",
+            options: [
+                "Substituer, Combiner, Adapter, Modifier, Proposer, Éliminer, Réorganiser",
+                "Solutions, Concepts, Analyses, Méthodes, Prototypes, Évaluations, Résultats",
+                "Stratégie, Conception, Approche, Méthodologie, Processus, Évaluation, Révision",
+                "Systèmes, Composants, Applications, Modules, Programmes, Éléments, Ressources"
+            ],
+            correctAnswer: "Substituer, Combiner, Adapter, Modifier, Proposer, Éliminer, Réorganiser",
+            explanation: "SCAMPER est une technique de créativité qui pousse à envisager différentes transformations d'une idée existante.",
+            phase: "3️⃣ Idéation Collaborative"
+        },
+        {
+            question: "Quel est le principe de base du brainstorming?",
+            options: [
+                "Critiquer immédiatement les idées non réalistes",
+                "Privilégier la quantité à la qualité dans un premier temps",
+                "Ne retenir que les idées les plus innovantes",
+                "Travailler uniquement en individuel pour éviter les influences"
+            ],
+            correctAnswer: "Privilégier la quantité à la qualité dans un premier temps",
+            explanation: "Le brainstorming encourage d'abord la génération d'un maximum d'idées sans jugement, la qualité vient ensuite.",
+            phase: "3️⃣ Idéation Collaborative"
+        },
+        {
+            question: "Quelle technique permet d'évaluer et améliorer des idées existantes?",
+            options: [
+                "Méthode des 6 chapeaux",
+                "Prototypage rapide",
+                "Tests utilisateurs",
+                "Analyse de données"
+            ],
+            correctAnswer: "Méthode des 6 chapeaux",
+            explanation: "La méthode des 6 chapeaux de De Bono permet d'examiner une idée sous différents angles (créatif, critique, émotionnel...).",
+            phase: "3️⃣ Idéation Collaborative"
+        },
+        {
+            question: "Qu'est-ce qu'un 'design sprint'?",
+            options: [
+                "Un marathon de codage",
+                "Un processus de 5 jours pour résoudre des problèmes et tester des idées",
+                "Une compétition de design",
+                "Un outil de gestion de projet"
+            ],
+            correctAnswer: "Un processus de 5 jours pour résoudre des problèmes et tester des idées",
+            explanation: "Le design sprint est un cadre structuré pour concevoir, prototyper et tester des idées en une semaine.",
+            phase: "3️⃣ Idéation Collaborative"
+        },
+        {
+            question: "Quel est l'avantage des techniques de créativité comme le mind mapping?",
+            options: [
+                "Structurer visuellement les idées et leurs relations",
+                "Automatiser la génération de concepts",
+                "Éliminer les idées non viables",
+                "Prioriser les solutions techniques"
+            ],
+            correctAnswer: "Structurer visuellement les idées et leurs relations",
+            explanation: "Le mind mapping permet d'organiser graphiquement les idées autour d'un concept central et de voir les connexions.",
+            phase: "3️⃣ Idéation Collaborative"
+        },
+
+        // Phase 4: Prototypage Frugal (7 questions)
+        {
+            question: "Que signifie l'acronyme MVP?",
+            options: [
+                "Minimum Viable Product",
+                "Most Valuable Prototype",
+                "Maximum Value Proposition",
+                "Minimum Variable Process"
+            ],
+            correctAnswer: "Minimum Viable Product",
+            explanation: "MVP signifie Minimum Viable Product - la version la plus simple d'un produit permettant de valider des hypothèses.",
+            phase: "4️⃣ Prototypage Frugal"
+        },
+        {
+            question: "Quel est l'objectif principal d'un prototype?",
+            options: [
+                "Avoir une version parfaite du produit final",
+                "Valider ou invalider des hypothèses à moindre coût",
+                "Impressionner les investisseurs",
+                "Automatiser la production"
+            ],
+            correctAnswer: "Valider ou invalider des hypothèses à moindre coût",
+            explanation: "Le prototypage permet d'apprendre rapidement sur la viabilité d'une idée avant d'investir massivement.",
+            phase: "4️⃣ Prototypage Frugal"
+        },
+        {
+            question: "Quelle caractéristique est essentielle pour un bon MVP?",
+            options: [
+                "Avoir toutes les fonctionnalités prévues",
+                "Être techniquement parfait",
+                "Résoudre un seul problème clé",
+                "Avoir un design abouti"
+            ],
+            correctAnswer: "Résoudre un seul problème clé",
+            explanation: "Un bon MVP se concentre sur la validation d'une seule hypothèse centrale ou solution à un problème principal.",
+            phase: "4️⃣ Prototypage Frugal"
+        },
+        {
+            question: "Quel outil est le plus adapté pour un prototypage rapide d'interface?",
+            options: [
+                "Figma",
+                "Excel",
+                "Python",
+                "Photoshop"
+            ],
+            correctAnswer: "Figma",
+            explanation: "Figma permet de créer rapidement des maquettes interactives sans besoin de codage.",
+            phase: "4️⃣ Prototypage Frugal"
+        },
+        {
+            question: "Quelle méthode est associée au prototypage frugal?",
+            options: [
+                "Lean Startup",
+                "Design Thinking",
+                "Agile Scrum",
+                "Six Sigma"
+            ],
+            correctAnswer: "Lean Startup",
+            explanation: "Le Lean Startup prône le développement de MVP et l'apprentissage validé par des itérations rapides.",
+            phase: "4️⃣ Prototypage Frugal"
+        },
+        {
+            question: "Quel type de prototype permet de tester l'expérience utilisateur à moindre coût?",
+            options: [
+                "Prototype papier",
+                "Prototype haute fidélité",
+                "Prototype technique complet",
+                "Document de spécifications"
+            ],
+            correctAnswer: "Prototype papier",
+            explanation: "Les prototypes papier sont rapides à produire et suffisants pour tester des concepts d'expérience utilisateur.",
+            phase: "4️⃣ Prototypage Frugal"
+        },
+        {
+            question: "Quel est l'avantage du prototypage itératif?",
+            options: [
+                "Éviter tout échec",
+                "Apprendre et améliorer progressivement",
+                "Réduire les coûts marketing",
+                "Automatiser la production"
+            ],
+            correctAnswer: "Apprendre et améliorer progressivement",
+            explanation: "Les itérations successives permettent d'incorporer les retours utilisateurs et d'affiner la solution pas à pas.",
+            phase: "4️⃣ Prototypage Frugal"
+        },
+
+        // Phase 5: Pilotage Data-Driven (7 questions)
+        {
+            question: "Quel est l'objectif principal du pilotage data-driven?",
+            options: [
+                "Créer des rapports pour la direction",
+                "Prendre des décisions basées sur des données",
+                "Automatiser tous les processus",
+                "Collecter un maximum de données"
+            ],
+            correctAnswer: "Prendre des décisions basées sur des données",
+            explanation: "Le pilotage data-driven vise à utiliser les données pour éclairer et optimiser les décisions stratégiques.",
+            phase: "5️⃣ Pilotage Data-Driven"
+        },
+        {
+            question: "Quel outil est le plus adapté pour analyser le comportement des utilisateurs sur un site web?",
+            options: [
+                "Google Analytics",
+                "Tableau",
+                "Excel",
+                "PowerPoint"
+            ],
+            correctAnswer: "Google Analytics",
+            explanation: "Google Analytics fournit des données détaillées sur le comportement des visiteurs (pages vues, durée, parcours...).",
+            phase: "5️⃣ Pilotage Data-Driven"
+        },
+        {
+            question: "Qu'est-ce qu'un KPI?",
+            options: [
+                "Un protocole informatique",
+                "Un indicateur clé de performance",
+                "Une méthode de brainstorming",
+                "Un type de diagramme"
+            ],
+            correctAnswer: "Un indicateur clé de performance",
+            explanation: "Les KPIs (Key Performance Indicators) mesurent les facteurs critiques pour évaluer le succès d'une initiative.",
+            phase: "5️⃣ Pilotage Data-Driven"
+        },
+        {
+            question: "Quelle méthode permet de comparer deux versions d'une interface?",
+            options: [
+                "Analyse SWOT",
+                "Test A/B",
+                "5 Pourquoi",
+                "Diagramme d'Ishikawa"
+            ],
+            correctAnswer: "Test A/B",
+            explanation: "Les tests A/B comparent deux versions pour déterminer laquelle performe mieux sur des indicateurs prédéfinis.",
+            phase: "5️⃣ Pilotage Data-Driven"
+        },
+        {
+            question: "Quel est l'avantage des tableaux de bord en temps réel?",
+            options: [
+                "Prendre des décisions rapides basées sur les dernières données",
+                "Réduire les coûts de stockage",
+                "Automatiser les processus métier",
+                "Éliminer le besoin d'analystes"
+            ],
+            correctAnswer: "Prendre des décisions rapides basées sur les dernières données",
+            explanation: "Les dashboards temps réel permettent de réagir rapidement aux tendances et anomalies détectées.",
+            phase: "5️⃣ Pilotage Data-Driven"
+        },
+        {
+            question: "Quel type de donnée est le plus utile pour comprendre les comportements utilisateurs?",
+            options: [
+                "Données quantitatives (statistiques)",
+                "Données qualitatives (entretiens, observations)",
+                "Une combinaison des deux",
+                "Données financières uniquement"
+            ],
+            correctAnswer: "Une combinaison des deux",
+            explanation: "Les données quantitatives révèlent les 'quoi', tandis que les qualitatives expliquent les 'pourquoi' derrière les comportements.",
+            phase: "5️⃣ Pilotage Data-Driven"
+        },
+        {
+            question: "Quel outil permet de visualiser des données complexes sous forme graphique?",
+            options: [
+                "Power BI",
+                "Figma",
+                "Trello",
+                "Miro"
+            ],
+            correctAnswer: "Power BI",
+            explanation: "Power BI est spécialisé dans la transformation de données en visualisations interactives et tableaux de bord.",
+            phase: "5️⃣ Pilotage Data-Driven"
+        },
+
+        // Phase 6: Déploiement Systémique (7 questions)
+        {
+            question: "Quel outil est utile pour cartographier les flux et acteurs dans un écosystème?",
+            options: [
+                "Kumu",
+                "Trello",
+                "Google Analytics",
+                "Figma"
+            ],
+            correctAnswer: "Kumu",
+            explanation: "Kumu est une plateforme de visualisation qui permet de cartographier les relations complexes dans les systèmes.",
+            phase: "6️⃣ Déploiement Systémique"
+        },
+        {
+            question: "Quel est l'objectif principal de la phase de déploiement systémique?",
+            options: [
+                "Développer des fonctionnalités avancées",
+                "Assurer l'intégration harmonieuse dans l'écosystème",
+                "Collecter des données utilisateurs",
+                "Réaliser des prototypes"
+            ],
+            correctAnswer: "Assurer l'intégration harmonieuse dans l'écosystème",
+            explanation: "Cette phase vise à garantir que l'innovation s'insère durablement dans son environnement global.",
+            phase: "6️⃣ Déploiement Systémique"
+        },
+        {
+            question: "Quelle approche est cruciale pour un déploiement réussi?",
+            options: [
+                "Approche en silo",
+                "Approche systémique",
+                "Approche linéaire",
+                "Approche centralisée"
+            ],
+            correctAnswer: "Approche systémique",
+            explanation: "L'approche systémique considère toutes les interactions et interdépendances entre les éléments du système.",
+            phase: "6️⃣ Déploiement Systémique"
+        },
+        {
+            question: "Quel élément ne fait PAS partie d'une analyse d'impact systémique?",
+            options: [
+                "Effets directs sur les utilisateurs finaux",
+                "Impacts indirects sur les parties prenantes secondaires",
+                "Coûts de développement initiaux",
+                "Conséquences à long terme sur l'écosystème"
+            ],
+            correctAnswer: "Coûts de développement initiaux",
+            explanation: "L'analyse d'impact systémique se concentre sur les effets dans l'écosystème, pas sur les coûts initiaux.",
+            phase: "6️⃣ Déploiement Systémique"
+        },
+        {
+            question: "Quelle méthode permet d'anticiper les résistances au changement?",
+            options: [
+                "Analyse des forces de Porter",
+                "Matrice d'Eisenhower",
+                "Analyse des champs de force de Lewin",
+                "Méthode des 5 Pourquoi"
+            ],
+            correctAnswer: "Analyse des champs de force de Lewin",
+            explanation: "Cette méthode identifie les forces motrices et les forces de résistance pour préparer le changement.",
+            phase: "6️⃣ Déploiement Systémique"
+        },
+        {
+            question: "Quel est l'avantage d'une approche écosystémique?",
+            options: [
+                "Réduire les coûts à court terme",
+                "Maximiser les profits immédiats",
+                "Assurer la pérennité et l'adoption large",
+                "Simplifier la phase de conception"
+            ],
+            correctAnswer: "Assurer la pérennité et l'adoption large",
+            explanation: "En considérant l'ensemble de l'écosystème, on augmente les chances d'adoption durable et à large échelle.",
+            phase: "6️⃣ Déploiement Systémique"
+        },
+        {
+            question: "Quel outil est utile pour gérer un déploiement progressif?",
+            options: [
+                "Roadmap produit",
+                "Empathy Map",
+                "Business Model Canvas",
+                "Diagramme d'Ishikawa"
+            ],
+            correctAnswer: "Roadmap produit",
+            explanation: "Une roadmap permet de planifier les étapes de déploiement et les évolutions futures de manière progressive.",
+            phase: "6️⃣ Déploiement Systémique"
+        }
+    ];
+
+  
+
+        // Initialisation des éléments DOM
+        const questionTextEl = document.getElementById('question-text');
+        const optionsContainerEl = document.getElementById('options-container');
+        const explanationBoxEl = document.getElementById('explanation-box');
+        const explanationTextEl = document.getElementById('explanation-text');
+        const phaseTagEl = document.getElementById('phase-tag');
+        const questionCounterEl = document.getElementById('question-counter');
+        const nextBtn = document.getElementById('next-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const finishBtn = document.getElementById('finish-btn');
+        const resultsModal = new bootstrap.Modal(document.getElementById('resultsModal'));
+        
+        let currentQuestionIndex = 0;
+        let userAnswers = Array(quizData.length).fill(null);
+        let score = 0;
+
+        // Afficher la question actuelle
+        function displayQuestion() {
+            const question = quizData[currentQuestionIndex];
+            questionTextEl.textContent = question.question;
+            phaseTagEl.textContent = question.phase;
+            phaseTagEl.className = `phase-tag phase-${question.phase.split(' ')[1].toLowerCase()}`;
+            
+            optionsContainerEl.innerHTML = '';
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'btn btn-outline-secondary w-100 text-start mb-2 option-btn';
+                button.textContent = option;
+                button.onclick = () => selectAnswer(option);
+                optionsContainerEl.appendChild(button);
+            });
+            
+            explanationBoxEl.classList.add('d-none');
+            updateNavigation();
+        }
+
+        // Gérer la sélection d'une réponse
+        function selectAnswer(selectedOption) {
+            const question = quizData[currentQuestionIndex];
+            const isCorrect = selectedOption === question.correctAnswer;
+            
+            userAnswers[currentQuestionIndex] = {
+                selected: selectedOption,
+                isCorrect: isCorrect
+            };
+            
+            // Afficher l'explication
+            explanationTextEl.textContent = question.explanation;
+            explanationBoxEl.classList.remove('d-none');
+            
+            // Mettre à jour l'apparence des options
+            const optionButtons = optionsContainerEl.querySelectorAll('.option-btn');
+            optionButtons.forEach(button => {
+                button.disabled = true;
+                if (button.textContent === question.correctAnswer) {
+                    button.classList.add('correct');
+                } else if (button.textContent === selectedOption && !isCorrect) {
+                    button.classList.add('incorrect');
+                }
+            });
+            
+            updateNavigation();
+        }
+
+        // Mettre à jour la navigation
+        function updateNavigation() {
+            questionCounterEl.textContent = `${currentQuestionIndex + 1}/${quizData.length}`;
+            
+            prevBtn.disabled = currentQuestionIndex === 0;
+            
+            if (currentQuestionIndex === quizData.length - 1) {
+                nextBtn.classList.add('d-none');
+                finishBtn.classList.remove('d-none');
+            } else {
+                nextBtn.classList.remove('d-none');
+                finishBtn.classList.add('d-none');
+            }
+        }
+
+        // Afficher les résultats
+        function showResults() {
+            score = userAnswers.filter(answer => answer?.isCorrect).length;
+            
+            document.getElementById('score').textContent = score;
+            
+            // Calculer les résultats par phase
+            const phaseResults = {};
+            quizData.forEach((question, index) => {
+                const phase = question.phase;
+                if (!phaseResults[phase]) {
+                    phaseResults[phase] = { total: 0, correct: 0 };
+                }
+                phaseResults[phase].total++;
+                if (userAnswers[index]?.isCorrect) {
+                    phaseResults[phase].correct++;
+                }
+            });
+            
+            // Afficher les résultats par phase
+            const phaseResultsEl = document.getElementById('phase-results');
+            phaseResultsEl.innerHTML = '';
+            for (const [phase, results] of Object.entries(phaseResults)) {
+                const li = document.createElement('li');
+                li.className = 'list-group-item';
+                li.textContent = `${phase}: ${results.correct}/${results.total}`;
+                phaseResultsEl.appendChild(li);
+            }
+            
+            // Générer des recommandations
+            const recommendationsEl = document.getElementById('recommendations');
+            if (score >= 30) {
+                recommendationsEl.innerHTML = `
+                    <div class="alert alert-success">
+                        <strong>Excellent travail!</strong> Vous avez une compréhension approfondie de la méthode fusionnée. 
+                        Passez à l'application pratique avec des cas réels.
+                    </div>
+                `;
+            } else if (score >= 20) {
+                recommendationsEl.innerHTML = `
+                    <div class="alert alert-info">
+                        <strong>Bon score!</strong> Vous maîtrisez les bases. Approfondissez les phases où vous avez eu des difficultés.
+                    </div>
+                `;
+            } else {
+                recommendationsEl.innerHTML = `
+                    <div class="alert alert-warning">
+                        <strong>À améliorer.</strong> Revoyez les concepts clés, en particulier dans les phases où vous avez fait des erreurs.
+                    </div>
+                `;
+            }
+            
+            resultsModal.show();
+        }
+
+        // Événements
+        nextBtn.addEventListener('click', () => {
+            if (currentQuestionIndex < quizData.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+            }
+        });
+        
+        prevBtn.addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+            }
+        });
+        
+        finishBtn.addEventListener('click', showResults);
+        
+        document.getElementById('restart-btn').addEventListener('click', () => {
+            currentQuestionIndex = 0;
+            userAnswers = Array(quizData.length).fill(null);
+            resultsModal.hide();
+            displayQuestion();
+        });
+
+        // Démarrer le quiz
+        displayQuestion();
+    </script>
+</body>
+</html>

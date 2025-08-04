@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Méthodologie Combinée - Brainstorming, Ishikawa, Pareto, 5 Pourquoi</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #3498db;
+      --method-blue: #4d8af0;
+      --success-color: #27ae60;
+      --danger-color: #e74c3c;
+      --light-bg: #f8f9fa;
+      --dark-bg: #343a40;
+      --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--light-bg);
+      font-family: var(--font-family);
+      color: #333;
+      scroll-behavior: smooth;
+    }
+
+    .navbar {
+      background-color: var(--primary-color);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar-brand, .nav-link {
+      color: #ffffff !important;
+      transition: color 0.3s ease;
+    }
+
+    .navbar-brand:hover, .nav-link:hover {
+      color: var(--secondary-color) !important;
+    }
+    
+    .hero-section {
+      background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(52, 152, 219, 0.8)), url('https://placehold.co/1920x1080/2c3e50/ffffff?text=Analyse+de+Problèmes+Complexes') no-repeat center center;
+      background-size: cover;
+      color: white;
+      padding: 150px 0;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-section .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-section h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      animation: fadeInDown 1s ease-out;
+    }
+
+    .hero-section p.lead {
+      font-size: 1.5rem;
+      animation: fadeInUp 1.2s ease-out;
+      animation-delay: 0.3s;
+    }
+
+    .animated-content {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideIn 0.8s ease-out forwards;
+    }
+    .animated-content[style*="animation-delay"] {
+      /* Pour s'assurer que l'animation fonctionne avec un délai */
+    }
+
+    .section-title h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .section-title h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background-color: var(--secondary-color);
+      border-radius: 2px;
+    }
+    
+    .method-card {
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      border-radius: 15px;
+      overflow: hidden;
+      border: none;
+      background-color: #fff;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      height: 100%;
+    }
+
+    .method-card:hover {
+      transform: translateY(-15px) scale(1.03);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .method-card-header {
+      padding: 25px;
+      text-align: center;
+      border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .method-card-header i {
+      font-size: 3rem;
+      margin-bottom: 15px;
+    }
+    
+    .method-card-header h5 {
+      font-weight: bold;
+    }
+
+    .method-card-body {
+      padding: 25px;
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    .process-step {
+      background-color: #fff;
+      border-left: 5px solid var(--secondary-color);
+      padding: 25px;
+      margin-bottom: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+    
+    .process-step:hover {
+      border-left-color: var(--method-blue);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .case-study-btn {
+      transition: all 0.4s ease;
+      background-color: var(--method-blue);
+      color: white;
+      border-radius: 50px;
+      padding: 12px 30px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .case-study-btn:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-header {
+      background-color: var(--primary-color);
+      color: white;
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .modal-content {
+      border-radius: 8px;
+    }
+
+    .modal-body h5 {
+      color: var(--method-blue);
+      font-weight: bold;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
+      margin-top: 20px;
+    }
+
+    .chart-container {
+      margin-top: 25px;
+      padding: 20px;
+      background-color: #f0f8ff;
+      border-radius: 10px;
+      border: 1px solid #cce5ff;
+    }
+    
+    #ishikawa-diagram {
+      position: relative;
+      width: 100%;
+      min-height: 400px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      overflow: hidden;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    #ishikawa-diagram .spine {
+      position: absolute;
+      top: 50%;
+      left: 10%;
+      height: 4px;
+      width: 80%;
+      background-color: var(--primary-color);
+      transform: translateY(-50%);
+      animation: slideInLeft 1.5s ease-out;
+    }
+
+    #ishikawa-diagram .arrow-head {
+      position: absolute;
+      top: 50%;
+      right: 10%;
+      width: 0;
+      height: 0;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-left: 20px solid var(--primary-color);
+      transform: translateY(-50%);
+      animation: zoomIn 1.5s ease-out;
+    }
+
+    #ishikawa-diagram .cause-branch {
+      position: absolute;
+      background-color: var(--primary-color);
+      height: 4px;
+      transform-origin: left center;
+      transition: all 0.8s ease-in-out;
+    }
+
+    #ishikawa-diagram .label {
+      position: absolute;
+      font-weight: bold;
+      color: var(--primary-color);
+      text-align: center;
+      font-size: 1.1em;
+      transition: all 0.8s ease-in-out;
+    }
+
+    .accordion-button {
+      font-weight: bold;
+    }
+
+    .accordion-body ul {
+      list-style-type: '👉';
+      padding-left: 25px;
+    }
+    
+    .five-why-step {
+      background-color: #e8f5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-left: 4px solid var(--success-color);
+      transition: all 0.3s ease;
+    }
+
+    .five-why-step:hover {
+      transform: translateX(10px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    footer {
+      background-color: var(--dark-bg);
+      color: #ffffff;
+      padding: 40px 0;
+    }
+
+    /* Keyframes pour les animations */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideIn {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes slideInLeft {
+      from { transform: translateX(-100%); }
+      to { transform: translateX(0); }
+    }
+    @keyframes zoomIn {
+      from { transform: scale(0); }
+      to { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#"><i class="bi bi-gear-wide-connected me-2"></i>Synergie Méthodes</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#introduction">Introduction</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#methodologie">Méthodologie Détaillée</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#processus">Processus Pas à Pas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#cas-pratiques">Cas Pratiques</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero-section text-white text-center">
+    <div class="container">
+      <h1 class="display-3 fw-bold mb-3">Maîtrisez la Résolution de Problèmes Complexes</h1>
+      <p class="lead mb-5">
+        Découvrez comment le Brainstorming, Ishikawa, Pareto et les 5 Pourquoi s'allient pour une efficacité inégalée.
+      </p>
+      <a href="#processus" class="btn btn-primary btn-lg case-study-btn">Démarrer l'analyse</a>
+    </div>
+  </header>
+
+  <main class="container my-5">
+    
+    <section id="introduction" class="mb-5 py-5 animated-content">
+      <div class="row">
+        <div class="col-lg-10 mx-auto text-center section-title">
+          <h2 class="mb-4">Pourquoi une approche combinée est-elle essentielle ?</h2>
+          <p class="lead">
+            Face à la complexité des systèmes de production ou de service modernes (comme une plateforme e-commerce ou un hôpital), un problème n'a jamais une seule cause. Il est le résultat d'un entrelacement de facteurs humains, techniques, organisationnels et environnementaux.
+          </p>
+          <p class="mt-4">
+            Une seule méthode est insuffisante : le brainstorming génère des idées mais sans ordre ; Ishikawa organise mais ne priorise pas ; Pareto cible les causes, mais sans en comprendre la racine ; les 5 Pourquoi creusent la racine, mais partent d'une cause déjà identifiée.
+            C'est pourquoi leur synergie, dans un enchaînement logique, constitue une méthodologie complète et puissante :
+          </p>
+          <div class="d-flex justify-content-center mt-4">
+            <span class="badge bg-primary p-3 me-3 h5 fw-bold">1. Explorer</span>
+            <i class="bi bi-arrow-right h3 text-muted"></i>
+            <span class="badge bg-info p-3 me-3 h5 fw-bold">2. Structurer</span>
+            <i class="bi bi-arrow-right h3 text-muted"></i>
+            <span class="badge bg-warning p-3 me-3 h5 fw-bold">3. Prioriser</span>
+            <i class="bi bi-arrow-right h3 text-muted"></i>
+            <span class="badge bg-danger p-3 h5 fw-bold">4. Creuser</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="methodologie" class="mb-5 py-5 bg-white rounded shadow animated-content">
+      <div class="section-title text-center mb-5">
+        <h2>Les 4 Méthodes en Profondeur</h2>
+        <p class="text-muted">Chacune a un rôle spécifique pour construire la solution.</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+          <div class="method-card">
+            <div class="method-card-header bg-success text-white">
+              <i class="bi bi-chat-left-text-fill"></i>
+              <h5 class="card-title mb-0">1. Brainstorming</h5>
+            </div>
+            <div class="method-card-body">
+              <p><strong>Objectif :</strong> Génération de causes potentielles, sans restriction, pour une vue exhaustive du problème.</p>
+              <ul>
+                <li><strong>Principe :</strong> "Quantité sur Qualité". Toutes les idées sont bonnes à prendre.</li>
+                <li><strong>Rôle dans la chaîne :</strong> Étape initiale d'ouverture. Elle permet de ne rien oublier.</li>
+                <li><strong>Durée typique :</strong> 30 à 60 minutes.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="method-card">
+            <div class="method-card-header bg-info text-white">
+              <i class="bi bi-diagram-3-fill"></i>
+              <h5 class="card-title mb-0">2. Diagramme d'Ishikawa</h5>
+            </div>
+            <div class="method-card-body">
+              <p><strong>Objectif :</strong> Structurer les idées issues du brainstorming en catégories (ex: 5M) pour une meilleure lisibilité.</p>
+              <ul>
+                <li><strong>Principe :</strong> Classer pour mieux comprendre. Visualiser les relations de cause à effet.</li>
+                <li><strong>Rôle dans la chaîne :</strong> Permet de passer du chaos des idées à une organisation logique.</li>
+                <li><strong>Synonyme :</strong> Diagramme en arêtes de poisson.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="method-card">
+            <div class="method-card-header bg-warning text-dark">
+              <i class="bi bi-graph-up"></i>
+              <h5 class="card-title mb-0">3. Principe de Pareto</h5>
+            </div>
+            <div class="method-card-body">
+              <p><strong>Objectif :</strong> Identifier les causes les plus significatives qui ont le plus grand impact sur le problème.</p>
+              <ul>
+                <li><strong>Principe :</strong> La règle des 80/20. 20% des causes expliquent 80% des effets.</li>
+                <li><strong>Rôle dans la chaîne :</strong> C'est l'étape de priorisation. Elle évite de s'éparpiller sur des causes mineures.</li>
+                <li><strong>Conditions :</strong> Nécessite des données quantitatives ou un vote pondéré.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="method-card">
+            <div class="method-card-header bg-danger text-white">
+              <i class="bi bi-question-circle"></i>
+              <h5 class="card-title mb-0">4. 5 Pourquoi</h5>
+            </div>
+            <div class="method-card-body">
+              <p><strong>Objectif :</strong> Creuser la cause prioritaire pour découvrir sa véritable cause racine.</p>
+              <ul>
+                <li><strong>Principe :</strong> Poser la question "Pourquoi ?" cinq fois de suite.</li>
+                <li><strong>Rôle dans la chaîne :</strong> Étape finale de profondeur. Elle garantit de traiter le fond du problème, pas seulement ses symptômes.</li>
+                <li><strong>Résultat :</strong> Un plan d'action qui résout le problème de manière durable.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="processus" class="mb-5 py-5 animated-content">
+      <div class="section-title text-center mb-5">
+        <h2>Le Processus Pas à Pas</h2>
+        <p class="text-muted">Découvrez en détail les actions à mener à chaque étape.</p>
+      </div>
+      <div class="accordion" id="processAccordion">
+        <div class="accordion-item process-step">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Étape 1 : Exploration (Brainstorming)
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#processAccordion">
+            <div class="accordion-body">
+              <p>Le Brainstorming est l'étape créative par excellence. L'objectif est de mobiliser une équipe pluridisciplinaire pour générer un maximum d'idées de causes potentielles, sans les juger. Les idées peuvent être notées sur un tableau blanc, des post-it ou un outil collaboratif.</p>
+              <h6>Conseils clés :</h6>
+              <ul>
+                <li>Définir clairement le problème à résoudre avant de commencer.</li>
+                <li>Nommer un facilitateur pour garantir le respect des règles (pas de critique).</li>
+                <li>Utiliser la méthode "round robin" (tour de table) pour impliquer tout le monde.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item process-step">
+          <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Étape 2 : Structuration (Diagramme d'Ishikawa)
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#processAccordion">
+            <div class="accordion-body">
+              <p>Une fois les idées collectées, il faut les organiser. Le Diagramme d'Ishikawa, ou "diagramme en arêtes de poisson", permet de les regrouper sous des catégories principales. Les plus courantes sont les 5M de la production : Main-d'œuvre, Matière, Matériel, Méthodes, Milieu.</p>
+              <h6>Avantages :</h6>
+              <ul>
+                <li>Visualisation des relations de cause à effet.</li>
+                <li>Identification des catégories de problèmes les plus denses.</li>
+                <li>Création d'un cadre d'analyse structuré pour l'équipe.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item process-step">
+          <h2 class="accordion-header" id="headingThree">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              Étape 3 : Priorisation (Principe de Pareto)
+            </button>
+          </h2>
+          <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#processAccordion">
+            <div class="accordion-body">
+              <p>Après l'organisation, vient l'étape la plus stratégique : la priorisation. Le Principe de Pareto vous aide à concentrer vos efforts sur les 20% de causes qui génèrent 80% des effets négatifs. Il s'agit de collecter des données (fréquence, coût, impact) pour quantifier chaque cause et construire le graphique de Pareto.</p>
+              <h6>Exemples de données à collecter :</h6>
+              <ul>
+                <li>Fréquence d'apparition de chaque cause sur une période donnée.</li>
+                <li>Coût estimé pour chaque cause.</li>
+                <li>Niveau d'impact sur le client ou sur la qualité du produit.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item process-step">
+          <h2 class="accordion-header" id="headingFour">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+              Étape 4 : Approfondissement (5 Pourquoi)
+            </button>
+          </h2>
+          <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#processAccordion">
+            <div class="accordion-body">
+              <p>C'est l'étape où vous creusez vraiment. Pour chaque cause prioritaire identifiée par le Pareto, posez-vous la question "Pourquoi cela s'est-il produit ?". La réponse devient la base du prochain "Pourquoi ?". Cette itération vous mène à la cause racine, celle qui, une fois résolue, éliminera le problème de manière durable. L'objectif est souvent atteint en 5 itérations.</p>
+              <h6>Exemple :</h6>
+              <ul>
+                <li><strong>Problème :</strong> Un client a reçu un produit défectueux.</li>
+                <li><strong>Pourquoi ?</strong> La machine de production n'a pas été calibrée correctement.</li>
+                <li><strong>Pourquoi ?</strong> La procédure de maintenance n'a pas été respectée.</li>
+                <li><strong>Pourquoi ?</strong> La procédure est complexe et l'opérateur n'a pas été formé.</li>
+                <li><strong>Pourquoi ?</strong> L'entreprise n'a pas de programme de formation continue.</li>
+                <li><strong>Pourquoi ?</strong> Le budget alloué à la formation a été réduit. (Cause racine)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="cas-pratiques" class="py-5 animated-content">
+      <div class="section-title text-center mb-5">
+        <h2>Cas Pratiques Sectoriels et Scénarios</h2>
+        <p class="text-muted">Découvrez des exemples concrets d'application pour chaque méthode.</p>
+      </div>
+      <div class="row text-center">
+        <div class="col-md-4 mb-4">
+          <a href="#" class="btn btn-lg case-study-btn" onclick="showCaseStudy('production')">
+            <i class="bi bi-tools me-2"></i> Production Industrielle
+          </a>
+        </div>
+        <div class="col-md-4 mb-4">
+          <a href="#" class="btn btn-lg case-study-btn" onclick="showCaseStudy('logistique')">
+            <i class="bi bi-truck me-2"></i> Logistique & Transport
+          </a>
+        </div>
+        <div class="col-md-4 mb-4">
+          <a href="#" class="btn btn-lg case-study-btn" onclick="showCaseStudy('e-commerce')">
+            <i class="bi bi-basket-fill me-2"></i> E-commerce (ex: Jumia)
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="text-center">
+    <div class="container">
+      <p class="mb-0">&copy; 2024 Synergie Méthodes. Tous droits réservés.</p>
+      <p>Conçu avec passion et <a href="#" class="text-white text-decoration-none">Bootstrap</a>.</p>
+    </div>
+  </footer>
+
+  <!-- Modal pour les Cas Pratiques -->
+  <div class="modal fade" id="caseStudyModal" tabindex="-1" aria-labelledby="caseStudyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="caseStudyModalLabel"></h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="caseStudyModalBody">
+          <!-- Le contenu dynamique sera injecté ici -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Fichier JS pour le portail de la Méthodologie Combinée
+    
+    // Fonction principale pour afficher un cas pratique dans un modal
+    function showCaseStudy(sector) {
+      let title = '';
+      let content = '';
+
+      switch (sector) {
+        case 'production':
+          title = 'Cas Pratique - Secteur Production Industrielle : Réduction du Rebut';
+          content = `
+            <h5>Problème : Le taux de rebut a explosé à 12% sur la chaîne de production A, affectant la rentabilité.</h5>
+            <p>Une équipe pluridisciplinaire (production, maintenance, qualité) est mobilisée pour l'analyse.</p>
+            
+            <div class="process-step">
+              <h6>1. Brainstorming & Ishikawa</h6>
+              <p>Après une session de brainstorming intensive, plus de 50 causes potentielles ont été générées. Elles ont été regroupées logiquement dans un diagramme d'Ishikawa selon les 5M : Main-d'œuvre, Matériel, Méthode, Matière, Milieu.</p>
+              <div class="chart-container animated-diagram" id="ishikawa-diagram-production"></div>
+              <div class="alert alert-info mt-3">
+                <strong>Constat :</strong> Le diagramme a clairement mis en évidence une forte concentration de causes dans les catégories "Matériel" et "Méthode".
+              </div>
+            </div>
+
+            <div class="process-step">
+              <h6>2. Analyse de Pareto</h6>
+              <p>L'équipe a quantifié l'impact de chaque cause en analysant les fiches de rebut des 3 derniers mois. Les résultats ont été synthétisés dans un graphique de Pareto qui révèle le "80/20" du problème.</p>
+              <div class="chart-container animated-diagram">
+                <canvas id="paretoChartProduction"></canvas>
+              </div>
+              <div class="alert alert-warning mt-3">
+                <strong>Conclusion :</strong> Les deux causes principales ("Instabilité de la calibration" et "Qualité des matières") sont responsables de 75% du taux de rebut. C'est sur elles que l'équipe doit se concentrer.
+              </div>
+            </div>
+
+            <div class="process-step">
+              <h6>3. Approfondissement (5 Pourquoi)</h6>
+              <p>En se basant sur la cause prioritaire "Instabilité de la calibration machine", l'équipe a mené l'enquête en profondeur :</p>
+              <div class="five-why-step">
+                <strong>Pourquoi ?</strong> La calibration de la machine dérive régulièrement.
+              </div>
+              <div class="five-why-step">
+                <strong>Pourquoi ?</strong> Le capteur de température est défectueux et envoie des données erronées.
+              </div>
+              <div class="five-why-step">
+                <strong>Pourquoi ?</strong> Il n'a pas été remplacé lors de la dernière maintenance préventive.
+              </div>
+              <div class="five-why-step">
+                <strong>Pourquoi ?</strong> Le stock de pièces de rechange était vide au moment de l'opération.
+              </div>
+              <div class="five-why-step">
+                <strong>Pourquoi ?</strong> Le processus de commande automatique du capteur n'a pas été déclenché, car le seuil d'alerte était mal configuré. (Cause Racine)
+              </div>
+            </div>
+
+            <div class="process-step">
+              <h6>4. Plan d'Action & Résultats</h6>
+              <p>Le plan d'action a été ciblé sur les causes racines identifiées.</p>
+              <table class="table table-bordered table-striped">
+                <thead class="table-dark">
+                  <tr>
+                    <th>Action</th>
+                    <th>Responsable</th>
+                    <th>Délai</th>
+                    <th>Résultat attendu</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Reconfigurer les seuils d'alerte de stock du capteur.</td>
+                    <td>Achats</td>
+                    <td>1 semaine</td>
+                    <td>Éviter les ruptures de stock.</td>
+                  </tr>
+                  <tr>
+                    <td>Renforcer le contrôle qualité des matières premières.</td>
+                    <td>Qualité</td>
+                    <td>3 semaines</td>
+                    <td>-70% de variabilité de la matière.</td>
+                  </tr>
+                  <tr>
+                    <td>Mise à jour du protocole de calibration de la machine.</td>
+                    <td>Maintenance</td>
+                    <td>1 mois</td>
+                    <td>Augmentation de +80% de la stabilité de la calibration.</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="alert alert-success mt-3 text-center">
+                <p><strong>Résultat Final :</strong> En 2 mois, le taux de rebut a été réduit à 4%, soit une baisse de 66%. L'économie générée est estimée à 120K€ par an.</p>
+              </div>
+            </div>
+          `;
+          break;
+        case 'logistique':
+          title = 'Cas Pratique - Secteur Logistique : Réduction des Retards de Livraison';
+          content = `
+            <h5>Problème : 23% des livraisons subissent des retards, entraînant une insatisfaction client et des pénalités.</h5>
+            <p>Une task force est créée avec des représentants de la logistique, du transport et de la relation client.</p>
+
+            <div class="process-step">
+              <h6>1. Brainstorming & Ishikawa</h6>
+              <p>L'équipe a dressé une liste exhaustive des causes de retards. Le diagramme d'Ishikawa a permis de les classer dans des catégories adaptées au secteur : Manpower (Main-d'œuvre), Methods (Méthodes), Machines (Matériel), Measurement (Mesure), Mother Nature (Milieu).</p>
+              <div class="chart-container animated-diagram" id="ishikawa-diagram-logistique"></div>
+              <div class="alert alert-info mt-3">
+                <strong>Constat :</strong> Les causes les plus fréquentes se situent dans les catégories "Manpower" et "Methods", pointant vers des problèmes humains et organisationnels.
+              </div>
+            </div>
+            
+            <div class="process-step">
+              <h6>2. Analyse de Pareto</h6>
+              <p>L'analyse des bons de livraison en retard a révélé que la majorité des retards proviennent d'un nombre limité de causes.</p>
+              <div class="chart-container animated-diagram">
+                <canvas id="paretoChartLogistique"></canvas>
+              </div>
+              <div class="alert alert-warning mt-3">
+                <strong>Conclusion :</strong> "Erreurs de préparation" et "Manque de personnel" sont les deux causes principales, totalisant 70% des retards.
+              </div>
+            </div>
+
+            <div class="process-step">
+              <h6>3. Approfondissement (5 Pourquoi)</h6>
+              <p>Focus sur la cause "Erreurs de préparation des commandes" pour trouver sa racine :</p>
+              <div class="five-why-step">
+                <strong>Pourquoi ?</strong> Le préparateur se trompe de référence ou de quantité.
+              </div>
+              <div class="five-why-step">
+                <strong>Pourquoi ?</strong> Le bon de commande papier est illisible ou n'est pas mis à jour en temps réel.
+              </div>
+              <div class="five-why-step">
+                <strong>Pourquoi ?</strong> La synchronisation entre le système de stock et l'entrepôt n'est pas instantanée.
+              </div>
+              <div class="five-why-step">
+                <strong>Pourquoi ?</strong> Le système informatique est un ancien progiciel qui ne supporte pas le temps réel.
+              </div>
+              <div class="five-why-step">
+                <strong>Pourquoi ?</strong> Le budget de modernisation n'a jamais été validé en raison de coûts perçus comme trop élevés. (Cause Racine)
+              </div>
+            </div>
+
+            <div class="process-step">
+              <h6>4. Plan d'Action & Résultats</h6>
+              <p>Le plan d'action vise à moderniser les outils et à former le personnel.</p>
+              <table class="table table-bordered table-striped">
+                <thead class="table-dark">
+                  <tr>
+                    <th>Action</th>
+                    <th>Responsable</th>
+                    <th>Délai</th>
+                    <th>Résultat attendu</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Mise en place d'une application mobile pour les préparateurs.</td>
+                    <td>Informatique</td>
+                    <td>4 mois</td>
+                    <td>-90% d'erreurs de commandes.</td>
+                  </tr>
+                  <tr>
+                    <td>Lancement d'un programme de recrutement de personnel logistique.</td>
+                    <td>RH</td>
+                    <td>2 mois</td>
+                    <td>Augmentation des effectifs de 15%.</td>
+                  </tr>
+                  <tr>
+                    <td>Formation intensive des équipes sur le nouveau système.</td>
+                    <td>Logistique & RH</td>
+                    <td>1 mois</td>
+                    <td>Réduction des erreurs de 25%.</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="alert alert-success mt-3 text-center">
+                <p><strong>Résultat Final :</strong> Les retards ont chuté de 23% à 8% en 5 mois, améliorant significativement la satisfaction client et réduisant les coûts liés aux pénalités.</p>
+              </div>
+            </div>
+          `;
+          break;
+        case 'e-commerce':
+          title = 'Cas Pratique - Secteur E-commerce (Jumia) : Baisse du Taux d\'Abandon de Panier';
+          content = `
+            <h5>Problème : Le taux d'abandon de panier sur l'application mobile est de 65%, ce qui représente une perte de chiffre d'affaires considérable.</h5>
+            <p>Une équipe "Growth" (UX, développeurs, marketing, support client) est constituée pour un sprint d'analyse.</p>
+
+            <div class="process-step">
+              <h6>1. Brainstorming & Ishikawa</h6>
+              <p>L'équipe a listé toutes les causes possibles d'abandon de panier. Le diagramme d'Ishikawa a été utilisé pour organiser ces idées selon les 4 catégories : Processus, Personnes, Outils et Environnement.</p>
+              <div class="chart-container animated-diagram" id="ishikawa-diagram-ecommerce"></div>
+              <div class="alert alert-info mt-3">
+                <strong>Constat :</strong> Le diagramme a mis en évidence une forte concentration de causes liées au "Processus" de paiement et aux "Outils" (performance technique).
+              </div>
+            </div>
+
+            <div class="process-step">
+              <h6>2. Analyse de Pareto</h6>
+              <p>Les données d'Analytics ont permis de quantifier les causes les plus fréquentes. Un graphique a été produit, mettant en lumière le 80/20 du problème.</p>
+              <div class="chart-container animated-diagram">
+                <canvas id="paretoChartEcommerce"></canvas>
+              </div>
+              <div class="alert alert-warning mt-3">
+                <strong>Conclusion :</strong> "Lenteur du chargement de la page de paiement" et "Formulaire de paiement trop long" sont les causes les plus critiques.
+              </div>
+            </div>
+
+            <div class="process-step">
+              <h6>3. Approfondissement (5 Pourquoi)</h6>
+              <p>L'équipe se focalise sur la cause "Lenteur du chargement de la page de paiement" pour trouver sa cause racine.</p>
+              <div class="five-why-step">
+                <strong>Pourquoi ?</strong> La page de paiement met plus de 10 secondes à s'afficher.
+              </div>
+              <div class="five-why-step">
+                <strong>Pourquoi ?</strong> Le serveur de paiement est surchargé et ne supporte pas le trafic mobile.
+              </div>
+              <div class="five-why-step">
+                <strong>Pourquoi ?</strong> L'architecture du serveur n'est pas optimisée (système monolithique).
+              </div>
+              <div class="five-why-step">
+                <strong>Pourquoi ?</strong> Le développement initial a été fait pour le site web, sans prendre en compte les spécificités de l'application mobile.
+              </div>
+              <div class="five-why-step">
+                <strong>Pourquoi ?</strong> La stratégie produit n'a pas considéré l'importance croissante des utilisateurs mobiles, en particulier en Afrique, lors de la conception initiale. (Cause Racine)
+              </div>
+            </div>
+
+            <div class="process-step">
+              <h6>4. Plan d'Action & Résultats</h6>
+              <p>Les actions ciblent les causes techniques et UX identifiées.</p>
+              <table class="table table-bordered table-striped">
+                <thead class="table-dark">
+                  <tr>
+                    <th>Action</th>
+                    <th>Responsable</th>
+                    <th>Délai</th>
+                    <th>Résultat attendu</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Mise en place d'un CDN pour les images et assets.</td>
+                    <td>DevOps</td>
+                    <td>2 semaines</td>
+                    <td>Réduction de la latence de chargement.</td>
+                  </tr>
+                  <tr>
+                    <td>Simplification du formulaire de paiement (moins de champs).</td>
+                    <td>UX/UI</td>
+                    <td>3 semaines</td>
+                    <td>Réduction de 50% du temps de remplissage.</td>
+                  </tr>
+                  <tr>
+                    <td>Lancement d'une étude d'architecture pour migrer vers des microservices.</td>
+                    <td>Informatique</td>
+                    <td>1 mois</td>
+                    <td>Validation d'une nouvelle feuille de route technique.</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="alert alert-success mt-3 text-center">
+                <p><strong>Résultat Final :</strong> Le taux d'abandon de panier a été réduit à 40% en 3 mois, entraînant une augmentation de 15% du chiffre d'affaires mobile et un meilleur engagement client.</p>
+              </div>
+            </div>
+          `;
+          break;
+      }
+
+      document.getElementById('caseStudyModalLabel').innerText = title;
+      document.getElementById('caseStudyModalBody').innerHTML = content;
+      const caseStudyModal = new bootstrap.Modal(document.getElementById('caseStudyModal'));
+      caseStudyModal.show();
+
+      setTimeout(() => {
+        if (sector === 'production') {
+          generateIshikawaDiagram('ishikawa-diagram-production', 'Rebut élevé (12%)', [
+            { category: 'Main-d\'œuvre', causes: ['Manque de formation', 'Fatigue'] },
+            { category: 'Méthode', causes: ['Protocole obsolète', 'Séquence erronée'] },
+            { category: 'Milieu', causes: ['Température anormale'] },
+            { category: 'Matériel', causes: ['Capteur défectueux', 'Machine mal calibrée', 'Outil usé'] },
+            { category: 'Matière', causes: ['Qualité variable'] }
+          ]);
+          generateParetoChart('paretoChartProduction', [
+            { label: 'Capteur défectueux', value: 50 },
+            { label: 'Outil usé', value: 30 },
+            { label: 'Protocole obsolète', value: 10 },
+            { label: 'Autres', value: 10 }
+          ]);
+        } else if (sector === 'logistique') {
+          generateIshikawaDiagram('ishikawa-diagram-logistique', 'Retards de livraison (23%)', [
+            { category: 'Manpower', causes: ['Manque de personnel', 'Formation insuffisante'] },
+            { category: 'Methods', causes: ['Processus de tri manuel', 'Bon de commande papier'] },
+            { category: 'Machines', causes: ['Chariot élévateur en panne', 'Système informatique lent'] },
+            { category: 'Measurement', causes: ['Absence de KPI', 'Suivi manuel'] },
+            { category: 'Mother Nature', causes: ['Embouteillages', 'Mauvais temps'] }
+          ]);
+          generateParetoChart('paretoChartLogistique', [
+            { label: 'Processus de tri', value: 45 },
+            { label: 'Manque de personnel', value: 25 },
+            { label: 'Système informatique lent', value: 15 },
+            { label: 'Autres', value: 15 }
+          ]);
+        } else if (sector === 'e-commerce') {
+          generateIshikawaDiagram('ishikawa-diagram-ecommerce', 'Abandon de panier (65%)', [
+            { category: 'Processus', causes: ['Formulaire trop long', 'Navigation complexe'] },
+            { category: 'Outils', causes: ['Serveur lent', 'Bugs sur mobile'] },
+            { category: 'Personnes', causes: ['Support client non réactif'] },
+            { category: 'Environnement', causes: ['Connexion internet lente'] },
+            { category: 'Mesure', causes: ['Absence d\'analyse UX'] }
+          ]);
+          generateParetoChart('paretoChartEcommerce', [
+            { label: 'Lenteur chargement', value: 60 },
+            { label: 'Formulaire de paiement', value: 20 },
+            { label: 'Bugs sur mobile', value: 10 },
+            { label: 'Autres', value: 10 }
+          ]);
+        }
+      }, 500);
+    }
+    
+    // Fonction pour générer un diagramme d'Ishikawa dynamique
+    function generateIshikawaDiagram(containerId, problem, causes) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      container.innerHTML = '';
+      
+      const isMobile = window.innerWidth <= 768;
+      const angleStep = 180 / (causes.length + 1);
+
+      // Création de l'épine dorsale et de la tête de poisson
+      container.innerHTML += `<div class="spine"></div><div class="arrow-head"></div>`;
+      container.innerHTML += `<div class="label" style="top: 50%; left: 95%; transform: translate(-50%, -50%);">${problem}</div>`;
+
+      causes.forEach((branch, index) => {
+        const angle = -90 + (index + 1) * angleStep;
+        const branchLength = 60; // Longueur de la branche en %
+        const branchEl = document.createElement('div');
+        branchEl.className = 'cause-branch';
+        branchEl.style.width = `${branchLength}%`;
+        branchEl.style.top = '50%';
+        branchEl.style.left = '10%';
+        branchEl.style.transform = `rotate(${angle}deg)`;
+        container.appendChild(branchEl);
+
+        const categoryLabel = document.createElement('div');
+        categoryLabel.className = 'label';
+        const labelAngle = angle > 90 ? angle - 180 : angle;
+        
+        let topPosition = 50 + (40 * Math.sin(angle * Math.PI / 180));
+        let leftPosition = 10 + (branchLength * Math.cos(angle * Math.PI / 180) / 2);
+
+        categoryLabel.style.top = `${topPosition}%`;
+        categoryLabel.style.left = `${leftPosition}%`;
+        categoryLabel.innerText = branch.category;
+        container.appendChild(categoryLabel);
+
+        // Ajout des sous-causes
+        branch.causes.forEach((cause, subIndex) => {
+          const subCauseEl = document.createElement('div');
+          subCauseEl.className = 'label';
+          subCauseEl.style.fontSize = '0.8em';
+          subCauseEl.style.fontWeight = 'normal';
+          
+          let subCauseTop = topPosition + (angle > 0 ? (isMobile ? 20 : 15) : (isMobile ? -20 : -15)) * (subIndex + 1);
+          let subCauseLeft = leftPosition + (angle < 90 && angle > -90 ? 10 : -10);
+
+          subCauseEl.style.top = `${subCauseTop}%`;
+          subCauseEl.style.left = `${subCauseLeft}%`;
+          subCauseEl.style.transform = `translate(-50%, -50%)`;
+          subCauseEl.innerText = cause;
+          container.appendChild(subCauseEl);
+        });
+      });
+    }
+
+    // Fonction pour générer un diagramme de Pareto dynamique (utilise Chart.js)
+    function generateParetoChart(canvasId, data) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+
+      const labels = data.map(d => d.label);
+      const values = data.map(d => d.value);
+
+      let cumulativeSum = 0;
+      const cumulativeValues = values.map(v => {
+        cumulativeSum += v;
+        return cumulativeSum;
+      });
+
+      const ctx = canvas.getContext('2d');
+      if (window.myParetoCharts && window.myParetoCharts[canvasId]) {
+        window.myParetoCharts[canvasId].destroy();
+      }
+      
+      const paretoChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: '% des causes',
+            data: values,
+            backgroundColor: 'rgba(52, 152, 219, 0.8)',
+            borderColor: 'rgba(52, 152, 219, 1)',
+            borderWidth: 1,
+            order: 2
+          }, {
+            label: '% cumulé (Règle 80/20)',
+            data: cumulativeValues,
+            type: 'line',
+            borderColor: 'rgba(231, 76, 60, 1)',
+            backgroundColor: 'rgba(231, 76, 60, 0.2)',
+            fill: false,
+            yAxisID: 'y1',
+            order: 1,
+            tension: 0.4,
+            pointRadius: 5
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              title: {
+                display: true,
+                text: '% des causes'
+              }
+            },
+            y1: {
+              type: 'linear',
+              position: 'right',
+              beginAtZero: true,
+              max: 100,
+              title: {
+                display: true,
+                text: '% cumulé'
+              },
+              grid: {
+                drawOnChartArea: false
+              }
+            }
+          },
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  let label = context.dataset.label || '';
+                  if (label) {
+                    label += ': ';
+                  }
+                  if (context.parsed.y !== null) {
+                    label += context.parsed.y + '%';
+                  }
+                  return label;
+                }
+              }
+            },
+            legend: {
+              position: 'top',
+            }
+          }
+        }
+      });
+      if (!window.myParetoCharts) {
+        window.myParetoCharts = {};
+      }
+      window.myParetoCharts[canvasId] = paretoChart;
+    }
+
+    // Gère les animations au scroll
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.animated-content').forEach(element => {
+        observer.observe(element);
+      });
+    });
+  </script>
+</body>
+</html>

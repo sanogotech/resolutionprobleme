@@ -1,6 +1,4 @@
-Je vais créer un portail complet sur la méthodologie combinée Brainstorming, Diagramme d'Ishikawa, Pareto et 5 Pourquoi, avec un effet "whao" similaire à votre index.html. Voici le code HTML, CSS et JS :
 
-```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -1663,3 +1661,247 @@ Je vais créer un portail complet sur la méthodologie combinée Brainstorming, 
               <h6>1. Brainstorming</h6>
               <p><strong>Participants :</strong> 9 personnes (logistique, transport, achats, fournisseurs)</p>
               <p><strong>Durée :
+              <p><strong>Durée :</strong> 35 minutes</p>
+              <p><strong>Résultat :</strong> 28 causes potentielles identifiées</p>
+              <div class="highlight-box">
+                <p>Exemples de causes relevées :</p>
+                <ul>
+                  <li>Retards fournisseurs</li>
+                  <li>Problèmes de tracking</li>
+                  <li>Erreurs de préparation</li>
+                  <li>Pénurie de chauffeurs</li>
+                  <li>Processus douanier long</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="process-step">
+              <h6>2. Diagramme d'Ishikawa</h6>
+              <p><strong>Catégories utilisées (4P) :</strong></p>
+              <ul>
+                <li>People (Personnel)</li>
+                <li>Processes</li>
+                <li>Partners (Partenaires)</li>
+                <li>Platforms (Plateformes)</li>
+              </ul>
+              <p><strong>Résultat :</strong> Causes organisées, identification de points critiques</p>
+            </div>
+            
+            <div class="process-step">
+              <h6>3. Analyse de Pareto</h6>
+              <p><strong>Données collectées :</strong></p>
+              <ul>
+                <li>Analyse de 500 livraisons retardées</li>
+                <li>Données fournisseurs</li>
+                <li>Suivi des processus internes</li>
+              </ul>
+              <div class="alert alert-info">
+                <p><strong>Résultat :</strong> 5 causes représentent 79% des retards :</p>
+                <ol>
+                  <li>Retards fournisseurs (32%)</li>
+                  <li>Problèmes de tracking (22%)</li>
+                  <li>Erreurs de préparation (15%)</li>
+                  <li>Douanes (8%)</li>
+                  <li>Pénurie chauffeurs (7%)</li>
+                </ol>
+              </div>
+            </div>
+            
+            <div class="process-step">
+              <h6>4. Méthode des 5 Pourquoi</h6>
+              <p><strong>Application sur la cause principale :</strong> Retards fournisseurs</p>
+              <table class="table table-bordered">
+                <thead class="table-light">
+                  <tr>
+                    <th>Itération</th>
+                    <th>Question</th>
+                    <th>Réponse</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Pourquoi les fournisseurs sont-ils en retard ?</td>
+                    <td>Ils ne reçoivent pas les commandes à temps</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Pourquoi ne reçoivent-ils pas les commandes à temps ?</td>
+                    <td>Le système de notification est manuel</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Pourquoi le système est-il manuel ?</td>
+                    <td>L'ERP n'est pas connecté aux fournisseurs</td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>Pourquoi l'ERP n'est-il pas connecté ?</td>
+                    <td>L'API n'a pas été développée</td>
+                  </tr>
+                  <tr>
+                    <td>5</td>
+                    <td>Pourquoi l'API n'a-t-elle pas été développée ?</td>
+                    <td>Le ROI n'avait pas été calculé précisément</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="alert alert-success mt-3">
+                <p><strong>Solution racine :</strong> Développer une API pour connecter l'ERP aux fournisseurs et automatiser les notifications, après une analyse précise du ROI.</p>
+              </div>
+            </div>
+            
+            <div class="process-step">
+              <h6>5. Plan d'Actions & Résultats</h6>
+              <table class="table table-bordered">
+                <thead class="table-primary">
+                  <tr>
+                    <th>Action</th>
+                    <th>Responsable</th>
+                    <th>Échéance</th>
+                    <th>Résultat</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>API ERP-Fournisseurs</td>
+                    <td>IT</td>
+                    <td>3 mois</td>
+                    <td>-65% retards</td>
+                  </tr>
+                  <tr>
+                    <td>Système de tracking temps réel</td>
+                    <td>Logistique</td>
+                    <td>2 mois</td>
+                    <td>Visibilité 100%</td>
+                  </tr>
+                  <tr>
+                    <td>Automatisation préparation</td>
+                    <td>Opérations</td>
+                    <td>4 mois</td>
+                    <td>-90% erreurs</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="alert alert-primary mt-3">
+                <p><strong>Résultat final :</strong> Réduction des retards de 23% à 8% (-65%) en 6 mois, amélioration de la satisfaction client de 30%.</p>
+              </div>
+            </div>
+          `;
+          break;
+      }
+
+      document.getElementById('detailsModalLabel').textContent = title;
+      document.getElementById('detailsModalContent').innerHTML = content;
+      document.getElementById('downloadBtn').style.display = 'none';
+      
+      const modal = new bootstrap.Modal(document.getElementById('detailsModal'));
+      modal.show();
+    }
+
+    // Générer le diagramme d'Ishikawa
+    function generateIshikawaDiagram(containerId, isModal = false) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      
+      // Créer la ligne principale
+      const mainLine = document.createElement('div');
+      mainLine.className = 'ishikawa-main-line';
+      container.appendChild(mainLine);
+      
+      // Catégories et positions
+      const categories = isModal ? 
+        ['Fournisseurs', 'Processus', 'Système', 'Personnel'] : 
+        ['Matériel', 'Méthode', 'Main d\'œuvre', 'Milieu'];
+      
+      const angles = [30, 15, -15, -30];
+      const positions = [20, 40, 60, 80];
+      
+      // Ajouter les branches et catégories
+      categories.forEach((category, index) => {
+        const branch = document.createElement('div');
+        branch.className = 'ishikawa-branch';
+        branch.style.width = '30%';
+        branch.style.left = '50%';
+        branch.style.top = '50%';
+        branch.style.transform = `rotate(${angles[index]}deg)`;
+        container.appendChild(branch);
+        
+        const catElement = document.createElement('div');
+        catElement.className = 'ishikawa-category';
+        catElement.textContent = category;
+        catElement.style.left = `${positions[index]}%`;
+        catElement.style.top = '30%';
+        container.appendChild(catElement);
+        
+        // Ajouter des sous-causes (3 par branche)
+        for (let i = 1; i <= 3; i++) {
+          const subBranch = document.createElement('div');
+          subBranch.className = 'ishikawa-branch';
+          subBranch.style.width = '15%';
+          subBranch.style.left = `${50 + Math.cos(angles[index] * Math.PI / 180) * 30}%`;
+          subBranch.style.top = `${50 + Math.sin(angles[index] * Math.PI / 180) * 30}%`;
+          subBranch.style.transform = `rotate(${angles[index]}deg)`;
+          subBranch.style.height = '2px';
+          subBranch.style.backgroundColor = '#95a5a6';
+          container.appendChild(subBranch);
+        }
+      });
+    }
+
+    // Générer le diagramme de Pareto
+    function generateParetoChart(containerId, isModal = false) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      
+      const data = isModal ? 
+        [45, 30, 15, 7, 3] : 
+        [35, 25, 15, 10, 8, 7];
+      
+      const labels = isModal ?
+        ['Fournisseurs', 'Tracking', 'Préparation', 'Douanes', 'Chauffeurs'] :
+        ['Livraison', 'Pages lentes', 'Paiement', 'Compte', 'Stock', 'Autres'];
+      
+      // Ajouter les barres
+      data.forEach((value, index) => {
+        const bar = document.createElement('div');
+        bar.className = 'pareto-bar';
+        bar.style.height = `${value * 2.5}px`;
+        bar.setAttribute('data-percentage', `${value}%`);
+        container.appendChild(bar);
+      });
+      
+      // Ajouter la ligne de Pareto
+      const line = document.createElement('div');
+      line.className = 'pareto-line';
+      line.style.top = '80%';
+      line.style.width = '100%';
+      container.appendChild(line);
+    }
+
+    // Initialiser les diagrammes au chargement
+    document.addEventListener('DOMContentLoaded', function() {
+      generateIshikawaDiagram('ishikawaDiagram');
+      generateParetoChart('paretoChart');
+      
+      // Animation au scroll
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = 1;
+          }
+        });
+      }, {threshold: 0.1});
+      
+      document.querySelectorAll('.method-card').forEach(card => {
+        observer.observe(card);
+      });
+    });
+
+    // Gestion du téléchargement
+    document.getElementById('downloadBtn').addEventListener('click', function() {
+      alert('Téléchargement des templates démarré ! (simulation)');
+    });
+  </script>
+</body>
+</html>

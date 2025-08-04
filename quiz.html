@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Méthodologie Combinée</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts (Inter for modern look) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-dark: #2c3e50;
+            --secondary-blue: #3498db;
+            --accent-orange: #ff7f2a;
+            --success-green: #27ae60;
+            --danger-red: #e74c3c;
+            --light-bg: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #34495e;
+            --border-color: #ecf0f1;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            padding: 2rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .quiz-container {
+            max-width: 800px;
+            width: 100%;
+            margin: auto;
+            background-color: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .quiz-header h1 {
+            color: var(--primary-dark);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .quiz-header p {
+            text-align: center;
+            color: var(--text-color);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .progress-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .progress {
+            height: 10px;
+            border-radius: 5px;
+            background-color: var(--border-color);
+        }
+
+        .progress-bar {
+            background-color: var(--secondary-blue);
+            border-radius: 5px;
+            transition: width 0.4s ease-in-out;
+        }
+
+        #question-card {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 2rem;
+            background-color: #fdfdfd;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 1.5rem;
+        }
+        
+        #question-text {
+            font-size: 1.35rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+            color: var(--primary-dark);
+        }
+
+        .option-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 1rem 1.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            background-color: var(--card-bg);
+            transition: all 0.2s ease;
+            color: var(--text-color);
+        }
+
+        .option-btn:hover:not([disabled]) {
+            border-color: var(--accent-orange);
+            background-color: #fffaf5;
+            transform: translateY(-2px);
+        }
+        
+        .option-btn.selected {
+            background-color: #e0f2f7;
+            border-color: var(--secondary-blue);
+            font-weight: 600;
+        }
+
+        .option-btn.correct {
+            background-color: #e9f7ef;
+            border-color: var(--success-green);
+            color: var(--success-green);
+            font-weight: 700;
+        }
+
+        .option-btn.incorrect {
+            background-color: #fdeded;
+            border-color: var(--danger-red);
+            color: var(--danger-red);
+            font-weight: 700;
+        }
+
+        #explanation-box {
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        #explanation-box h5 {
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .explanation-correct {
+             background-color: #e9f7ef;
+             border-left: 5px solid var(--success-green);
+             color: var(--success-green);
+        }
+
+        .explanation-incorrect {
+            background-color: #fdeded;
+            border-left: 5px solid var(--danger-red);
+            color: var(--danger-red);
+        }
+        .explanation-text {
+            color: var(--text-color);
+        }
+
+        .quiz-navigation {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .nav-btn {
+            font-weight: 600;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        #timer-bar-container {
+            width: 100%;
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        #timer-bar {
+            height: 100%;
+            width: 100%;
+            background-color: var(--secondary-blue);
+            border-radius: 4px;
+            transition: width 1s linear;
+        }
+        #timer-text {
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--secondary-blue);
+            margin-bottom: 1rem;
+        }
+        #timer-text.warning {
+            color: var(--danger-red);
+        }
+
+        .modal-header {
+            background-color: var(--primary-dark);
+            color: var(--card-bg);
+            border-bottom: none;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        .modal-title-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            color: var(--accent-orange);
+        }
+        
+        .modal-content {
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .final-score {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .score-text {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .level-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-top: 1rem;
+            color: var(--card-bg);
+            background-color: var(--secondary-blue);
+        }
+
+        .level-novice { background-color: #7f8c8d; }
+        .level-debutant { background-color: #e67e22; }
+        .level-intermediaire { background-color: #3498db; }
+        .level-avance { background-color: #27ae60; }
+        .level-expert { background-color: #8e44ad; }
+
+        #final-recommendations h4 {
+            color: var(--primary-dark);
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        #final-recommendations ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        #final-recommendations ul li {
+            background-color: #f0f3f5;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            margin-bottom: 0.6rem;
+            border-left: 4px solid var(--secondary-blue);
+            font-size: 0.95rem;
+        }
+        #final-recommendations ul li i {
+            margin-right: 0.8rem;
+            color: var(--secondary-blue);
+        }
+
+        .modal-footer {
+            border-top: none;
+            background-color: var(--light-bg);
+        }
+        
+        .difficulty-easy { color: var(--success-green); }
+        .difficulty-medium { color: var(--accent-orange); }
+        .difficulty-hard { color: var(--danger-red); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="quiz-container">
+            <div class="quiz-header">
+                <h1><i class="fas fa-lightbulb" style="color:var(--accent-orange);"></i> Quiz Méthodologie Combinée</h1>
+                <p>Testez vos connaissances sur le Brainstorming, Diagramme d'Ishikawa, Principe de Pareto et Méthode des 5 Pourquoi</p>
+            </div>
+
+            <div class="progress-section">
+                <span id="question-counter">Question 1 / 40</span>
+                <span id="current-score">Score: 0</span>
+            </div>
+            <div class="progress" style="height: 10px;">
+                <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 2.5%;" aria-valuenow="2.5" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+
+            <div id="timer-text">01:00</div>
+            <div id="timer-bar-container">
+                <div id="timer-bar"></div>
+            </div>
+
+            <div id="question-card" class="card">
+                <div class="card-body">
+                    <h2 id="question-text">Chargement de la question...</h2>
+                    <div id="options-container">
+                        <!-- Les boutons d'options seront insérés ici par JavaScript -->
+                    </div>
+                    <div id="explanation-box" class="d-none">
+                        <h5 id="explanation-title"></h5>
+                        <p id="explanation-text" class="explanation-text"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-navigation">
+                <button id="next-btn" class="btn btn-primary nav-btn" disabled>Suivant <i class="fas fa-arrow-right"></i></button>
+                <button id="finish-btn" class="btn btn-success nav-btn d-none">Terminer & Voir les Résultats</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for results -->
+    <div class="modal fade" id="resultsModal" tabindex="-1" aria-labelledby="resultsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resultsModalLabel"><i class="fas fa-award modal-title-icon"></i>Vos Résultats du Quiz</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center p-4">
+                    <h4 class="score-text">Votre score final est :</h4>
+                    <p class="final-score" id="final-score-percentage">0%</p>
+                    <p class="text-muted fs-5">
+                        <span id="final-score-correct">0</span> sur 
+                        <span id="final-score-total">0</span> bonnes réponses
+                    </p>
+                    <hr>
+                    <h4 class="mt-4">Votre Niveau :</h4>
+                    <span id="level-badge" class="level-badge"></span>
+                    <div id="final-recommendations" class="text-start mt-4"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="restart-quiz-btn"><i class="fas fa-redo"></i> Recommencer le quiz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const quizData = {
+            questions: [
+                {
+                    question: "Quel est l'objectif principal d'un brainstorming ?",
+                    options: [
+                        "Évaluer la qualité des idées proposées",
+                        "Générer un maximum d'idées sans jugement",
+                        "Prioriser les solutions existantes",
+                        "Analyser les causes racines d'un problème"
+                    ],
+                    correctAnswer: "Générer un maximum d'idées sans jugement",
+                    explanation: "Le brainstorming vise à produire un grand nombre d'idées en encourageant la créativité et en évitant toute critique pendant la phase de génération.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Quelles sont les catégories traditionnelles du diagramme d'Ishikawa (5M) ?",
+                    options: [
+                        "Méthode, Main-d'œuvre, Matériel, Milieu, Management",
+                        "Matière, Machine, Méthode, Main-d'œuvre, Milieu",
+                        "Mesure, Matériel, Méthode, Motivation, Milieu",
+                        "Moyens, Méthodes, Matériaux, Management, Mesure"
+                    ],
+                    correctAnswer: "Matière, Machine, Méthode, Main-d'œuvre, Milieu",
+                    explanation: "Les 5M traditionnels sont : Matière (matériaux), Machine (équipement), Méthode (processus), Main-d'œuvre (personnel), et Milieu (environnement).",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Selon le principe de Pareto, quelle proportion des effets provient généralement de 20% des causes ?",
+                    options: [
+                        "50%",
+                        "80%",
+                        "90%",
+                        "70%"
+                    ],
+                    correctAnswer: "80%",
+                    explanation: "Le principe de Pareto, ou loi des 80/20, suggère que 80% des effets proviennent de 20% des causes dans de nombreux domaines.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Combien de 'Pourquoi' recommande-t-on généralement de poser dans la méthode des 5 Pourquoi ?",
+                    options: [
+                        "3 à 5 fois",
+                        "5 à 7 fois",
+                        "Jusqu'à ce qu'on trouve la cause racine",
+                        "Exactement 5 fois"
+                    ],
+                    correctAnswer: "Jusqu'à ce qu'on trouve la cause racine",
+                    explanation: "Bien que la méthode s'appelle '5 Pourquoi', le nombre exact peut varier. L'important est de continuer à demander 'Pourquoi' jusqu'à identifier la cause fondamentale.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Dans quel ordre doit-on appliquer ces méthodes pour une analyse complète ?",
+                    options: [
+                        "Pareto → Ishikawa → Brainstorming → 5 Pourquoi",
+                        "Brainstorming → Ishikawa → Pareto → 5 Pourquoi",
+                        "Ishikawa → Brainstorming → 5 Pourquoi → Pareto",
+                        "5 Pourquoi → Pareto → Brainstorming → Ishikawa"
+                    ],
+                    correctAnswer: "Brainstorming → Ishikawa → Pareto → 5 Pourquoi",
+                    explanation: "La séquence optimale est : 1) Brainstorming pour générer des idées, 2) Ishikawa pour structurer, 3) Pareto pour prioriser, 4) 5 Pourquoi pour approfondir les causes principales.",
+                    difficulty: "hard"
+                },
+                {
+                    question: "Quelle règle fondamentale du brainstorming interdit de critiquer les idées pendant la phase de génération ?",
+                    options: [
+                        "La règle de non-jugement",
+                        "La règle de quantité",
+                        "La règle de rebond",
+                        "La règle de divergence"
+                    ],
+                    correctAnswer: "La règle de non-jugement",
+                    explanation: "La règle de non-jugement est essentielle au brainstorming pour encourager la libre expression sans crainte de critique immédiate.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Quel autre nom donne-t-on au diagramme d'Ishikawa ?",
+                    options: [
+                        "Diagramme en barres",
+                        "Diagramme en arête de poisson",
+                        "Diagramme en radar",
+                        "Diagramme en nuage de points"
+                    ],
+                    correctAnswer: "Diagramme en arête de poisson",
+                    explanation: "Le diagramme d'Ishikawa est aussi appelé diagramme en arête de poisson à cause de sa forme caractéristique, ou diagramme cause-effet.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Dans l'analyse de Pareto, que représente l'axe des Y d'un diagramme de Pareto ?",
+                    options: [
+                        "La fréquence ou le coût des problèmes",
+                        "Les catégories de problèmes",
+                        "Le temps écoulé",
+                        "Les solutions potentielles"
+                    ],
+                    correctAnswer: "La fréquence ou le coût des problèmes",
+                    explanation: "L'axe des Y représente généralement la fréquence d'apparition ou le coût des problèmes, tandis que l'axe des X liste les catégories de problèmes.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quelle question pose-t-on systématiquement dans la méthode des 5 Pourquoi ?",
+                    options: [
+                        "Comment ?",
+                        "Quand ?",
+                        "Pourquoi ?",
+                        "Où ?"
+                    ],
+                    correctAnswer: "Pourquoi ?",
+                    explanation: "Comme son nom l'indique, la méthode consiste à poser la question 'Pourquoi' de manière itérative pour remonter aux causes profondes.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Pourquoi combine-t-on ces quatre méthodes dans la méthodologie combinée ?",
+                    options: [
+                        "Parce qu'aucune méthode seule ne suffit pour une analyse complète",
+                        "Pour gagner du temps dans l'analyse",
+                        "Parce que c'est la méthode officielle du Lean Six Sigma",
+                        "Pour impressionner les managers"
+                    ],
+                    correctAnswer: "Parce qu'aucune méthode seule ne suffit pour une analyse complète",
+                    explanation: "Chaque méthode a ses limites. La combinaison permet d'explorer (brainstorming), structurer (Ishikawa), prioriser (Pareto) et approfondir (5 Pourquoi) pour une analyse complète.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quelle technique de brainstorming consiste à écrire des idées silencieusement avant de les partager ?",
+                    options: [
+                        "Brainstorming classique",
+                        "Brainwriting",
+                        "Brainstorming inversé",
+                        "Brainstorming guidé"
+                    ],
+                    correctAnswer: "Brainwriting",
+                    explanation: "Le brainwriting est une variante où chacun écrit ses idées avant de les partager, ce qui réduit l'influence des participants dominants.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quelle catégorie Ishikawa utiliseriez-vous pour classer un problème lié à la formation des employés ?",
+                    options: [
+                        "Méthode",
+                        "Main-d'œuvre",
+                        "Milieu",
+                        "Matériel"
+                    ],
+                    correctAnswer: "Main-d'œuvre",
+                    explanation: "Les problèmes liés aux compétences, à la formation ou à la motivation du personnel relèvent de la catégorie 'Main-d'œuvre' (ou 'Personnel').",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Quel pourcentage approximatif de causes doit-on généralement traiter en priorité selon Pareto ?",
+                    options: [
+                        "Les 100% des causes identifiées",
+                        "Les 50% les plus fréquentes",
+                        "Les 20% responsables de 80% des effets",
+                        "Les 5% les plus faciles à corriger"
+                    ],
+                    correctAnswer: "Les 20% responsables de 80% des effets",
+                    explanation: "La puissance de Pareto réside dans le focus sur les 20% de causes responsables de 80% des effets pour une optimisation des efforts.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Que risque-t-on si on s'arrête trop tôt dans la méthode des 5 Pourquoi ?",
+                    options: [
+                        "De traiter un symptôme plutôt que la cause racine",
+                        "De devoir recommencer toute l'analyse",
+                        "D'identifier trop de causes potentielles",
+                        "De confondre corrélation et causalité"
+                    ],
+                    correctAnswer: "De traiter un symptôme plutôt que la cause racine",
+                    explanation: "Si l'analyse s'arrête trop tôt, on risque de ne traiter qu'un symptôme ou une cause superficielle, sans résoudre le problème définitivement.",
+                    difficulty: "hard"
+                },
+                {
+                    question: "Quel est l'avantage principal de la méthodologie combinée ?",
+                    options: [
+                        "Elle est plus rapide que les méthodes séparées",
+                        "Elle fournit une approche holistique des problèmes complexes",
+                        "Elle nécessite moins de participants",
+                        "Elle est plus facile à documenter"
+                    ],
+                    correctAnswer: "Elle fournit une approche holistique des problèmes complexes",
+                    explanation: "La force de la méthodologie combinée est d'aborder les problèmes sous plusieurs angles pour une compréhension et des solutions plus complètes.",
+                    difficulty: "hard"
+                },
+                {
+                    question: "Quel outil visuel utilise-t-on souvent pour faciliter un brainstorming ?",
+                    options: [
+                        "Un diagramme de Gantt",
+                        "Un tableau blanc ou des post-its",
+                        "Un histogramme",
+                        "Une courbe de Gauss"
+                    ],
+                    correctAnswer: "Un tableau blanc ou des post-its",
+                    explanation: "Les tableaux blancs et les post-its sont idéaux pour capturer et organiser visuellement les idées pendant un brainstorming.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Quelle partie du diagramme d'Ishikawa représente le problème à analyser ?",
+                    options: [
+                        "Les branches latérales",
+                        "L'arête centrale (la 'colonne vertébrale')",
+                        "La tête du poisson",
+                        "Les sous-branches"
+                    ],
+                    correctAnswer: "La tête du poisson",
+                    explanation: "Le problème ou l'effet à analyser est placé à droite du diagramme, dans 'la tête du poisson'.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quel type de données faut-il collecter pour réaliser une analyse de Pareto ?",
+                    options: [
+                        "Des données qualitatives seulement",
+                        "Des données quantitatives sur la fréquence ou le coût des problèmes",
+                        "Des opinions d'experts",
+                        "Des prédictions futures"
+                    ],
+                    correctAnswer: "Des données quantitatives sur la fréquence ou le coût des problèmes",
+                    explanation: "L'analyse de Pareto nécessite des données mesurables pour classer les problèmes par ordre d'importance (fréquence, coût, etc.).",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quelle erreur commune faut-il éviter dans la méthode des 5 Pourquoi ?",
+                    options: [
+                        "Poser exactement 5 questions 'Pourquoi'",
+                        "S'arrêter à des causes superficielles",
+                        "Identifier plusieurs causes possibles à un même niveau",
+                        "Toutes ces réponses"
+                    ],
+                    correctAnswer: "Toutes ces réponses",
+                    explanation: "Les pièges courants incluent : s'en tenir rigidement à 5 questions, ne pas creuser assez, ou diverger vers plusieurs causes sans les explorer en profondeur.",
+                    difficulty: "hard"
+                },
+                {
+                    question: "Dans quel domaine la méthodologie combinée est-elle particulièrement utile ?",
+                    options: [
+                        "Résolution de problèmes complexes à causes multiples",
+                        "Décisions binaires simples",
+                        "Création artistique",
+                        "Recherche fondamentale en physique"
+                    ],
+                    correctAnswer: "Résolution de problèmes complexes à causes multiples",
+                    explanation: "Cette méthodologie excelle pour les problèmes complexes avec des causes interdépendantes dans des domaines comme la qualité, la production ou les services.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quelle technique de brainstorming consiste à identifier délibérément les pires solutions possibles ?",
+                    options: [
+                        "Brainstorming inversé",
+                        "Brainstorming silencieux",
+                        "Brainstorming guidé",
+                        "Brainstorming en étoile"
+                    ],
+                    correctAnswer: "Brainstorming inversé",
+                    explanation: "Le brainstorming inversé consiste à imaginer comment causer le problème, ce qui peut révéler des causes ou des solutions originales.",
+                    difficulty: "hard"
+                },
+                {
+                    question: "Quelle catégorie Ishikawa utiliseriez-vous pour un problème lié à la température du local ?",
+                    options: [
+                        "Méthode",
+                        "Main-d'œuvre",
+                        "Milieu",
+                        "Matériel"
+                    ],
+                    correctAnswer: "Milieu",
+                    explanation: "Les facteurs environnementaux comme la température, l'humidité ou l'éclairage relèvent de la catégorie 'Milieu'.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Quelle ligne représente le 80% cumulé sur un diagramme de Pareto ?",
+                    options: [
+                        "La ligne de tendance",
+                        "La ligne de régression",
+                        "La courbe cumulative",
+                        "L'axe des Y secondaire"
+                    ],
+                    correctAnswer: "La courbe cumulative",
+                    explanation: "La courbe cumulative (souvent en pourcentage) permet d'identifier visuellement les 20% de causes responsables de 80% des effets.",
+                    difficulty: "hard"
+                },
+                {
+                    question: "Quelle question suit naturellement un 'Pourquoi' dans la méthode des 5 Pourquoi ?",
+                    options: [
+                        "Qui est responsable ?",
+                        "Quelles données prouvent cela ?",
+                        "Pourquoi cela arrive-t-il ?",
+                        "Comment résoudre ce problème ?"
+                    ],
+                    correctAnswer: "Pourquoi cela arrive-t-il ?",
+                    explanation: "La méthode consiste à enchaîner les 'Pourquoi' pour creuser progressivement jusqu'à la cause racine.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quel est l'avantage d'utiliser le brainstorming avant l'analyse Ishikawa ?",
+                    options: [
+                        "D'identifier un large éventail de causes potentielles",
+                        "De gagner du temps dans l'analyse",
+                        "D'éliminer directement les mauvaises idées",
+                        "De pouvoir sauter l'étape Pareto"
+                    ],
+                    correctAnswer: "D'identifier un large éventail de causes potentielles",
+                    explanation: "Le brainstorming permet d'explorer librement toutes les pistes avant de les organiser dans le diagramme d'Ishikawa.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quel outil est le plus utile pour visualiser les relations cause-effet ?",
+                    options: [
+                        "Diagramme de Pareto",
+                        "Diagramme d'Ishikawa",
+                        "Méthode des 5 Pourquoi",
+                        "Brainstorming"
+                    ],
+                    correctAnswer: "Diagramme d'Ishikawa",
+                    explanation: "Le diagramme d'Ishikawa (arête de poisson) est spécialement conçu pour visualiser les relations causes-effets de manière structurée.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Quelle analyse permet de concentrer les efforts sur les problèmes les plus impactants ?",
+                    options: [
+                        "Brainstorming",
+                        "Diagramme d'Ishikawa",
+                        "Analyse de Pareto",
+                        "Méthode des 5 Pourquoi"
+                    ],
+                    correctAnswer: "Analyse de Pareto",
+                    explanation: "L'analyse de Pareto identifie les problèmes les plus significatifs (20% responsables de 80% des effets) pour optimiser l'allocation des ressources.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quelle méthode est la plus adaptée pour découvrir la cause fondamentale d'un problème prioritaire ?",
+                    options: [
+                        "Brainstorming",
+                        "Diagramme d'Ishikawa",
+                        "Analyse de Pareto",
+                        "Méthode des 5 Pourquoi"
+                    ],
+                    correctAnswer: "Méthode des 5 Pourquoi",
+                    explanation: "La méthode des 5 Pourquoi est spécifiquement conçue pour creuser jusqu'à la cause racine d'un problème identifié.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Dans quel secteur la méthodologie combinée est-elle particulièrement efficace ?",
+                    options: [
+                        "E-commerce",
+                        "Industrie manufacturière",
+                        "Services de santé",
+                        "Tous ces secteurs"
+                    ],
+                    correctAnswer: "Tous ces secteurs",
+                    explanation: "Cette méthodologie est applicable dans tous les secteurs confrontés à des problèmes complexes à causes multiples.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Quelle règle du brainstorming encourage à construire sur les idées des autres ?",
+                    options: [
+                        "La règle de quantité",
+                        "La règle de rebond",
+                        "La règle de non-jugement",
+                        "La règle de documentation"
+                    ],
+                    correctAnswer: "La règle de rebond",
+                    explanation: "La règle de rebond ('piggybacking') encourage à s'inspirer des idées des autres pour en générer de nouvelles.",
+                    difficulty: "hard"
+                },
+                {
+                    question: "Quelle catégorie Ishikawa utiliseriez-vous pour un problème lié à un processus mal défini ?",
+                    options: [
+                        "Méthode",
+                        "Main-d'œuvre",
+                        "Matériel",
+                        "Milieu"
+                    ],
+                    correctAnswer: "Méthode",
+                    explanation: "Les problèmes liés aux procédures, modes opératoires ou instructions relèvent de la catégorie 'Méthode'.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quel indicateur clé utilise-t-on souvent pour construire un diagramme de Pareto ?",
+                    options: [
+                        "Le temps moyen entre les problèmes",
+                        "La fréquence ou le coût des problèmes",
+                        "La satisfaction client",
+                        "Le nombre de personnes affectées"
+                    ],
+                    correctAnswer: "La fréquence ou le coût des problèmes",
+                    explanation: "On classe généralement les problèmes par fréquence d'apparition ou par coût pour identifier les plus significatifs.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quelle est la caractéristique principale d'une bonne cause racine identifiée par les 5 Pourquoi ?",
+                    options: [
+                        "Elle est sous le contrôle de l'équipe",
+                        "Elle est complexe et multifactorielle",
+                        "Elle pointe vers un fournisseur externe",
+                        "Elle implique plusieurs départements"
+                    ],
+                    correctAnswer: "Elle est sous le contrôle de l'équipe",
+                    explanation: "Une bonne cause racine est actionnable - elle doit être sous le contrôle ou l'influence de l'équipe qui mène l'analyse.",
+                    difficulty: "hard"
+                },
+                {
+                    question: "Pourquoi utilise-t-on souvent des post-its pour le brainstorming ?",
+                    options: [
+                        "Pour faciliter le regroupement et l'organisation des idées",
+                        "Parce qu'ils sont moins chers que le papier normal",
+                        "Pour limiter le nombre d'idées par participant",
+                        "Pour pouvoir les jeter facilement"
+                    ],
+                    correctAnswer: "Pour faciliter le regroupement et l'organisation des idées",
+                    explanation: "Les post-its permettent de déplacer et regrouper visuellement les idées pendant et après le brainstorming.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Quel élément n'appartient pas aux 5M traditionnels d'Ishikawa ?",
+                    options: [
+                        "Management",
+                        "Matière",
+                        "Main-d'œuvre",
+                        "Milieu"
+                    ],
+                    correctAnswer: "Management",
+                    explanation: "Les 5M traditionnels sont : Matière, Machine, Méthode, Main-d'œuvre, Milieu. Le Management est parfois ajouté comme 6ème M.",
+                    difficulty: "hard"
+                },
+                {
+                    question: "Quelle proportion des problèmes représente généralement la 'vital few' dans l'analyse de Pareto ?",
+                    options: [
+                        "50%",
+                        "20%",
+                        "10%",
+                        "80%"
+                    ],
+                    correctAnswer: "20%",
+                    explanation: "Les 'vital few' (quelques éléments vitaux) représentent typiquement 20% des causes responsables de 80% des effets.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Que faire si la méthode des 5 Pourquoi conduit à plusieurs causes racines possibles ?",
+                    options: [
+                        "Choisir arbitrairement une cause",
+                        "Arrêter l'analyse après 5 questions",
+                        "Prioriser les causes avec Pareto puis approfondir chacune",
+                        "Considérer que la méthode a échoué"
+                    ],
+                    correctAnswer: "Prioriser les causes avec Pareto puis approfondir chacune",
+                    explanation: "Si plusieurs causes émergent, on peut les prioriser (ex: avec Pareto) puis appliquer les 5 Pourquoi à chacune des principales.",
+                    difficulty: "hard"
+                },
+                {
+                    question: "Quel est le principal avantage de la méthodologie combinée par rapport à l'utilisation isolée des méthodes ?",
+                    options: [
+                        "Elle est plus rapide à mettre en œuvre",
+                        "Elle évite les biais cognitifs des méthodes utilisées seules",
+                        "Elle nécessite moins de participants",
+                        "Elle produit moins de données à analyser"
+                    ],
+                    correctAnswer: "Elle évite les biais cognitifs des méthodes utilisées seules",
+                    explanation: "La combinaison permet de contrebalancer les limites de chaque méthode prise isolément pour une analyse plus complète et objective.",
+                    difficulty: "hard"
+                },
+                {
+                    question: "Quelle technique de brainstorming limite le temps de parole de chaque participant ?",
+                    options: [
+                        "Brainstorming classique",
+                        "Brainwriting",
+                        "Timeboxing",
+                        "Brainstorming en tourniquet"
+                    ],
+                    correctAnswer: "Brainstorming en tourniquet",
+                    explanation: "Le brainstorming en tourniquet donne à chacun un temps égal pour s'exprimer à tour de rôle, limitant la domination des plus extravertis.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quelle catégorie Ishikawa utiliseriez-vous pour un problème lié à une machine défectueuse ?",
+                    options: [
+                        "Méthode",
+                        "Machine",
+                        "Main-d'œuvre",
+                        "Milieu"
+                    ],
+                    correctAnswer: "Machine",
+                    explanation: "Les problèmes liés aux équipements, outils ou machines relèvent évidemment de la catégorie 'Machine'.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Quelle est la première étape pour construire un diagramme de Pareto ?",
+                    options: [
+                        "Dessiner les axes du graphique",
+                        "Collecter des données sur la fréquence des problèmes",
+                        "Choisir les couleurs des barres",
+                        "Calculer les pourcentages cumulés"
+                    ],
+                    correctAnswer: "Collecter des données sur la fréquence des problèmes",
+                    explanation: "La première étape est toujours de collecter des données fiables sur la fréquence ou l'impact des problèmes à analyser.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quel est le risque si on ne valide pas chaque réponse dans la méthode des 5 Pourquoi ?",
+                    options: [
+                        "De s'éloigner de la cause réelle",
+                        "D'identifier trop de causes",
+                        "De rendre l'analyse trop longue",
+                        "De devoir poser plus de 5 questions"
+                    ],
+                    correctAnswer: "De s'éloigner de la cause réelle",
+                    explanation: "Chaque réponse doit être vérifiée par des faits, sans quoi on risque de suivre une fausse piste et d'identifier une cause incorrecte.",
+                    difficulty: "hard"
+                }
+            ]
+        };
+
+        // DOM Elements
+        const questionCounterEl = document.getElementById('question-counter');
+        const currentScoreEl = document.getElementById('current-score');
+        const progressBarEl = document.getElementById('progress-bar');
+        const questionTextEl = document.getElementById('question-text');
+        const optionsContainerEl = document.getElementById('options-container');
+        const explanationBoxEl = document.getElementById('explanation-box');
+        const explanationTitleEl = document.getElementById('explanation-title');
+        const explanationTextEl = document.getElementById('explanation-text');
+        const nextBtn = document.getElementById('next-btn');
+        const finishBtn = document.getElementById('finish-btn');
+        const timerTextEl = document.getElementById('timer-text');
+        const timerBarEl = document.getElementById('timer-bar');
+        
+        // Modal Elements
+        const resultsModal = new bootstrap.Modal(document.getElementById('resultsModal'));
+        const finalScoreCorrectEl = document.getElementById('final-score-correct');
+        const finalScoreTotalEl = document.getElementById('final-score-total');
+        const finalScorePercentageEl = document.getElementById('final-score-percentage');
+        const levelBadgeEl = document.getElementById('level-badge');
+        const finalRecommendationsEl = document.getElementById('final-recommendations');
+        const restartQuizBtn = document.getElementById('restart-quiz-btn');
+
+        // Quiz State
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let userAnswers = [];
+        let questions = [];
+        let timerInterval;
+        const TIME_PER_QUESTION = 60;
+        let timeLeft = TIME_PER_QUESTION;
+        let answeredCurrentQuestion = false;
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function startQuiz() {
+            questions = shuffleArray([...quizData.questions]);
+            currentQuestionIndex = 0;
+            score = 0;
+            userAnswers = new Array(questions.length).fill(null);
+            resultsModal.hide();
+            displayQuestion(currentQuestionIndex);
+            updateScoreDisplay();
+        }
+
+        function displayQuestion(index) {
+            answeredCurrentQuestion = false;
+            explanationBoxEl.classList.add('d-none');
+            nextBtn.disabled = true;
+            timerTextEl.classList.remove('warning');
+
+            if (index >= questions.length) {
+                showFinalResults();
+                return;
+            }
+
+            const question = questions[index];
+            questionTextEl.textContent = question.question;
+            
+            optionsContainerEl.innerHTML = '';
+            
+            question.options.forEach((optionText, optionIndex) => {
+                const button = document.createElement('button');
+                const prefix = String.fromCharCode(65 + optionIndex);
+                button.textContent = `${prefix}. ${optionText}`;
+                button.classList.add('btn', 'option-btn');
+                button.onclick = () => selectAnswer(button, optionText, index);
+                optionsContainerEl.appendChild(button);
+            });
+            
+            updateNavigation();
+            updateProgressBar();
+            startTimer();
+        }
+        
+        function selectAnswer(button, selectedAnswer, questionIndex) {
+            if (answeredCurrentQuestion) return;
+            answeredCurrentQuestion = true;
+            clearInterval(timerInterval);
+
+            const question = questions[questionIndex];
+            const isCorrect = selectedAnswer === question.correctAnswer;
+            
+            userAnswers[questionIndex] = {
+                selected: selectedAnswer,
+                correct: question.correctAnswer,
+                isCorrect: isCorrect,
+                timeTaken: TIME_PER_QUESTION - timeLeft
+            };
+            
+            if(isCorrect) {
+                score++;
+            }
+            updateScoreDisplay();
+            showAnswerFeedback(questionIndex);
+            nextBtn.disabled = false;
+            
+            if (currentQuestionIndex === questions.length - 1) {
+                nextBtn.classList.add('d-none');
+                finishBtn.classList.remove('d-none');
+            }
+        }
+
+        function showAnswerFeedback(index) {
+            const userAnswer = userAnswers[index];
+            if (!userAnswer) return;
+
+            const question = questions[index];
+
+            const optionButtons = optionsContainerEl.querySelectorAll('.option-btn');
+            optionButtons.forEach(btn => {
+                btn.disabled = true;
+                if (btn.textContent.includes(userAnswer.correct)) {
+                    btn.classList.add('correct');
+                } else if (btn.textContent.includes(userAnswer.selected) && !userAnswer.isCorrect) {
+                    btn.classList.add('incorrect');
+                }
+            });
+
+            explanationTextEl.textContent = question.explanation;
+            if (userAnswer.isCorrect) {
+                explanationTitleEl.textContent = "Correct !";
+                explanationBoxEl.className = 'explanation-correct';
+            } else {
+                explanationTitleEl.textContent = "Incorrect. Explication :";
+                explanationBoxEl.className = 'explanation-incorrect';
+            }
+            explanationBoxEl.classList.remove('d-none');
+        }
+
+        function startTimer() {
+            timeLeft = TIME_PER_QUESTION;
+            updateTimerDisplay();
+            timerBarEl.style.transition = `width ${TIME_PER_QUESTION}s linear`;
+            timerBarEl.style.width = '0%';
+
+            setTimeout(() => {
+                timerBarEl.style.transition = 'none';
+                timerBarEl.style.width = '100%';
+                setTimeout(() => {
+                    timerBarEl.style.transition = `width ${TIME_PER_QUESTION}s linear`;
+                    timerBarEl.style.width = '0%';
+                }, 50);
+            }, 0);
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+
+                if (timeLeft <= 10) {
+                    timerTextEl.classList.add('warning');
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerTextEl.classList.remove('warning');
+                    if (!answeredCurrentQuestion) {
+                        userAnswers[currentQuestionIndex] = {
+                            selected: null,
+                            correct: questions[currentQuestionIndex].correctAnswer,
+                            isCorrect: false,
+                            timeTaken: TIME_PER_QUESTION
+                        };
+                        showAnswerFeedback(currentQuestionIndex);
+                        updateScoreDisplay();
+                        nextBtn.disabled = false;
+                        
+                        if (currentQuestionIndex === questions.length - 1) {
+                            nextBtn.classList.add('d-none');
+                            finishBtn.classList.remove('d-none');
+                        }
+                    }
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerTextEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function updateNavigation() {
+            // Navigation handled by selectAnswer/timer logic
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            progressBarEl.style.width = `${progress}%`;
+            progressBarEl.setAttribute('aria-valuenow', progress);
+            questionCounterEl.textContent = `Question ${currentQuestionIndex + 1} / ${questions.length}`;
+        }
+        
+        function updateScoreDisplay() {
+            currentScoreEl.textContent = `Score: ${score}`;
+        }
+
+        function handleNext() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion(currentQuestionIndex);
+            } else {
+                showFinalResults();
+            }
+        }
+
+        function determineLevelAndRecommendations(percentage) {
+            let level = "";
+            let levelClass = "";
+            let recommendations = "";
+
+            if (percentage >= 90) {
+                level = "Expert en Méthodologie Combinée";
+                levelClass = "level-expert";
+                recommendations = `
+                    <h4><i class="fas fa-star-half-alt"></i> Félicitations, Expert(e) !</h4>
+                    <p>Votre maîtrise des méthodes combinées est exceptionnelle. Vous pouvez guider des équipes dans des analyses complexes.</p>
+                    <h5><i class="fas fa-route"></i> Feuille de route :</h5>
+                    <ul>
+                        <li><i class="fas fa-lightbulb"></i> Approfondissez les techniques avancées comme TRIZ ou les 6 Sigma.</li>
+                        <li><i class="fas fa-chalkboard-teacher"></i> Formez d'autres personnes à cette méthodologie.</li>
+                        <li><i class="fas fa-project-diagram"></i> Appliquez ces méthodes à des problèmes organisationnels complexes.</li>
+                    </ul>
+                `;
+            } else if (percentage >= 70) {
+                level = "Avancé en Méthodologie Combinée";
+                levelClass = "level-avance";
+                recommendations = `
+                    <h4><i class="fas fa-check-circle"></i> Très bien, niveau Avancé !</h4>
+                    <p>Vous avez une excellente compréhension des méthodes et de leur combinaison.</p>
+                    <h5><i class="fas fa-route"></i> Feuille de route :</h5>
+                    <ul>
+                        <li><i class="fas fa-cogs"></i> Pratiquez sur des cas réels dans votre organisation.</li>
+                        <li><i class="fas fa-book-open"></i> Étudiez des cas complexes d'application.</li>
+                        <li><i class="fas fa-users"></i> Animez des sessions d'analyse avec des collègues.</li>
+                    </ul>
+                `;
+            } else if (percentage >= 50) {
+                level = "Intermédiaire en Méthodologie Combinée";
+                levelClass = "level-intermediaire";
+                recommendations = `
+                    <h4><i class="fas fa-info-circle"></i> Bon début, niveau Intermédiaire !</h4>
+                    <p>Vous maîtrisez les bases et pouvez participer activement aux analyses.</p>
+                    <h5><i class="fas fa-route"></i> Feuille de route :</h5>
+                    <ul>
+                        <li><i class="fas fa-redo-alt"></i> Revoyez les méthodes individuellement.</li>
+                        <li><i class="fas fa-hands-helping"></i> Participez à plus d'analyses combinées.</li>
+                        <li><i class="fas fa-question-circle"></i> Posez des questions sur les points moins clairs.</li>
+                    </ul>
+                `;
+            } else if (percentage >= 25) {
+                level = "Débutant en Méthodologie Combinée";
+                levelClass = "level-debutant";
+                recommendations = `
+                    <h4><i class="fas fa-seedling"></i> En croissance, niveau Débutant !</h4>
+                    <p>Vous commencez à comprendre l'approche combinée. Continuez à apprendre.</p>
+                    <h5><i class="fas fa-route"></i> Feuille de route :</h5>
+                    <ul>
+                        <li><i class="fas fa-graduation-cap"></i> Étudiez chaque méthode séparément d'abord.</li>
+                        <li><i class="fas fa-video"></i> Suivez des tutoriels sur chaque technique.</li>
+                        <li><i class="fas fa-sticky-note"></i> Créez des fiches mémo pour chaque méthode.</li>
+                    </ul>
+                `;
+            } else {
+                level = "Novice en Méthodologie Combinée";
+                levelClass = "level-novice";
+                recommendations = `
+                    <h4><i class="fas fa-exclamation-triangle"></i> Courage, niveau Novice !</h4>
+                    <p>C'est un bon point de départ. Ces méthodes deviendront plus claires avec la pratique.</p>
+                    <h5><i class="fas fa-route"></i> Feuille de route :</h5>
+                    <ul>
+                        <li><i class="fas fa-book-open"></i> Commencez par apprendre une méthode à la fois.</li>
+                        <li><i class="fas fa-globe"></i> Trouvez des exemples simples d'application.</li>
+                        <li><i class="fas fa-users-class"></i> Suivez une formation de base si possible.</li>
+                    </ul>
+                `;
+            }
+
+            return { level, levelClass, recommendations };
+        }
+
+        function showFinalResults() {
+            clearInterval(timerInterval);
+            nextBtn.classList.add('d-none');
+            finishBtn.classList.add('d-none');
+
+            const percentage = (score / questions.length) * 100;
+            const { level, levelClass, recommendations } = determineLevelAndRecommendations(percentage);
+
+            finalScoreCorrectEl.textContent = score;
+            finalScoreTotalEl.textContent = questions.length;
+            finalScorePercentageEl.textContent = `${percentage.toFixed(0)}%`;
+            finalScorePercentageEl.style.color = getScoreColor(percentage);
+            
+            levelBadgeEl.textContent = level;
+            levelBadgeEl.className = `level-badge ${levelClass}`;
+            finalRecommendationsEl.innerHTML = recommendations;
+
+            resultsModal.show();
+        }
+
+        function getScoreColor(percentage) {
+            if (percentage >= 90) return 'var(--success-green)';
+            if (percentage >= 70) return 'var(--secondary-blue)';
+            if (percentage >= 50) return 'var(--accent-orange)';
+            if (percentage >= 25) return '#e67e22';
+            return 'var(--danger-red)';
+        }
+
+        // Event Listeners
+        nextBtn.addEventListener('click', handleNext);
+        finishBtn.addEventListener('click', showFinalResults);
+        restartQuizBtn.addEventListener('click', () => {
+            resultsModal.hide();
+            setTimeout(startQuiz, 500);
+        });
+        
+        // Initial call
+        document.addEventListener('DOMContentLoaded', startQuiz);
+    </script>
+</body>
+</html>
