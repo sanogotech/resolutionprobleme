@@ -1,1 +1,928 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apprentissage avec IA</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    :root {
+      --primary-color: #4a148c;
+      --secondary-color: #7b1fa2;
+      --accent-color: #e91e63;
+      --light-bg: #f5f5f5;
+      --dark-bg: #212121;
+      --ai-purple: #9c27b0;
+      --learning-blue: #2196f3;
+    }
 
+    body {
+      background-color: var(--light-bg);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .navbar {
+      background-color: var(--primary-color);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      color: white;
+    }
+
+    .hero-section {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--ai-purple) 100%);
+      color: white;
+      padding: 4rem 0;
+      margin-bottom: 3rem;
+      border-radius: 0 0 20px 20px;
+    }
+
+    .card {
+      border: none;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      height: 100%;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    }
+
+    .card-header {
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: 600;
+    }
+
+    .module-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--secondary-color);
+    }
+
+    .btn-primary {
+      background-color: var(--ai-purple);
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #7b1fa2;
+    }
+
+    .btn-ai {
+      background-color: var(--accent-color);
+      color: white;
+    }
+
+    .btn-ai:hover {
+      background-color: #c2185b;
+      color: white;
+    }
+
+    .btn-outline-primary {
+      color: var(--ai-purple);
+      border-color: var(--ai-purple);
+    }
+
+    .btn-outline-primary:hover {
+      background-color: var(--ai-purple);
+      color: white;
+    }
+
+    .learning-container {
+      background-color: white;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+
+    .process-step {
+      position: relative;
+      padding-left: 30px;
+      margin-bottom: 20px;
+    }
+
+    .process-step:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 20px;
+      height: 20px;
+      background-color: var(--learning-blue);
+      border-radius: 50%;
+    }
+
+    .process-step:after {
+      content: "";
+      position: absolute;
+      left: 9px;
+      top: 20px;
+      width: 2px;
+      height: 100%;
+      background-color: var(--learning-blue);
+    }
+
+    .process-step:last-child:after {
+      display: none;
+    }
+
+    .data-table {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+
+    .data-table th {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    .highlight-box {
+      background-color: rgba(156, 39, 176, 0.1);
+      border-left: 4px solid var(--ai-purple);
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 0 5px 5px 0;
+    }
+
+    .ai-highlight {
+      background-color: rgba(233, 30, 99, 0.1);
+      border-left: 4px solid var(--accent-color);
+    }
+
+    .linked-modules {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .linked-module {
+      background-color: var(--light-bg);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      color: var(--primary-color);
+      border: 1px solid #ddd;
+    }
+
+    .tab-content {
+      padding: 1.5rem 0;
+    }
+
+    footer {
+      background-color: var(--dark-bg);
+      color: white;
+      padding: 2rem 0;
+      margin-top: 3rem;
+    }
+
+    /* Animation pour les cartes */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .module-card {
+      animation: fadeIn 0.5s ease forwards;
+      opacity: 0;
+    }
+
+    /* Délai d'animation pour chaque carte */
+    .module-card:nth-child(1) { animation-delay: 0.1s; }
+    .module-card:nth-child(2) { animation-delay: 0.2s; }
+    .module-card:nth-child(3) { animation-delay: 0.3s; }
+    .module-card:nth-child(4) { animation-delay: 0.4s; }
+    .module-card:nth-child(5) { animation-delay: 0.5s; }
+    .module-card:nth-child(6) { animation-delay: 0.6s; }
+    .module-card:nth-child(7) { animation-delay: 0.7s; }
+
+    /* Learning path styles */
+    .learning-path {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .learning-step {
+      background-color: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: relative;
+      border-left: 4px solid var(--learning-blue);
+    }
+
+    .learning-step.completed {
+      border-left-color: #4caf50;
+    }
+
+    .learning-step.current {
+      border-left-color: var(--accent-color);
+      transform: scale(1.02);
+    }
+
+    .learning-step h5 {
+      margin-bottom: 0.5rem;
+    }
+
+    .learning-step p {
+      color: #555;
+    }
+
+    .step-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+    }
+
+    .quiz-container {
+      background-color: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .quiz-question {
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .quiz-option {
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .quiz-option:hover {
+      background-color: #f5f5f5;
+    }
+
+    .quiz-option.selected {
+      background-color: rgba(33, 150, 243, 0.1);
+      border-color: var(--learning-blue);
+    }
+
+    .quiz-option.correct {
+      background-color: rgba(76, 175, 80, 0.1);
+      border-color: #4caf50;
+    }
+
+    .quiz-option.incorrect {
+      background-color: rgba(244, 67, 54, 0.1);
+      border-color: #f44336;
+    }
+
+    .quiz-feedback {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 5px;
+      display: none;
+    }
+
+    .quiz-feedback.correct {
+      background-color: rgba(76, 175, 80, 0.1);
+      border-left: 4px solid #4caf50;
+      display: block;
+    }
+
+    .quiz-feedback.incorrect {
+      background-color: rgba(244, 67, 54, 0.1);
+      border-left: 4px solid #f44336;
+      display: block;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .hero-section {
+        padding: 2rem 0;
+      }
+
+      .module-icon {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <i class="bi bi-robot me-2"></i>Apprentissage avec IA
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="#introduction">Introduction</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#partie1">Partie 1</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#partie2">Partie 2</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#outils">Outils</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#quiz">Quiz</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero-section">
+    <div class="container text-center">
+      <h1 class="display-4 fw-bold mb-3">Optimisez votre apprentissage avec l'IA</h1>
+      <p class="lead mb-4">Découvrez comment l'intelligence artificielle peut révolutionner votre façon d'apprendre et de vous former</p>
+      <div class="d-flex justify-content-center gap-3">
+        <a href="#introduction" class="btn btn-light btn-lg px-4">Commencer</a>
+        <a href="#quiz" class="btn btn-outline-light btn-lg px-4">Tester mes connaissances</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="container mb-5">
+    <section id="introduction" class="mb-5">
+      <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+          <h2 class="mb-4">Pourquoi utiliser l'IA pour apprendre ?</h2>
+          <p class="lead">L'intelligence artificielle devient un partenaire incontournable pour l'apprentissage, permettant une personnalisation inédite et une optimisation du temps d'étude.</p>
+          <div class="d-flex justify-content-center mt-4">
+            <div class="px-4 text-center">
+              <i class="bi bi-speedometer2 fs-1 text-primary"></i>
+              <p class="mt-2 fw-bold">Efficacité</p>
+            </div>
+            <div class="px-4 text-center">
+              <i class="bi bi-person-video fs-1 text-primary"></i>
+              <p class="mt-2 fw-bold">Personnalisation</p>
+            </div>
+            <div class="px-4 text-center">
+              <i class="bi bi-graph-up-arrow fs-1 text-primary"></i>
+              <p class="mt-2 fw-bold">Progression</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="partie1" class="mb-5">
+      <h2 class="text-center mb-4">Partie 1 : Prenez en main votre apprentissage avec l'IA</h2>
+      
+      <div class="learning-path mb-4">
+        <div class="learning-step current" id="step1">
+          <span class="badge bg-primary step-badge">Étape 1</span>
+          <h5>Tirez un maximum de ce cours</h5>
+          <p>Comprendre les promesses et les limites de l'IA appliquée à la formation</p>
+          <button class="btn btn-primary btn-sm mt-2" onclick="showDetails('step1-content')">
+            <i class="bi bi-info-circle me-1"></i>Voir le contenu
+          </button>
+          <div id="step1-content" style="display: none;" class="mt-3">
+            <div class="highlight-box">
+              <p><strong>Ce que peut faire l'IA :</strong></p>
+              <ul>
+                <li>Synthèse et reformulation de contenus complexes</li>
+                <li>Explications adaptées à différents niveaux de compréhension</li>
+                <li>Création de quiz et exercices personnalisés</li>
+                <li>Organisation des connaissances sous forme de fiches</li>
+              </ul>
+            </div>
+            <div class="ai-highlight highlight-box mt-3">
+              <p><strong>Ce que l'IA ne doit pas faire seule :</strong></p>
+              <ul>
+                <li>Interprétation juridique ou médicale sans validation humaine</li>
+                <li>Fournir une vérité absolue (toujours vérifier les sources)</li>
+                <li>Remplacer complètement l'effort personnel d'apprentissage</li>
+                <li>Produire des travaux académiques sans réflexion personnelle</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <div class="learning-step" id="step2">
+          <span class="badge bg-secondary step-badge">Étape 2</span>
+          <h5>Définissez votre planning d'apprentissage</h5>
+          <p>Mettre en place un plan réaliste et adapté à votre rythme</p>
+          <button class="btn btn-primary btn-sm mt-2" onclick="showDetails('step2-content')">
+            <i class="bi bi-info-circle me-1"></i>Voir le contenu
+          </button>
+          <div id="step2-content" style="display: none;" class="mt-3">
+            <div class="highlight-box">
+              <p><strong>Méthode SMART pour vos objectifs :</strong></p>
+              <ul>
+                <li><strong>Spécifique :</strong> "Apprendre les bases du machine learning" plutôt que "Apprendre l'IA"</li>
+                <li><strong>Mesurable :</strong> "Comprendre 3 algorithmes principaux"</li>
+                <li><strong>Atteignable :</strong> Adapter au temps disponible</li>
+                <li><strong>Réaliste :</strong> En fonction de votre niveau de départ</li>
+                <li><strong>Temporel :</strong> Avec des échéances claires</li>
+              </ul>
+            </div>
+            <p class="mt-3">Exemple de prompt IA : <em>"Crée un planning hebdomadaire pour apprendre Python en 1 mois, avec 1h par jour, en incluant des projets pratiques."</em></p>
+          </div>
+        </div>
+        
+        <div class="learning-step" id="step3">
+          <span class="badge bg-secondary step-badge">Étape 3</span>
+          <h5>Clarifiez votre contenu de formation</h5>
+          <p>S'approprier les grandes lignes de votre programme</p>
+          <button class="btn btn-primary btn-sm mt-2" onclick="showDetails('step3-content')">
+            <i class="bi bi-info-circle me-1"></i>Voir le contenu
+          </button>
+          <div id="step3-content" style="display: none;" class="mt-3">
+            <div class="highlight-box">
+              <p><strong>Techniques efficaces :</strong></p>
+              <ul>
+                <li>Demander à l'IA un résumé structuré de votre syllabus</li>
+                <li>Créer une carte mentale des concepts clés</li>
+                <li>Identifier les prérequis nécessaires</li>
+                <li>Établir des liens entre les différents modules</li>
+              </ul>
+            </div>
+            <p class="mt-3">Exemple : <em>"Résume-moi les chapitres de ce cours de biologie avec 3 objectifs par chapitre et les liens entre eux."</em></p>
+          </div>
+        </div>
+        
+        <div class="learning-step" id="step4">
+          <span class="badge bg-secondary step-badge">Étape 4</span>
+          <h5>Soyez vigilant avec les contenus générés</h5>
+          <p>Développer un esprit critique face aux réponses de l'IA</p>
+          <button class="btn btn-primary btn-sm mt-2" onclick="showDetails('step4-content')">
+            <i class="bi bi-info-circle me-1"></i>Voir le contenu
+          </button>
+          <div id="step4-content" style="display: none;" class="mt-3">
+            <div class="ai-highlight highlight-box">
+              <p><strong>Bonnes pratiques :</strong></p>
+              <ul>
+                <li>Croiser les informations avec des sources officielles</li>
+                <li>Vérifier les dates et les références</li>
+                <li>Être conscient des biais possibles</li>
+                <li>Demander des sources et des références</li>
+                <li>Valider avec un formateur ou expert</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mt-4">
+        <button class="btn btn-ai" onclick="startQuiz('partie1')">
+          <i class="bi bi-patch-question me-1"></i>Quiz Partie 1
+        </button>
+      </div>
+    </section>
+
+    <section id="partie2" class="mb-5">
+      <h2 class="text-center mb-4">Partie 2 : Approfondissez votre apprentissage avec l'IA</h2>
+      
+      <div class="learning-path mb-4">
+        <div class="learning-step" id="step5">
+          <span class="badge bg-secondary step-badge">Étape 5</span>
+          <h5>Synthétisez et organisez votre contenu</h5>
+          <p>Résumer et structurer les connaissances pour mieux les assimiler</p>
+          <button class="btn btn-primary btn-sm mt-2" onclick="showDetails('step5-content')">
+            <i class="bi bi-info-circle me-1"></i>Voir le contenu
+          </button>
+          <div id="step5-content" style="display: none;" class="mt-3">
+            <div class="highlight-box">
+              <p><strong>Techniques avancées :</strong></p>
+              <ul>
+                <li>Génération de résumés avec différents niveaux de détail</li>
+                <li>Création de fiches de révision automatisées</li>
+                <li>Organisation des idées sous forme de tableau ou de plan</li>
+                <li>Conversion de vidéos en notes structurées</li>
+              </ul>
+            </div>
+            <p class="mt-3">Exemple : <em>"Crée une fiche de révision sur la photosynthèse avec définition, processus, schéma et exemples."</em></p>
+          </div>
+        </div>
+        
+        <div class="learning-step" id="step6">
+          <span class="badge bg-secondary step-badge">Étape 6</span>
+          <h5>Vérifiez vos acquis avec l'IA</h5>
+          <p>Tester votre compréhension de manière active</p>
+          <button class="btn btn-primary btn-sm mt-2" onclick="showDetails('step6-content')">
+            <i class="bi bi-info-circle me-1"></i>Voir le contenu
+          </button>
+          <div id="step6-content" style="display: none;" class="mt-3">
+            <div class="highlight-box">
+              <p><strong>Méthodes efficaces :</strong></p>
+              <ul>
+                <li>Génération de quiz personnalisés</li>
+                <li>Questions aléatoires sur un thème précis</li>
+                <li>Analyse des réponses avec feedback</li>
+                <li>Simulation d'entretien ou d'examen</li>
+              </ul>
+            </div>
+            <p class="mt-3">Exemple : <em>"Pose-moi 5 questions sur les théorèmes de Pythagore et donne-moi un feedback sur mes réponses."</em></p>
+          </div>
+        </div>
+        
+        <div class="learning-step" id="step7">
+          <span class="badge bg-secondary step-badge">Étape 7</span>
+          <h5>Créez vos propres exercices et corrections</h5>
+          <p>Apprendre en pratiquant activement</p>
+          <button class="btn btn-primary btn-sm mt-2" onclick="showDetails('step7-content')">
+            <i class="bi bi-info-circle me-1"></i>Voir le contenu
+          </button>
+          <div id="step7-content" style="display: none;" class="mt-3">
+            <div class="highlight-box">
+              <p><strong>Applications pratiques :</strong></p>
+              <ul>
+                <li>Génération d'exercices avec différents niveaux de difficulté</li>
+                <li>Variantes d'un même problème pour mieux comprendre</li>
+                <li>Correction détaillée étape par étape</li>
+                <li>Création de cas pratiques personnalisés</li>
+              </ul>
+            </div>
+            <p class="mt-3">Exemple : <em>"Donne-moi 3 exercices progressifs sur les équations du second degré avec corrigés détaillés."</em></p>
+          </div>
+        </div>
+        
+        <div class="learning-step" id="step8">
+          <span class="badge bg-secondary step-badge">Étape 8</span>
+          <h5>Finalisez la production de vos documents</h5>
+          <p>Soigner la qualité de vos livrables</p>
+          <button class="btn btn-primary btn-sm mt-2" onclick="showDetails('step8-content')">
+            <i class="bi bi-info-circle me-1"></i>Voir le contenu
+          </button>
+          <div id="step8-content" style="display: none;" class="mt-3">
+            <div class="highlight-box">
+              <p><strong>Optimisation des productions :</strong></p>
+              <ul>
+                <li>Aide à la rédaction académique (structure, style)</li>
+                <li>Vérification orthographique et grammaticale</li>
+                <li>Amélioration de la mise en forme</li>
+                <li>Préparation de présentations efficaces</li>
+                <li>Simulation de questions/réponses pour les soutenances</li>
+              </ul>
+            </div>
+            <p class="mt-3">Exemple : <em>"Améliore la structure et le style de ce paragraphe pour un mémoire universitaire."</em></p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mt-4">
+        <button class="btn btn-ai" onclick="startQuiz('partie2')">
+          <i class="bi bi-patch-question me-1"></i>Quiz Partie 2
+        </button>
+      </div>
+    </section>
+
+    <section id="outils" class="mb-5">
+      <h2 class="text-center mb-4">Outils recommandés</h2>
+      
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-header d-flex align-items-center">
+              <i class="bi bi-chat-square-text me-2"></i>
+              <h5 class="mb-0">Assistants IA</h5>
+            </div>
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  ChatGPT
+                  <span class="badge bg-primary rounded-pill">Populaire</span>
+                </li>
+                <li class="list-group-item">Gemini (Google)</li>
+                <li class="list-group-item">Claude (Anthropic)</li>
+                <li class="list-group-item">Copilot (Microsoft)</li>
+                <li class="list-group-item">Perplexity</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-header d-flex align-items-center">
+              <i class="bi bi-journal-bookmark me-2"></i>
+              <h5 class="mb-0">Organisation</h5>
+            </div>
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Notion (avec intégration IA)</li>
+                <li class="list-group-item">Obsidian (plugins IA)</li>
+                <li class="list-group-item">Evernote</li>
+                <li class="list-group-item">OneNote</li>
+                <li class="list-group-item">Todoist</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-header d-flex align-items-center">
+              <i class="bi bi-lightbulb me-2"></i>
+              <h5 class="mb-0">Spécialisés</h5>
+            </div>
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Wolfram Alpha (maths/sciences)</li>
+                <li class="list-group-item">Khanmigo (éducation)</li>
+                <li class="list-group-item">Quizlet (fiches/mémorisation)</li>
+                <li class="list-group-item">Otter.ai (transcription)</li>
+                <li class="list-group-item">ChatPDF (analyse documents)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="quiz" class="mb-5">
+      <h2 class="text-center mb-4">Quiz d'évaluation</h2>
+      
+      <div id="quiz-container" style="display: none;">
+        <div class="quiz-container" id="question1">
+          <div class="quiz-question">1. Quelle est la principale limite de l'IA dans l'apprentissage selon ce module ?</div>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="selectAnswer(this, 'question1', 'a')">A. Elle ne peut pas remplacer complètement l'effort personnel d'apprentissage</div>
+            <div class="quiz-option" onclick="selectAnswer(this, 'question1', 'b')">B. Elle est trop lente pour générer des réponses</div>
+            <div class="quiz-option" onclick="selectAnswer(this, 'question1', 'c')">C. Elle ne fonctionne pas avec les matières scientifiques</div>
+            <div class="quiz-option" onclick="selectAnswer(this, 'question1', 'd')">D. Elle est trop chère pour les étudiants</div>
+          </div>
+          <div class="quiz-feedback correct" id="feedback1-correct">
+            <i class="bi bi-check-circle-fill text-success me-2"></i>Correct ! L'IA est un outil puissant mais ne remplace pas la réflexion personnelle et l'effort d'apprentissage.
+          </div>
+          <div class="quiz-feedback incorrect" id="feedback1-incorrect">
+            <i class="bi bi-x-circle-fill text-danger me-2"></i>Pas tout à fait. La bonne réponse est A. L'IA est un assistant, pas un remplacement à l'effort personnel.
+          </div>
+        </div>
+        
+        <div class="quiz-container" id="question2">
+          <div class="quiz-question">2. Quel type de prompt donneriez-vous à l'IA pour créer un planning d'étude efficace ?</div>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="selectAnswer(this, 'question2', 'a')">A. "Donne-moi tout sur l'histoire de France"</div>
+            <div class="quiz-option" onclick="selectAnswer(this, 'question2', 'b')">B. "Crée un planning pour apprendre les bases de la biologie en 2 semaines avec 1h par jour"</div>
+            <div class="quiz-option" onclick="selectAnswer(this, 'question2', 'c')">C. "Fais-moi un résumé"</div>
+            <div class="quiz-option" onclick="selectAnswer(this, 'question2', 'd')">D. "Réponds à mes questions"</div>
+          </div>
+          <div class="quiz-feedback correct" id="feedback2-correct">
+            <i class="bi bi-check-circle-fill text-success me-2"></i>Exact ! Le prompt B est spécifique, mesurable et temporel, ce qui permet à l'IA de générer un planning adapté.
+          </div>
+          <div class="quiz-feedback incorrect" id="feedback2-incorrect">
+            <i class="bi bi-x-circle-fill text-danger me-2"></i>Presque ! La meilleure réponse est B car elle est précise et suit la méthode SMART.
+          </div>
+        </div>
+        
+        <div class="quiz-container" id="question3">
+          <div class="quiz-question">3. Pourquoi est-il important de vérifier les informations fournies par l'IA ?</div>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="selectAnswer(this, 'question3', 'a')">A. L'IA peut commettre des erreurs ou des "hallucinations"</div>
+            <div class="quiz-option" onclick="selectAnswer(this, 'question3', 'b')">B. Les réponses peuvent être biaisées ou incomplètes</div>
+            <div class="quiz-option" onclick="selectAnswer(this, 'question3', 'c')">C. Pour développer son esprit critique</div>
+            <div class="quiz-option" onclick="selectAnswer(this, 'question3', 'd')">D. Toutes ces réponses</div>
+          </div>
+          <div class="quiz-feedback correct" id="feedback3-correct">
+            <i class="bi bi-check-circle-fill text-success me-2"></i>Parfait ! Toutes ces raisons sont valables pour vérifier les informations de l'IA.
+          </div>
+          <div class="quiz-feedback incorrect" id="feedback3-incorrect">
+            <i class="bi bi-x-circle-fill text-danger me-2"></i>En fait, la réponse D est correcte car toutes les options sont des bonnes raisons de vérifier l'IA.
+          </div>
+        </div>
+        
+        <div class="text-center mt-4">
+          <button class="btn btn-primary" onclick="submitQuiz()">
+            <i class="bi bi-check-circle me-1"></i>Soumettre le quiz
+          </button>
+          <button class="btn btn-outline-primary ms-2" onclick="resetQuiz()">
+            <i class="bi bi-arrow-counterclockwise me-1"></i>Recommencer
+          </button>
+        </div>
+      </div>
+      
+      <div id="quiz-selection" class="text-center">
+        <h4 class="mb-4">Choisissez un quiz à compléter :</h4>
+        <button class="btn btn-ai me-3" onclick="loadQuiz('partie1')">
+          <i class="bi bi-patch-question me-1"></i>Quiz Partie 1
+        </button>
+        <button class="btn btn-ai me-3" onclick="loadQuiz('partie2')">
+          <i class="bi bi-patch-question me-1"></i>Quiz Partie 2
+        </button>
+        <button class="btn btn-primary" onclick="loadQuiz('final')">
+          <i class="bi bi-stars me-1"></i>Quiz Final
+        </button>
+      </div>
+    </section>
+
+    <section class="mb-5">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0"><i class="bi bi-lightbulb me-2"></i>Conclusion</h4>
+        </div>
+        <div class="card-body">
+          <div class="ai-highlight highlight-box">
+            <p>L'intelligence artificielle est un formidable <strong>outil de soutien pédagogique</strong>, mais elle ne remplace <strong>ni la réflexion personnelle</strong>, <strong>ni l'effort régulier</strong>, ni <strong>l'esprit critique</strong>.</p>
+            <p class="mt-2">Maîtrisée avec méthode, elle devient un <strong>véritable partenaire</strong> d'apprentissage, accélérant la compréhension, structurant les idées, et stimulant la curiosité.</p>
+          </div>
+          <div class="d-flex justify-content-center mt-4">
+            <button class="btn btn-primary me-2">
+              <i class="bi bi-download me-1"></i>Télécharger le PDF
+            </button>
+            <button class="btn btn-outline-primary">
+              <i class="bi bi-table me-1"></i>Tableau synthétique
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="container text-center">
+      <p class="mb-0">Portail d'Apprentissage avec IA - Outil pédagogique</p>
+      <p class="mb-0">© 2023 - Tous droits réservés</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Show/hide content for each step
+    function showDetails(id) {
+      const element = document.getElementById(id);
+      if (element.style.display === 'none') {
+        element.style.display = 'block';
+      } else {
+        element.style.display = 'none';
+      }
+    }
+    
+    // Quiz functionality
+    let currentQuiz = '';
+    let quizAnswers = {};
+    
+    function loadQuiz(quizType) {
+      currentQuiz = quizType;
+      document.getElementById('quiz-selection').style.display = 'none';
+      document.getElementById('quiz-container').style.display = 'block';
+      
+      // Reset all answers
+      quizAnswers = {};
+      const allOptions = document.querySelectorAll('.quiz-option');
+      allOptions.forEach(option => {
+        option.classList.remove('selected', 'correct', 'incorrect');
+      });
+      
+      const allFeedbacks = document.querySelectorAll('.quiz-feedback');
+      allFeedbacks.forEach(feedback => {
+        feedback.style.display = 'none';
+      });
+      
+      // Update questions based on quiz type
+      // In a real implementation, you would fetch different questions
+      // Here we just show the same questions for demonstration
+    }
+    
+    function selectAnswer(element, questionId, answer) {
+      // Remove selected class from all options in this question
+      const options = element.parentElement.querySelectorAll('.quiz-option');
+      options.forEach(opt => {
+        opt.classList.remove('selected');
+      });
+      
+      // Add selected class to clicked option
+      element.classList.add('selected');
+      
+      // Store the answer
+      quizAnswers[questionId] = answer;
+      
+      // Hide all feedback for this question
+      const feedbacks = document.querySelectorAll(`#${questionId} .quiz-feedback`);
+      feedbacks.forEach(feedback => {
+        feedback.style.display = 'none';
+      });
+    }
+    
+    function submitQuiz() {
+      // In a real implementation, you would check answers against correct ones
+      // Here we just show feedback for demonstration
+      
+      // Question 1 - Correct answer is 'a'
+      const q1Answer = quizAnswers['question1'];
+      const q1Options = document.querySelectorAll('#question1 .quiz-option');
+      q1Options.forEach(option => {
+        option.classList.remove('correct', 'incorrect');
+        if (option.textContent.includes('A.')) {
+          option.classList.add('correct');
+        } else if (q1Answer && !option.textContent.includes('A.')) {
+          option.classList.add('incorrect');
+        }
+      });
+      
+      if (q1Answer === 'a') {
+        document.getElementById('feedback1-correct').style.display = 'block';
+      } else if (q1Answer) {
+        document.getElementById('feedback1-incorrect').style.display = 'block';
+      }
+      
+      // Question 2 - Correct answer is 'b'
+      const q2Answer = quizAnswers['question2'];
+      const q2Options = document.querySelectorAll('#question2 .quiz-option');
+      q2Options.forEach(option => {
+        option.classList.remove('correct', 'incorrect');
+        if (option.textContent.includes('B.')) {
+          option.classList.add('correct');
+        } else if (q2Answer && !option.textContent.includes('B.')) {
+          option.classList.add('incorrect');
+        }
+      });
+      
+      if (q2Answer === 'b') {
+        document.getElementById('feedback2-correct').style.display = 'block';
+      } else if (q2Answer) {
+        document.getElementById('feedback2-incorrect').style.display = 'block';
+      }
+      
+      // Question 3 - Correct answer is 'd'
+      const q3Answer = quizAnswers['question3'];
+      const q3Options = document.querySelectorAll('#question3 .quiz-option');
+      q3Options.forEach(option => {
+        option.classList.remove('correct', 'incorrect');
+        if (option.textContent.includes('D.')) {
+          option.classList.add('correct');
+        } else if (q3Answer && !option.textContent.includes('D.')) {
+          option.classList.add('incorrect');
+        }
+      });
+      
+      if (q3Answer === 'd') {
+        document.getElementById('feedback3-correct').style.display = 'block';
+      } else if (q3Answer) {
+        document.getElementById('feedback3-incorrect').style.display = 'block';
+      }
+      
+      // Scroll to first unanswered question
+      let firstUnanswered = null;
+      if (!quizAnswers['question1']) firstUnanswered = 'question1';
+      else if (!quizAnswers['question2']) firstUnanswered = 'question2';
+      else if (!quizAnswers['question3']) firstUnanswered = 'question3';
+      
+      if (firstUnanswered) {
+        document.getElementById(firstUnanswered).scrollIntoView({ behavior: 'smooth' });
+        alert('Veuillez répondre à toutes les questions avant de soumettre.');
+      } else {
+        // Calculate score
+        const score = calculateScore();
+        alert(`Quiz soumis ! Score: ${score}/3`);
+      }
+    }
+    
+    function calculateScore() {
+      let score = 0;
+      if (quizAnswers['question1'] === 'a') score++;
+      if (quizAnswers['question2'] === 'b') score++;
+      if (quizAnswers['question3'] === 'd') score++;
+      return score;
+    }
+    
+    function resetQuiz() {
+      quizAnswers = {};
+      const allOptions = document.querySelectorAll('.quiz-option');
+      allOptions.forEach(option => {
+        option.classList.remove('selected', 'correct', 'incorrect');
+      });
+      
+      const allFeedbacks = document.querySelectorAll('.quiz-feedback');
+      allFeedbacks.forEach(feedback => {
+        feedback.style.display = 'none';
+      });
+    }
+    
+    function startQuiz(quizType) {
+      loadQuiz(quizType);
+      window.scrollTo({
+        top: document.getElementById('quiz').offsetTop,
+        behavior: 'smooth'
+      });
+    }
+    
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', function() {
+      // Mark first step as current
+      document.getElementById('step1').classList.add('current');
+    });
+  </script>
+</body>
+</html>
