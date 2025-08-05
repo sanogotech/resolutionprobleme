@@ -84,4 +84,95 @@
 
 ---
 
-Souhaitez-vous un **plan de montée en compétences personnalisé** ou un **programme de formation complet sur 3 ou 6 mois** selon votre profil ?
+# 🌐 **TOP 40 COMPÉTENCES CLÉS À L’ÈRE DE L’IA**
+
+> 🔍 **Objectif** : Maîtriser les compétences techniques, cognitives, stratégiques et humaines pour **collaborer efficacement avec l’IA**, **créer de la valeur** et **innover durablement** dans tout secteur.
+
+---
+
+## 🧠 I. COMPÉTENCES COGNITIVES & DE PENSÉE (10)
+
+|   # | Compétence                        | Utilité IA                                                       |
+| --: | --------------------------------- | ---------------------------------------------------------------- |
+| 1️⃣ | Résolution de problèmes complexes | Combiner logique + IA + stratégie                                |
+| 2️⃣ | Pensée critique face à l’IA       | Évaluer biais, limites, décisions IA                             |
+| 3️⃣ | Pensée systémique                 | Comprendre les interdépendances d’un système                     |
+| 4️⃣ | Pensée analytique                 | Interpréter les patterns IA, corréler les données                |
+| 5️⃣ | Pensée créative augmentée         | Générer des idées avec IA générative                             |
+| 6️⃣ | Prise de décision assistée par IA | Tirer parti des recommandations IA sans dépendance aveugle       |
+| 7️⃣ | Esprit de synthèse                | Résumer, structurer, comparer les résultats IA                   |
+| 8️⃣ | Gestion de la complexité          | Gérer chaos, incertitude, ambigüité à l’ère IA                   |
+| 9️⃣ | Capacité d'abstraction            | Concevoir modèles, architectures IA sans surcharger la technique |
+|  🔟 | Curiosité cognitive               | Apprendre de nouvelles techniques IA en continu                  |
+
+---
+
+## ⚙️ II. COMPÉTENCES TECHNIQUES & NUMÉRIQUES (10)
+
+|      # | Compétence                                  | Outils associés                            |
+| -----: | ------------------------------------------- | ------------------------------------------ |
+| 1️⃣1️⃣ | Littératie en IA                            | Comprendre NLP, ML, modèles IA             |
+| 1️⃣2️⃣ | Analyse de données augmentée                | Power BI, Python, SQL + Copilot            |
+| 1️⃣3️⃣ | Visualisation de données                    | Dashboards IA, storytelling visuel         |
+| 1️⃣4️⃣ | Automatisation intelligente (RPA)           | Zapier, UiPath, Power Automate             |
+| 1️⃣5️⃣ | Prompt Engineering                          | Créer des instructions efficaces pour l’IA |
+| 1️⃣6️⃣ | Machine Learning (niveau citoyen ou expert) | scikit-learn, TensorFlow, no-code AI       |
+| 1️⃣7️⃣ | IA générative (texte, image, audio, vidéo)  | ChatGPT, Midjourney, RunwayML              |
+| 1️⃣8️⃣ | Prototypage rapide avec IA                  | Streamlit, Replit, Langchain               |
+| 1️⃣9️⃣ | Cybersécurité augmentée par IA              | SIEM, détection IA de menaces              |
+| 2️⃣0️⃣ | Surveillance & évaluation des modèles IA    | MLFlow, Explainability, Fairness AI        |
+
+---
+
+## 📦 III. COMPÉTENCES DE GESTION & STRATÉGIE (10)
+
+|      # | Compétence                              | Objectif                                        |
+| -----: | --------------------------------------- | ----------------------------------------------- |
+| 2️⃣1️⃣ | Gestion de projet augmentée par IA      | Planifier, prioriser, suivre, avec copilotes IA |
+| 2️⃣2️⃣ | Pilotage par la donnée (data-driven)    | Prendre des décisions informées                 |
+| 2️⃣3️⃣ | Agilité stratégique                     | Adapter roadmap IA à des contextes changeants   |
+| 2️⃣4️⃣ | Intelligence économique assistée par IA | Veille concurrentielle avec NLP, bots           |
+| 2️⃣5️⃣ | Management hybride Humain + IA          | Orchestrer l’action conjointe                   |
+| 2️⃣6️⃣ | Conduite du changement IA               | Accompagner adoption technologique              |
+| 2️⃣7️⃣ | Gestion des risques IA                  | Identifier biais, éthique, dérives possibles    |
+| 2️⃣8️⃣ | Stratégie d’innovation avec IA          | Lancer des produits/services IA-compatibles     |
+| 2️⃣9️⃣ | Conception centrée utilisateur avec IA  | UX assistée par IA, co-conception               |
+| 3️⃣0️⃣ | Audit, conformité, traçabilité IA       | Alignement RGPD, ISO 42001, etc.                |
+
+---
+
+## 🧩 IV. COMPÉTENCES HUMAINES & SOCIALES (10)
+
+|      # | Compétence                                    | Pourquoi elle est clé à l’ère IA                        |
+| -----: | --------------------------------------------- | ------------------------------------------------------- |
+| 3️⃣1️⃣ | Intelligence émotionnelle                     | Gérer l’humain dans un monde algorithmique              |
+| 3️⃣2️⃣ | Collaboration augmentée                       | Travailler avec des humains & des IA                    |
+| 3️⃣3️⃣ | Communication augmentée                       | Résumer, reformuler, rendre l’information IA accessible |
+| 3️⃣4️⃣ | Empathie numérique                            | Conception inclusive, IA éthique                        |
+| 3️⃣5️⃣ | Leadership dans un monde IA                   | Inspirer, guider avec et malgré la tech                 |
+| 3️⃣6️⃣ | Apprentissage continu                         | Se re-skiller en continu sur IA                         |
+| 3️⃣7️⃣ | Gestion de l’attention et des distractions IA | Focus, priorisation dans l’ère des IA omniprésentes     |
+| 3️⃣8️⃣ | Résilience numérique                          | Gérer les impacts de l’automatisation ou de l’échec IA  |
+| 3️⃣9️⃣ | Culture du feedback & de l’itération          | Boucles d’amélioration continue IA-humain               |
+| 4️⃣0️⃣ | Éthique & responsabilité numérique            | Agir en gardien de la décision humaine                  |
+
+---
+
+## 🧠 Synthèse visuelle : 4 familles de compétences IA
+
+```
+┌───────────────────────────┐
+│ 1. Cognitives             │  ← Résoudre, penser, décider avec IA
+├───────────────────────────┤
+│ 2. Techniques             │  ← Utiliser, construire, superviser IA
+├───────────────────────────┤
+│ 3. Stratégiques & projets │  ← Piloter, manager, transformer avec IA
+├───────────────────────────┤
+│ 4. Humaines & soft skills │  ← Travailler ensemble dans un monde IA
+└───────────────────────────┘
+```
+
+---
+
+
+
