@@ -30,6 +30,63 @@
 
 ---
 
+# 🧠 **TOP 10 Méthodes de Résolution de Problèmes Complexes à l’Ère de l’IA**
+
+## 🎯 Introduction
+
+Dans un monde où les systèmes deviennent de plus en plus **intelligents, interconnectés et instables**, la résolution de problèmes complexes n’est plus une simple affaire de logique ou d’expérience : elle repose sur la capacité à **modéliser des interactions dynamiques**, à **combiner créativité humaine et puissance de l’IA**, et à **mettre en œuvre des approches agiles, analytiques et innovantes**.
+
+Les problèmes complexes sont souvent :
+
+* Multifacteurs : techniques, humains, réglementaires, économiques…
+* Évolutifs : les causes changent avec le temps ou en réaction aux solutions
+* Inconnus : on ne comprend pas toujours bien le problème au départ
+
+Pour faire face à ces défis, voici un **TOP 10 des méthodes incontournables**, avec pour chacune :
+
+* ✅ Une brève description
+* 💼 Un **cas d’usage IA concret**
+* 🔗 Des **outils et combinaisons gagnantes** pour les appliquer efficacement
+
+---
+
+## 📊 Tableau : TOP 10 Méthodes + Cas d’Usage + Combinaisons IA
+
+|   # | Méthode                                | Description                                                                                                    | Cas d’usage IA                                                                           | Combinaisons gagnantes                                              |
+| --: | -------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| 1️⃣ | **Design Thinking**                    | Méthode centrée sur l’utilisateur en 5 étapes : empathie, définition, idéation, prototypage, test              | Créer un assistant IA pour les personnes malvoyantes                                     | ChatGPT pour ideation, Figma pour prototypage rapide, test UX + NLP |
+| 2️⃣ | **TRIZ**                               | Méthode d’innovation par résolution de contradictions                                                          | Résoudre un dilemme IA : plus de précision sans sacrifier la vitesse                     | TRIZ + analyse ML + profiling des modèles IA                        |
+| 3️⃣ | **5 Pourquoi**                         | Technique d’analyse des causes profondes d’un problème                                                         | Comprendre pourquoi un modèle prédictif sur-estime certains profils                      | Logs IA + Explainability (SHAP, LIME) + Ishikawa                    |
+| 4️⃣ | **Cynefin Framework**                  | Outil de catégorisation de problème (simple, compliqué, complexe, chaotique) pour choisir la stratégie adaptée | Déterminer si une IA est adaptée à un contexte chaotique comme la sécurité en temps réel | Cynefin + analyse contextuelle + scoring d’alternatives             |
+| 5️⃣ | **Arbre de défaillance (FTA)**         | Visualisation des chemins menant à une panne ou un échec critique                                              | Identifier toutes les raisons possibles d’échec d’un chatbot médical                     | Modèle FTA + logs IA + tests de résilience automatique              |
+| 6️⃣ | **Carte système (System Mapping)**     | Représente graphiquement les interactions entre composants d’un système                                        | Modéliser l’architecture d’une IA connectée à des bases de données, APIs, UI             | Miro + diagrammes BPMN + simulateurs de flux                        |
+| 7️⃣ | **DMAIC (Lean Six Sigma)**             | Démarche d’amélioration continue (Définir, Mesurer, Analyser, Innover, Contrôler)                              | Optimiser un processus automatisé par IA (ex. validation de contrats)                    | Power BI + RPA + boucles de feedback automatisées                   |
+| 8️⃣ | **Arbre de décision + ML**             | Approche logique combinée à l’IA pour formaliser les choix                                                     | Créer un assistant IA pour gérer les demandes SAV en ligne                               | Scikit-learn + XGBoost + UX mapping                                 |
+| 9️⃣ | **Heuristiques + logique floue**       | Raisonnement par règles approximatives en environnement incertain                                              | IA de navigation pour véhicule autonome dans zone non balisée                            | Fuzzy logic + Reinforcement Learning + IoT sensors                  |
+|  🔟 | **Ishikawa (Diagramme causes-effets)** | Schéma en arêtes de poisson pour explorer toutes les sources d’un problème                                     | Comprendre pourquoi un modèle IA devient instable après chaque mise à jour               | Git versioning + visualisation des dépendances + logs modèles       |
+
+---
+
+## 🧩 Synthèse
+
+| Type de problème                                | Méthodes recommandées           | Outils IA à combiner                     |
+| ----------------------------------------------- | ------------------------------- | ---------------------------------------- |
+| 🔍 Problème flou ou mal défini                  | Design Thinking, Cynefin        | IA générative, prototypage               |
+| ⚙️ Problème technique/techno                    | TRIZ, FTA, Ishikawa             | Logs, outils explainability, A/B testing |
+| 🔗 Problème organisationnel ou système complexe | Carte système, DMAIC            | Workflow management, RPA, analytics      |
+| 🤖 Problème de choix ou d’automatisation        | Arbre de décision, heuristiques | ML supervisé, fuzzy logic, simulateurs   |
+
+---
+
+## ✅ Conseils pratiques
+
+* Combinez toujours **au moins 1 méthode d’analyse + 1 méthode créative + 1 outil IA**
+* N’oubliez jamais d’intégrer des **utilisateurs finaux** dans le processus (UX, retour terrain)
+* Testez vos hypothèses avec des **prototypes rapides et mesurables**
+* Automatisez la collecte de feedback pour **boucles d’amélioration continue**
+
+---
+
 ## 🧰 Méthodes & Outils Clés (développés et illustrés)
 
 ### 1. 🎨 **Design Thinking**
