@@ -116,13 +116,89 @@ L’intelligence artificielle (IA) ne se limite plus à la science-fiction ou à
 
 ---
 
-## 🎁 Pour aller plus loin ?
 
-Souhaitez-vous que je vous prépare :
 
-1. ✅ Un **modèle de charte IA pour projets** ?
-2. 🧾 Un **template de roadmap augmentée avec Notion AI** ?
-3. 🛠️ Une **fiche outils IA par étape du projet (PDF téléchargeable)** ?
-4. 🧑‍🏫 Un **kit d’animation d’atelier "PM x IA" avec cas pratiques** ?
+# 📘 **Gestion de Projet à l’Ère de l’IA — Version Étendue en 14 Étapes Structurées**
 
-Dites-moi ce qui vous intéresse, je vous le génère immédiatement !
+---
+
+## 🎯 **Nouvelle Structure du Cycle de Projet Augmenté par IA**
+
+| Phase      | Étapes clés                                                                                                                                                               |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **AMONT**  | 1. Veille & tendances IA<br>2. Analyse de faisabilité<br>3. Analyse des parties prenantes<br>4. Définition des objectifs & contraintes                                    |
+| **CENTRE** | 5. Planification IA<br>6. Allocation IA des ressources<br>7. Pilotage prédictif<br>8. Gestion proactive des risques<br>9. Collaboration augmentée                         |
+| **AVAL**   | 10. Documentation automatisée<br>11. Évaluation IA de performance<br>12. REX & capitalisation IA<br>13. Transfert & industrialisation IA<br>14. Maintien adaptatif par IA |
+
+---
+
+## 🔍 Détail complet des **14 étapes avec outils, cas pratiques et REX**
+
+| #      | Étape                                  | Objectifs IA                                | Outils / IA utilisés                            | Cas pratique ou REX                                                               |
+| ------ | -------------------------------------- | ------------------------------------------- | ----------------------------------------------- | --------------------------------------------------------------------------------- |
+| 1️⃣    | **Veille & analyse de tendances IA**   | Saisir les signaux faibles du marché        | Feedly + IA, ChatGPT pour résumés               | 🏢 Une entreprise de conseil détecte des disruptions 6 mois avant ses concurrents |
+| 2️⃣    | **Analyse de faisabilité IA**          | Évaluer ROI, contraintes, viabilité         | Modèles IA de simulation, GPT + Excel Copilot   | 🔧 Dans un projet IoT, la simulation IA a révélé un coût caché de 25%             |
+| 3️⃣    | **Analyse des parties prenantes**      | Cartographier attentes et résistances       | Miro + IA, NLP sur verbatim                     | 🧑‍🤝‍🧑 Détection de zones de conflit sur un projet ERP                          |
+| 4️⃣    | **Définition des objectifs**           | Clarifier les finalités du projet           | ChatGPT, SWOT IA                                | ✅ Objectifs traduits en OKR mesurables en 48h                                     |
+| 5️⃣    | **Planification intelligente**         | Planifier selon dépendances, historique     | Notion AI, ClickUp AI, MS Project Copilot       | 📈 Réduction du time-to-plan de 35%                                               |
+| 6️⃣    | **Allocation optimale des ressources** | Afectation selon compétence/dispo           | Wrike AI, Resource Guru                         | 🛠️ Meilleure répartition sur projets critiques                                   |
+| 7️⃣    | **Suivi & pilotage prédictif**         | Anticiper dérives                           | Power BI + IA prédictive, dashboards dynamiques | 🔍 Taux de détection anticipée x3                                                 |
+| 8️⃣    | **Gestion proactive des risques**      | Simuler scénarios, alerter automatiquement  | RiskIQ, IA What-if                              | 💥 Atténuation de 70% des risques projets détectés                                |
+| 9️⃣    | **Communication & collaboration IA**   | Fluidifier les échanges, synchroniser       | Zoom AI, Otter.ai, Notion AI                    | 💬 Réduction de 80% du temps de CR                                                |
+| 🔟     | **Documentation & livrables IA**       | Générer comptes-rendus et rapports          | GPT, Notion, Confluence AI                      | 📄 Automatisation de 90% des livrables projet                                     |
+| 1️⃣1️⃣ | **Évaluation IA de performance**       | Analyser le ROI, la qualité, la charge      | KPI Copilot, ChatGPT + Excel                    | 📊 Détection de causes racines dans 5 projets                                     |
+| 1️⃣2️⃣ | **Capitalisation & REX IA**            | Extraire patterns, stocker le savoir        | GPT + Base Connaissances, Minitab IA            | 🧠 Réduction de 50% des erreurs récurrentes                                       |
+| 1️⃣3️⃣ | **Industrialisation & transfert**      | Documenter pour passer en exploitation      | Notion AI, Gitbook AI                           | 📘 Transfert plus rapide vers la TMA                                              |
+| 1️⃣4️⃣ | **Maintien & adaptation IA**           | Évolution continue du projet post-livraison | Monitoring IA, agents conversationnels          | 🛡️ IA suggère automatiquement des ajustements                                    |
+
+---
+
+## 📊 Synthèse visuelle des **14 étapes IA**
+
+```
+AMONT
+ ├─ 1. Veille stratégique IA
+ ├─ 2. Faisabilité IA
+ ├─ 3. Analyse parties prenantes
+ └─ 4. Définition objectifs
+
+CENTRE
+ ├─ 5. Planification intelligente
+ ├─ 6. Allocation des ressources
+ ├─ 7. Suivi & prédiction IA
+ ├─ 8. Gestion des risques IA
+ └─ 9. Collaboration augmentée
+
+AVAL
+ ├─10. Documentation IA
+ ├─11. Évaluation de performance
+ ├─12. Capitalisation IA
+ ├─13. Transfert & industrialisation
+ └─14. Maintien adaptatif IA
+```
+
+---
+
+## 📌 Recommandations stratégiques IA par phase
+
+| Phase  | Priorité IA                               | Objectif stratégique                                    |
+| ------ | ----------------------------------------- | ------------------------------------------------------- |
+| AMONT  | Analyse, simulation, formulation          | Poser les bonnes bases dès la conception                |
+| CENTRE | Optimisation, anticipation, coordination  | Accélérer sans sacrifier la qualité ni la prévisibilité |
+| AVAL   | Apprentissage, automatisation, durabilité | Pérenniser et répliquer les succès                      |
+
+---
+
+## 🧠 Conclusion
+
+**Étendre la gestion de projet à 14 étapes avec l’IA** permet :
+
+* Une **vision stratégique dès l’amont**
+* Un **pilotage centré sur la donnée au cœur du projet**
+* Une **capitalisation intelligente post-projet**
+* Une IA utilisée **comme un levier de performance, pas comme une mode**
+
+---
+
+
+
