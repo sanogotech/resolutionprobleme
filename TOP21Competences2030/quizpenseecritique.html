@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Pensée Critique</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts (Inter for modern look) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-dark: #2c3e50;
+            --secondary-blue: #3498db;
+            --accent-orange: #ff7f2a;
+            --success-green: #27ae60;
+            --danger-red: #e74c3c;
+            --light-bg: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #34495e;
+            --border-color: #ecf0f1;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            padding: 2rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .quiz-container {
+            max-width: 800px;
+            width: 100%;
+            margin: auto;
+            background-color: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .quiz-header h1 {
+            color: var(--primary-dark);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .quiz-header p {
+            text-align: center;
+            color: var(--text-color);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .progress-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .progress {
+            height: 10px;
+            border-radius: 5px;
+            background-color: var(--border-color);
+        }
+
+        .progress-bar {
+            background-color: var(--secondary-blue);
+            border-radius: 5px;
+            transition: width 0.4s ease-in-out;
+        }
+
+        #question-card {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 2rem;
+            background-color: #fdfdfd;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 1.5rem;
+        }
+        
+        #question-text {
+            font-size: 1.35rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+            color: var(--primary-dark);
+        }
+
+        .option-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 1rem 1.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            background-color: var(--card-bg);
+            transition: all 0.2s ease;
+            color: var(--text-color);
+        }
+
+        .option-btn:hover:not([disabled]) {
+            border-color: var(--accent-orange);
+            background-color: #fffaf5;
+            transform: translateY(-2px);
+        }
+        
+        .option-btn.selected {
+            background-color: #e0f2f7;
+            border-color: var(--secondary-blue);
+            font-weight: 600;
+        }
+
+        .option-btn.correct {
+            background-color: #e9f7ef;
+            border-color: var(--success-green);
+            color: var(--success-green);
+            font-weight: 700;
+        }
+
+        .option-btn.incorrect {
+            background-color: #fdeded;
+            border-color: var(--danger-red);
+            color: var(--danger-red);
+            font-weight: 700;
+        }
+
+        #explanation-box {
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        #explanation-box h5 {
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .explanation-correct {
+             background-color: #e9f7ef;
+             border-left: 5px solid var(--success-green);
+             color: var(--success-green);
+        }
+
+        .explanation-incorrect {
+            background-color: #fdeded;
+            border-left: 5px solid var(--danger-red);
+            color: var(--danger-red);
+        }
+        .explanation-text {
+            color: var(--text-color);
+        }
+
+        .quiz-navigation {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .nav-btn {
+            font-weight: 600;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        #timer-bar-container {
+            width: 100%;
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        #timer-bar {
+            height: 100%;
+            width: 100%;
+            background-color: var(--secondary-blue);
+            border-radius: 4px;
+            transition: width 1s linear;
+        }
+        #timer-text {
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--secondary-blue);
+            margin-bottom: 1rem;
+        }
+        #timer-text.warning {
+            color: var(--danger-red);
+        }
+
+        .modal-header {
+            background-color: var(--primary-dark);
+            color: var(--card-bg);
+            border-bottom: none;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        .modal-title-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            color: var(--accent-orange);
+        }
+        
+        .modal-content {
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .final-score {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .score-text {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .level-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-top: 1rem;
+            color: var(--card-bg);
+            background-color: var(--secondary-blue);
+        }
+
+        .level-novice { background-color: #7f8c8d; }
+        .level-debutant { background-color: #e67e22; }
+        .level-intermediaire { background-color: #3498db; }
+        .level-avance { background-color: #27ae60; }
+        .level-expert { background-color: #8e44ad; }
+
+        #final-recommendations h4 {
+            color: var(--primary-dark);
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        #final-recommendations ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        #final-recommendations ul li {
+            background-color: #f0f3f5;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            margin-bottom: 0.6rem;
+            border-left: 4px solid var(--secondary-blue);
+            font-size: 0.95rem;
+        }
+        #final-recommendations ul li i {
+            margin-right: 0.8rem;
+            color: var(--secondary-blue);
+        }
+
+        .modal-footer {
+            border-top: none;
+            background-color: var(--light-bg);
+        }
+        
+        .difficulty-easy { color: var(--success-green); }
+        .difficulty-medium { color: var(--accent-orange); }
+        .difficulty-hard { color: var(--danger-red); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="quiz-container">
+            <div class="quiz-header">
+                <h1><i class="fas fa-brain" style="color:var(--accent-orange);"></i> Quiz Pensée Critique</h1>
+                <p>Testez vos connaissances sur les méthodes de pensée critique pour 2030</p>
+            </div>
+
+            <div class="progress-section">
+                <span id="question-counter">Question 1 / 45</span>
+                <span id="current-score">Score: 0</span>
+            </div>
+            <div class="progress" style="height: 10px;">
+                <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 2.22%;" aria-valuenow="2.22" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+
+            <div id="timer-text">01:00</div>
+            <div id="timer-bar-container">
+                <div id="timer-bar"></div>
+            </div>
+
+            <div id="question-card" class="card">
+                <div class="card-body">
+                    <h2 id="question-text">Chargement de la question...</h2>
+                    <div id="options-container">
+                        <!-- Les boutons d'options seront insérés ici par JavaScript -->
+                    </div>
+                    <div id="explanation-box" class="d-none">
+                        <h5 id="explanation-title"></h5>
+                        <p id="explanation-text" class="explanation-text"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-navigation">
+                <button id="next-btn" class="btn btn-primary nav-btn" disabled>Suivant <i class="fas fa-arrow-right"></i></button>
+                <button id="finish-btn" class="btn btn-success nav-btn d-none">Terminer & Voir les Résultats</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for results -->
+    <div class="modal fade" id="resultsModal" tabindex="-1" aria-labelledby="resultsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resultsModalLabel"><i class="fas fa-award modal-title-icon"></i>Vos Résultats du Quiz</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center p-4">
+                    <h4 class="score-text">Votre score final est :</h4>
+                    <p class="final-score" id="final-score-percentage">0%</p>
+                    <p class="text-muted fs-5">
+                        <span id="final-score-correct">0</span> sur 
+                        <span id="final-score-total">0</span> bonnes réponses
+                    </p>
+                    <hr>
+                    <h4 class="mt-4">Votre Niveau :</h4>
+                    <span id="level-badge" class="level-badge"></span>
+                    <div id="final-recommendations" class="text-start mt-4"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="restart-quiz-btn"><i class="fas fa-redo"></i> Recommencer le quiz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const quizData = {
+            questions: [
+                {
+                    question: "Qu'est-ce que la pensée critique ?",
+                    options: [
+                        "Une capacité à mémoriser beaucoup d'informations",
+                        "Une capacité intellectuelle à analyser les informations avec rigueur et objectivité",
+                        "Une technique de persuasion",
+                        "Une méthode de créativité"
+                    ],
+                    correctAnswer: "Une capacité intellectuelle à analyser les informations avec rigueur et objectivité",
+                    explanation: "La pensée critique est une capacité intellectuelle qui consiste à analyser les informations, les arguments et les faits avec rigueur et objectivité pour éviter les erreurs de jugement.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Pourquoi la pensée critique est-elle vitale en 2030 ?",
+                    options: [
+                        "À cause de l'explosion exponentielle des données et de la complexité des défis",
+                        "Parce que les machines remplaceront complètement l'humain",
+                        "Car les études seront plus courtes",
+                        "Pour pouvoir travailler moins"
+                    ],
+                    correctAnswer: "À cause de l'explosion exponentielle des données et de la complexité des défis",
+                    explanation: "En 2030, la pensée critique sera essentielle pour naviguer dans un monde saturé d'informations, avec des défis complexes et des algorithmes omniprésents.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quel est l'objectif principal de la méthode des 5W ?",
+                    options: [
+                        "Créer des solutions innovantes",
+                        "Cerner un problème en posant les questions essentielles",
+                        "Persuader un public",
+                        "Organiser un emploi du temps"
+                    ],
+                    correctAnswer: "Cerner un problème en posant les questions essentielles",
+                    explanation: "La méthode des 5W (Who, What, When, Where, Why) permet d'analyser une situation en répondant aux questions fondamentales.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Quels sont les éléments d'une analyse SWOT ?",
+                    options: [
+                        "Solutions, Problèmes, Opportunités, Temps",
+                        "Forces, Faiblesses, Opportunités, Menaces",
+                        "Stratégie, Weaknesses, Organisation, Tactiques",
+                        "Savoir, Volonté, Organisation, Temps"
+                    ],
+                    correctAnswer: "Forces, Faiblesses, Opportunités, Menaces",
+                    explanation: "L'analyse SWOT évalue les Forces et Faiblesses (internes) ainsi que les Opportunités et Menaces (externes).",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Quel est l'avantage principal d'un arbre de décision ?",
+                    options: [
+                        "Visualiser toutes les options possibles et leurs conséquences",
+                        "Résoudre les problèmes mathématiques complexes",
+                        "Créer des présentations visuelles",
+                        "Automatiser les processus de pensée"
+                    ],
+                    correctAnswer: "Visualiser toutes les options possibles et leurs conséquences",
+                    explanation: "L'arbre de décision permet de visualiser les choix possibles, leurs résultats attendus et de choisir la meilleure option selon des critères définis.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Qu'est-ce qu'un biais cognitif ?",
+                    options: [
+                        "Une erreur systématique de jugement",
+                        "Une maladie neurologique",
+                        "Une technique de mémorisation",
+                        "Un outil d'analyse algorithmique"
+                    ],
+                    correctAnswer: "Une erreur systématique de jugement",
+                    explanation: "Les biais cognitifs sont des erreurs de jugement qui se produisent systématiquement dans certaines conditions (biais de confirmation, d'ancrage, etc.).",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quel est l'objectif du questionnement socratique ?",
+                    options: [
+                        "Faire perdre du temps en réunion",
+                        "Poser des questions ciblées pour approfondir le raisonnement",
+                        "Tester la mémoire des participants",
+                        "Créer des quiz amusants"
+                    ],
+                    correctAnswer: "Poser des questions ciblées pour approfondir le raisonnement",
+                    explanation: "Le questionnement socratique vise à remettre en cause les hypothèses non fondées et à approfondir la réflexion par des questions ciblées.",
+                    difficulty: "hard"
+                },
+                {
+                    question: "Quel outil permet d'identifier les causes racines d'un problème ?",
+                    options: [
+                        "Diagramme d'Ishikawa",
+                        "Analyse SWOT",
+                        "Méthode des 5W",
+                        "Carte mentale"
+                    ],
+                    correctAnswer: "Diagramme d'Ishikawa",
+                    explanation: "Le diagramme d'Ishikawa (ou diagramme cause-effet) est spécialement conçu pour identifier les causes racines d'un problème.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quelle est la première étape pour pratiquer la pensée critique ?",
+                    options: [
+                        "Vérifier les sources et leur crédibilité",
+                        "Suivre son intuition",
+                        "Demander l'avis d'un expert",
+                        "Chercher des solutions immédiates"
+                    ],
+                    correctAnswer: "Vérifier les sources et leur crédibilité",
+                    explanation: "La vérification des sources est fondamentale pour établir une base solide à l'analyse critique.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Quel est l'avantage d'une carte mentale (mind mapping) ?",
+                    options: [
+                        "Organiser visuellement les idées et concepts",
+                        "Calculer des statistiques complexes",
+                        "Automatiser les processus décisionnels",
+                        "Remplacer complètement la prise de notes"
+                    ],
+                    correctAnswer: "Organiser visuellement les idées et concepts",
+                    explanation: "La carte mentale permet d'organiser visuellement les idées, concepts et leurs relations, favorisant la créativité et la synthèse.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Quel est un exemple de biais algorithmique ?",
+                    options: [
+                        "Une erreur dans un modèle IA due à des données biaisées",
+                        "Une panne informatique",
+                        "Un virus informatique",
+                        "Une interface utilisateur mal conçue"
+                    ],
+                    correctAnswer: "Une erreur dans un modèle IA due à des données biaisées",
+                    explanation: "Les biais algorithmiques proviennent souvent de jeux de données biaisés qui influencent les résultats des modèles d'IA.",
+                    difficulty: "hard"
+                },
+                {
+                    question: "Pourquoi est-il important de multiplier les points de vue en pensée critique ?",
+                    options: [
+                        "Pour éviter les biais et obtenir une vision plus complète",
+                        "Pour rallonger le temps d'analyse",
+                        "Pour satisfaire tous les participants",
+                        "Pour créer des conflits constructifs"
+                    ],
+                    correctAnswer: "Pour éviter les biais et obtenir une vision plus complète",
+                    explanation: "La diversité des opinions permet de contrebalancer les biais individuels et d'enrichir l'analyse.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quel est le principal risque d'ignorer les biais cognitifs ?",
+                    options: [
+                        "Prendre des décisions erronées basées sur des jugements faussés",
+                        "Perdre du temps dans les analyses",
+                        "Devoir refaire des calculs statistiques",
+                        "Créer des présentations moins attrayantes"
+                    ],
+                    correctAnswer: "Prendre des décisions erronées basées sur des jugements faussés",
+                    explanation: "Les biais cognitifs non contrôlés peuvent conduire à des erreurs de jugement et à des décisions inappropriées.",
+                    difficulty: "hard"
+                },
+                {
+                    question: "Dans quel contexte utiliseriez-vous principalement la méthode des 5W ?",
+                    options: [
+                        "Pour analyser un incident ou clarifier une situation complexe",
+                        "Pour créer un budget",
+                        "Pour concevoir un logo",
+                        "Pour organiser une fête"
+                    ],
+                    correctAnswer: "Pour analyser un incident ou clarifier une situation complexe",
+                    explanation: "La méthode des 5W est particulièrement utile pour analyser des incidents ou clarifier des situations en répondant aux questions fondamentales.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Quel est l'avantage de documenter son processus d'analyse en pensée critique ?",
+                    options: [
+                        "Permettre la reproductibilité et la vérification de l'analyse",
+                        "Remplir des dossiers administratifs",
+                        "Faire impressionner ses supérieurs",
+                        "Gagner du temps lors des réunions"
+                    ],
+                    correctAnswer: "Permettre la reproductibilité et la vérification de l'analyse",
+                    explanation: "La documentation permet de retracer le raisonnement, de le vérifier et de le reproduire si nécessaire.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quelle méthode serait la plus adaptée pour choisir entre plusieurs stratégies commerciales ?",
+                    options: [
+                        "Arbre de décision",
+                        "Diagramme d'Ishikawa",
+                        "Questionnement socratique",
+                        "Carte mentale"
+                    ],
+                    correctAnswer: "Arbre de décision",
+                    explanation: "L'arbre de décision permet de visualiser et comparer les différentes options stratégiques et leurs conséquences.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quel est un exemple de sophisme ?",
+                    options: [
+                        "Attaque ad hominem (attaquer la personne plutôt que l'argument)",
+                        "Utilisation de statistiques précises",
+                        "Analyse SWOT complète",
+                        "Questionnement socratique rigoureux"
+                    ],
+                    correctAnswer: "Attaque ad hominem (attaquer la personne plutôt que l'argument)",
+                    explanation: "L'attaque ad hominem est un sophisme classique qui détourne l'attention de l'argument vers la personne.",
+                    difficulty: "hard"
+                },
+                {
+                    question: "Pourquoi la neutralité émotionnelle est-elle importante en pensée critique ?",
+                    options: [
+                        "Pour éviter les jugements hâtifs influencés par les émotions",
+                        "Pour paraître plus intelligent",
+                        "Pour cacher ses véritables opinions",
+                        "Pour gagner des débats"
+                    ],
+                    correctAnswer: "Pour éviter les jugements hâtifs influencés par les émotions",
+                    explanation: "Les émotions peuvent biaiser notre jugement, la neutralité émotionnelle permet une analyse plus objective.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quelle méthode utiliseriez-vous pour résoudre un problème récurrent de qualité ?",
+                    options: [
+                        "Diagramme d'Ishikawa",
+                        "Analyse SWOT",
+                        "Méthode des 5W",
+                        "Carte mentale"
+                    ],
+                    correctAnswer: "Diagramme d'Ishikawa",
+                    explanation: "Le diagramme d'Ishikawa est particulièrement adapté pour identifier les causes racines des problèmes récurrents.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quel est l'objectif principal de la pensée critique ?",
+                    options: [
+                        "Prendre des décisions réfléchies basées sur des preuves solides",
+                        "Gagner des débats à tout prix",
+                        "Créer des présentations impressionnantes",
+                        "Réduire le temps de réflexion"
+                    ],
+                    correctAnswer: "Prendre des décisions réfléchies basées sur des preuves solides",
+                    explanation: "La pensée critique vise à aboutir à des décisions justifiées et rationnelles basées sur des preuves solides.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Quelle technique permet de détecter les biais dans un article ?",
+                    options: [
+                        "Checklist de contrôle et audit de données",
+                        "Lecture rapide",
+                        "Mémorisation du contenu",
+                        "Reformulation des idées principales"
+                    ],
+                    correctAnswer: "Checklist de contrôle et audit de données",
+                    explanation: "Des outils comme les checklists de biais et l'audit des données permettent de détecter systématiquement les biais.",
+                    difficulty: "hard"
+                },
+                {
+                    question: "Quel est un exemple d'application de la pensée critique en IA ?",
+                    options: [
+                        "Détecter et corriger les biais algorithmiques",
+                        "Augmenter la vitesse de calcul",
+                        "Réduire la consommation énergétique des serveurs",
+                        "Créer des interfaces plus colorées"
+                    ],
+                    correctAnswer: "Détecter et corriger les biais algorithmiques",
+                    explanation: "La pensée critique est essentielle pour identifier et corriger les biais dans les jeux de données et les modèles d'IA.",
+                    difficulty: "hard"
+                },
+                {
+                    question: "Quelle méthode serait la moins adaptée pour générer des idées créatives ?",
+                    options: [
+                        "Questionnement socratique",
+                        "Brainstorming",
+                        "Carte mentale",
+                        "Méthode des 6 chapeaux"
+                    ],
+                    correctAnswer: "Questionnement socratique",
+                    explanation: "Le questionnement socratique vise plutôt à approfondir et challenger les idées qu'à en générer de nouvelles.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quel est l'avantage de cultiver la curiosité en pensée critique ?",
+                    options: [
+                        "Explorer plus d'options et ne pas se limiter aux solutions évidentes",
+                        "Gagner plus d'argent",
+                        "Avoir l'air plus intelligent",
+                        "Éviter de prendre des décisions"
+                    ],
+                    correctAnswer: "Explorer plus d'options et ne pas se limiter aux solutions évidentes",
+                    explanation: "La curiosité encourage l'exploration d'idées et de perspectives au-delà des solutions conventionnelles.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Quelle est la caractéristique d'une bonne décision critique ?",
+                    options: [
+                        "Elle est basée sur des preuves solides et un raisonnement logique",
+                        "Elle est prise rapidement sans trop réfléchir",
+                        "Elle suit l'opinion majoritaire",
+                        "Elle est basée uniquement sur l'intuition"
+                    ],
+                    correctAnswer: "Elle est basée sur des preuves solides et un raisonnement logique",
+                    explanation: "Une décision critique de qualité repose sur des preuves vérifiables et un raisonnement rigoureux.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Quelle méthode utiliseriez-vous pour analyser la concurrence dans un marché ?",
+                    options: [
+                        "Analyse SWOT",
+                        "Diagramme d'Ishikawa",
+                        "Méthode des 5W",
+                        "Questionnement socratique"
+                    ],
+                    correctAnswer: "Analyse SWOT",
+                    explanation: "L'analyse SWOT est idéale pour évaluer les forces, faiblesses, opportunités et menaces dans un environnement concurrentiel.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quel est un exemple de biais de confirmation ?",
+                    options: [
+                        "Chercher uniquement les informations qui confirment ses croyances",
+                        "Toujours changer d'avis face à de nouvelles informations",
+                        "Ne jamais prendre de décision",
+                        "Suivre systématiquement l'avis des experts"
+                    ],
+                    correctAnswer: "Chercher uniquement les informations qui confirment ses croyances",
+                    explanation: "Le biais de confirmation consiste à privilégier les informations qui confirment ses opinions et à ignorer celles qui les contredisent.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Pourquoi la pensée critique est-elle importante face à la désinformation ?",
+                    options: [
+                        "Elle permet d'évaluer la validité et la fiabilité des informations",
+                        "Elle aide à mémoriser plus d'informations",
+                        "Elle rend plus sceptique en toute circonstance",
+                        "Elle permet de créer de la désinformation plus efficace"
+                    ],
+                    correctAnswer: "Elle permet d'évaluer la validité et la fiabilité des informations",
+                    explanation: "La pensée critique fournit les outils pour identifier et contrer la désinformation en évaluant rigoureusement les sources et contenus.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Quelle méthode utiliseriez-vous pour organiser les idées lors d'une réunion de planification ?",
+                    options: [
+                        "Carte mentale",
+                        "Diagramme d'Ishikawa",
+                        "Méthode des 5W",
+                        "Analyse SWOT"
+                    ],
+                    correctAnswer: "Carte mentale",
+                    explanation: "La carte mentale est idéale pour organiser visuellement les idées et leurs relations lors de sessions de planification.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Quel est l'avantage du questionnement socratique en réunion d'équipe ?",
+                    options: [
+                        "Challenger les idées et hypothèses pour approfondir la réflexion",
+                        "Faire durer la réunion plus longtemps",
+                        "Montrer sa supériorité intellectuelle",
+                        "Éviter de prendre des décisions"
+                    ],
+                    correctAnswer: "Challenger les idées et hypothèses pour approfondir la réflexion",
+                    explanation: "Le questionnement socratique stimule la réflexion critique en remettant en question les hypothèses sous-jacentes.",
+                    difficulty: "hard"
+                },
+                {
+                    question: "Quelle est la première question à se poser face à une information douteuse ?",
+                    options: [
+                        "Quelle est la source et est-elle fiable ?",
+                        "Est-ce que cette information me plaît ?",
+                        "Est-ce que tout le monde y croit ?",
+                        "Est-ce que c'est facile à comprendre ?"
+                    ],
+                    correctAnswer: "Quelle est la source et est-elle fiable ?",
+                    explanation: "L'évaluation de la source est la première étape critique pour juger de la validité d'une information.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Quelle méthode permet de structurer l'analyse des facteurs influents sur un problème ?",
+                    options: [
+                        "Diagramme d'Ishikawa",
+                        "Analyse SWOT",
+                        "Méthode des 5W",
+                        "Carte mentale"
+                    ],
+                    correctAnswer: "Diagramme d'Ishikawa",
+                    explanation: "Le diagramme d'Ishikawa structure visuellement les différentes catégories de causes influençant un problème.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quel est un exemple d'application de l'analyse SWOT ?",
+                    options: [
+                        "Évaluer la position concurrentielle d'une entreprise",
+                        "Résoudre un problème technique complexe",
+                        "Créer une campagne publicitaire",
+                        "Organiser un événement social"
+                    ],
+                    correctAnswer: "Évaluer la position concurrentielle d'une entreprise",
+                    explanation: "L'analyse SWOT est couramment utilisée pour évaluer la position stratégique d'une entreprise sur son marché.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quelle est la différence entre biais cognitif et biais algorithmique ?",
+                    options: [
+                        "Les biais cognitifs sont humains, les algorithmiques sont liés aux systèmes informatiques",
+                        "Les biais cognitifs sont plus faciles à corriger",
+                        "Les biais algorithmiques n'existent pas",
+                        "Il n'y a pas de différence"
+                    ],
+                    correctAnswer: "Les biais cognitifs sont humains, les algorithmiques sont liés aux systèmes informatiques",
+                    explanation: "Les biais cognitifs sont des erreurs de jugement humaines, tandis que les biais algorithmiques proviennent de systèmes informatiques entraînés sur des données biaisées.",
+                    difficulty: "hard"
+                },
+                {
+                    question: "Quelle méthode serait la plus utile pour un journaliste vérifiant des informations ?",
+                    options: [
+                        "Méthode des 5W et vérification des sources",
+                        "Analyse SWOT",
+                        "Diagramme d'Ishikawa",
+                        "Carte mentale"
+                    ],
+                    correctAnswer: "Méthode des 5W et vérification des sources",
+                    explanation: "La méthode des 5W et la vérification rigoureuse des sources sont essentielles pour le travail journalistique.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Quel est l'avantage de la diversité des opinions en pensée critique ?",
+                    options: [
+                        "Elle permet de contrebalancer les biais individuels",
+                        "Elle rallonge inutilement les discussions",
+                        "Elle crée systématiquement des conflits",
+                        "Elle rend les décisions plus difficiles à prendre"
+                    ],
+                    correctAnswer: "Elle permet de contrebalancer les biais individuels",
+                    explanation: "La diversité des perspectives permet d'identifier et de corriger les biais individuels pour une analyse plus complète.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quelle est la meilleure stratégie pour améliorer ses compétences en pensée critique ?",
+                    options: [
+                        "Pratiquer régulièrement les méthodes et analyser ses erreurs",
+                        "Lire beaucoup de livres sans réflexion",
+                        "Toujours suivre son intuition",
+                        "Éviter les situations complexes"
+                    ],
+                    correctAnswer: "Pratiquer régulièrement les méthodes et analyser ses erreurs",
+                    explanation: "Comme toute compétence, la pensée critique s'améliore par la pratique régulière et l'analyse réflexive de ses processus.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Quelle méthode utiliseriez-vous pour choisir un fournisseur parmi plusieurs options ?",
+                    options: [
+                        "Arbre de décision",
+                        "Diagramme d'Ishikawa",
+                        "Questionnement socratique",
+                        "Carte mentale"
+                    ],
+                    correctAnswer: "Arbre de décision",
+                    explanation: "L'arbre de décision permet de comparer systématiquement les options selon des critères définis (coût, qualité, délais, etc.).",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quel est le risque principal de ne pas pratiquer la pensée critique en 2030 ?",
+                    options: [
+                        "Prendre des décisions erronées basées sur des informations non vérifiées",
+                        "Passer à côté des dernières tendances technologiques",
+                        "Avoir moins d'amis sur les réseaux sociaux",
+                        "Devoir travailler plus dur"
+                    ],
+                    correctAnswer: "Prendre des décisions erronées basées sur des informations non vérifiées",
+                    explanation: "Dans un monde saturé d'informations et d'IA, le manque de pensée critique expose à des décisions inappropriées basées sur des données non vérifiées.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quelle méthode est la plus adaptée pour identifier les causes d'un problème de qualité dans une usine ?",
+                    options: [
+                        "Diagramme d'Ishikawa",
+                        "Analyse SWOT",
+                        "Méthode des 5W",
+                        "Carte mentale"
+                    ],
+                    correctAnswer: "Diagramme d'Ishikawa",
+                    explanation: "Le diagramme d'Ishikawa (5M) est spécialement conçu pour analyser les causes de problèmes qualité en milieu industriel.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quel est l'avantage de la neutralité émotionnelle en analyse critique ?",
+                    options: [
+                        "Permettre une évaluation plus objective des informations",
+                        "Paraître plus intelligent",
+                        "Éviter toute implication personnelle",
+                        "Gagner du temps dans l'analyse"
+                    ],
+                    correctAnswer: "Permettre une évaluation plus objective des informations",
+                    explanation: "La neutralité émotionnelle permet de réduire l'influence des préjugés et des préférences personnelles sur l'analyse.",
+                    difficulty: "medium"
+                },
+                {
+                    question: "Quelle est la dernière étape typique d'un processus de pensée critique ?",
+                    options: [
+                        "Prendre une décision justifiée basée sur l'analyse",
+                        "Chercher des informations supplémentaires indéfiniment",
+                        "Annoncer qu'on ne peut pas décider",
+                        "Suivre l'opinion de la majorité"
+                    ],
+                    correctAnswer: "Prendre une décision justifiée basée sur l'analyse",
+                    explanation: "L'aboutissement de la pensée critique est une décision ou conclusion fondée sur l'analyse rigoureuse des informations.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Quelle méthode utiliseriez-vous pour préparer un argumentaire convaincant ?",
+                    options: [
+                        "Combinaison de plusieurs méthodes (5W, analyse des biais, etc.)",
+                        "Suivre uniquement son intuition",
+                        "Copier des arguments trouvés en ligne",
+                        "Demander à un collègue de préparer l'argumentaire"
+                    ],
+                    correctAnswer: "Combinaison de plusieurs méthodes (5W, analyse des biais, etc.)",
+                    explanation: "Un argumentaire solide bénéficie de l'application combinée de plusieurs méthodes de pensée critique.",
+                    difficulty: "hard"
+                },
+                {
+                    question: "Quel est l'élément le plus important pour cultiver la pensée critique ?",
+                    options: [
+                        "Une attitude de questionnement et de remise en question",
+                        "Une grande mémoire",
+                        "Des compétences avancées en mathématiques",
+                        "Un QI élevé"
+                    ],
+                    correctAnswer: "Une attitude de questionnement et de remise en question",
+                    explanation: "L'élément clé est l'attitude intellectuelle - curiosité, scepticisme sain et volonté de remettre en question ses propres croyances.",
+                    difficulty: "easy"
+                }
+            ]
+        };
+
+        // DOM Elements
+        const questionCounterEl = document.getElementById('question-counter');
+        const currentScoreEl = document.getElementById('current-score');
+        const progressBarEl = document.getElementById('progress-bar');
+        const questionTextEl = document.getElementById('question-text');
+        const optionsContainerEl = document.getElementById('options-container');
+        const explanationBoxEl = document.getElementById('explanation-box');
+        const explanationTitleEl = document.getElementById('explanation-title');
+        const explanationTextEl = document.getElementById('explanation-text');
+        const nextBtn = document.getElementById('next-btn');
+        const finishBtn = document.getElementById('finish-btn');
+        const timerTextEl = document.getElementById('timer-text');
+        const timerBarEl = document.getElementById('timer-bar');
+        
+        // Modal Elements
+        const resultsModal = new bootstrap.Modal(document.getElementById('resultsModal'));
+        const finalScoreCorrectEl = document.getElementById('final-score-correct');
+        const finalScoreTotalEl = document.getElementById('final-score-total');
+        const finalScorePercentageEl = document.getElementById('final-score-percentage');
+        const levelBadgeEl = document.getElementById('level-badge');
+        const finalRecommendationsEl = document.getElementById('final-recommendations');
+        const restartQuizBtn = document.getElementById('restart-quiz-btn');
+
+        // Quiz State
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let userAnswers = [];
+        let questions = [];
+        let timerInterval;
+        const TIME_PER_QUESTION = 60;
+        let timeLeft = TIME_PER_QUESTION;
+        let answeredCurrentQuestion = false;
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function startQuiz() {
+            questions = shuffleArray([...quizData.questions]);
+            currentQuestionIndex = 0;
+            score = 0;
+            userAnswers = new Array(questions.length).fill(null);
+            resultsModal.hide();
+            displayQuestion(currentQuestionIndex);
+            updateScoreDisplay();
+        }
+
+        function displayQuestion(index) {
+            answeredCurrentQuestion = false;
+            explanationBoxEl.classList.add('d-none');
+            nextBtn.disabled = true;
+            timerTextEl.classList.remove('warning');
+
+            if (index >= questions.length) {
+                showFinalResults();
+                return;
+            }
+
+            const question = questions[index];
+            questionTextEl.textContent = question.question;
+            
+            optionsContainerEl.innerHTML = '';
+            
+            question.options.forEach((optionText, optionIndex) => {
+                const button = document.createElement('button');
+                const prefix = String.fromCharCode(65 + optionIndex);
+                button.textContent = `${prefix}. ${optionText}`;
+                button.classList.add('btn', 'option-btn');
+                button.onclick = () => selectAnswer(button, optionText, index);
+                optionsContainerEl.appendChild(button);
+            });
+            
+            updateNavigation();
+            updateProgressBar();
+            startTimer();
+        }
+        
+        function selectAnswer(button, selectedAnswer, questionIndex) {
+            if (answeredCurrentQuestion) return;
+            answeredCurrentQuestion = true;
+            clearInterval(timerInterval);
+
+            const question = questions[questionIndex];
+            const isCorrect = selectedAnswer === question.correctAnswer;
+            
+            userAnswers[questionIndex] = {
+                selected: selectedAnswer,
+                correct: question.correctAnswer,
+                isCorrect: isCorrect,
+                timeTaken: TIME_PER_QUESTION - timeLeft
+            };
+            
+            if(isCorrect) {
+                score++;
+            }
+            updateScoreDisplay();
+            showAnswerFeedback(questionIndex);
+            nextBtn.disabled = false;
+            
+            if (currentQuestionIndex === questions.length - 1) {
+                nextBtn.classList.add('d-none');
+                finishBtn.classList.remove('d-none');
+            }
+        }
+
+        function showAnswerFeedback(index) {
+            const userAnswer = userAnswers[index];
+            if (!userAnswer) return;
+
+            const question = questions[index];
+
+            const optionButtons = optionsContainerEl.querySelectorAll('.option-btn');
+            optionButtons.forEach(btn => {
+                btn.disabled = true;
+                if (btn.textContent.includes(userAnswer.correct)) {
+                    btn.classList.add('correct');
+                } else if (btn.textContent.includes(userAnswer.selected) && !userAnswer.isCorrect) {
+                    btn.classList.add('incorrect');
+                }
+            });
+
+            explanationTextEl.textContent = question.explanation;
+            if (userAnswer.isCorrect) {
+                explanationTitleEl.textContent = "Correct !";
+                explanationBoxEl.className = 'explanation-correct';
+            } else {
+                explanationTitleEl.textContent = "Incorrect. Explication :";
+                explanationBoxEl.className = 'explanation-incorrect';
+            }
+            explanationBoxEl.classList.remove('d-none');
+        }
+
+        function startTimer() {
+            timeLeft = TIME_PER_QUESTION;
+            updateTimerDisplay();
+            timerBarEl.style.transition = `width ${TIME_PER_QUESTION}s linear`;
+            timerBarEl.style.width = '0%';
+
+            setTimeout(() => {
+                timerBarEl.style.transition = 'none';
+                timerBarEl.style.width = '100%';
+                setTimeout(() => {
+                    timerBarEl.style.transition = `width ${TIME_PER_QUESTION}s linear`;
+                    timerBarEl.style.width = '0%';
+                }, 50);
+            }, 0);
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+
+                if (timeLeft <= 10) {
+                    timerTextEl.classList.add('warning');
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerTextEl.classList.remove('warning');
+                    if (!answeredCurrentQuestion) {
+                        userAnswers[currentQuestionIndex] = {
+                            selected: null,
+                            correct: questions[currentQuestionIndex].correctAnswer,
+                            isCorrect: false,
+                            timeTaken: TIME_PER_QUESTION
+                        };
+                        showAnswerFeedback(currentQuestionIndex);
+                        updateScoreDisplay();
+                        nextBtn.disabled = false;
+                        
+                        if (currentQuestionIndex === questions.length - 1) {
+                            nextBtn.classList.add('d-none');
+                            finishBtn.classList.remove('d-none');
+                        }
+                    }
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerTextEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function updateNavigation() {
+            // Navigation handled by selectAnswer/timer logic
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            progressBarEl.style.width = `${progress}%`;
+            progressBarEl.setAttribute('aria-valuenow', progress);
+            questionCounterEl.textContent = `Question ${currentQuestionIndex + 1} / ${questions.length}`;
+        }
+        
+        function updateScoreDisplay() {
+            currentScoreEl.textContent = `Score: ${score}`;
+        }
+
+        function handleNext() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion(currentQuestionIndex);
+            } else {
+                showFinalResults();
+            }
+        }
+
+        function determineLevelAndRecommendations(percentage) {
+            let level = "";
+            let levelClass = "";
+            let recommendations = "";
+
+            if (percentage >= 90) {
+                level = "Expert en Pensée Critique";
+                levelClass = "level-expert";
+                recommendations = `
+                    <h4><i class="fas fa-star-half-alt"></i> Félicitations, Expert(e) !</h4>
+                    <p>Votre maîtrise de la pensée critique est exceptionnelle. Vous pouvez guider des équipes dans des analyses complexes.</p>
+                    <h5><i class="fas fa-route"></i> Feuille de route :</h5>
+                    <ul>
+                        <li><i class="fas fa-lightbulb"></i> Approfondissez les techniques avancées comme la logique formelle.</li>
+                        <li><i class="fas fa-chalkboard-teacher"></i> Formez d'autres personnes à ces méthodes.</li>
+                        <li><i class="fas fa-project-diagram"></i> Appliquez ces méthodes à des problèmes organisationnels complexes.</li>
+                    </ul>
+                `;
+            } else if (percentage >= 70) {
+                level = "Avancé en Pensée Critique";
+                levelClass = "level-avance";
+                recommendations = `
+                    <h4><i class="fas fa-check-circle"></i> Très bien, niveau Avancé !</h4>
+                    <p>Vous avez une excellente compréhension des méthodes de pensée critique.</p>
+                    <h5><i class="fas fa-route"></i> Feuille de route :</h5>
+                    <ul>
+                        <li><i class="fas fa-cogs"></i> Pratiquez sur des cas réels dans votre organisation.</li>
+                        <li><i class="fas fa-book-open"></i> Étudiez des cas complexes d'application.</li>
+                        <li><i class="fas fa-users"></i> Animez des sessions d'analyse avec des collègues.</li>
+                    </ul>
+                `;
+            } else if (percentage >= 50) {
+                level = "Intermédiaire en Pensée Critique";
+                levelClass = "level-intermediaire";
+                recommendations = `
+                    <h4><i class="fas fa-info-circle"></i> Bon début, niveau Intermédiaire !</h4>
+                    <p>Vous maîtrisez les bases et pouvez participer activement aux analyses critiques.</p>
+                    <h5><i class="fas fa-route"></i> Feuille de route :</h5>
+                    <ul>
+                        <li><i class="fas fa-redo-alt"></i> Revoyez les méthodes que vous maîtrisez moins.</li>
+                        <li><i class="fas fa-hands-helping"></i> Participez à plus d'analyses critiques.</li>
+                        <li><i class="fas fa-question-circle"></i> Posez des questions sur les points moins clairs.</li>
+                    </ul>
+                `;
+            } else if (percentage >= 25) {
+                level = "Débutant en Pensée Critique";
+                levelClass = "level-debutant";
+                recommendations = `
+                    <h4><i class="fas fa-seedling"></i> En croissance, niveau Débutant !</h4>
+                    <p>Vous commencez à comprendre les principes de la pensée critique. Continuez à apprendre.</p>
+                    <h5><i class="fas fa-route"></i> Feuille de route :</h5>
+                    <ul>
+                        <li><i class="fas fa-graduation-cap"></i> Étudiez chaque méthode séparément d'abord.</li>
+                        <li><i class="fas fa-video"></i> Suivez des tutoriels sur chaque technique.</li>
+                        <li><i class="fas fa-sticky-note"></i> Créez des fiches mémo pour chaque méthode.</li>
+                    </ul>
+                `;
+            } else {
+                level = "Novice en Pensée Critique";
+                levelClass = "level-novice";
+                recommendations = `
+                    <h4><i class="fas fa-exclamation-triangle"></i> Courage, niveau Novice !</h4>
+                    <p>C'est un bon point de départ. Ces méthodes deviendront plus claires avec la pratique.</p>
+                    <h5><i class="fas fa-route"></i> Feuille de route :</h5>
+                    <ul>
+                        <li><i class="fas fa-book-open"></i> Commencez par apprendre une méthode à la fois.</li>
+                        <li><i class="fas fa-globe"></i> Trouvez des exemples simples d'application.</li>
+                        <li><i class="fas fa-users-class"></i> Suivez une formation de base si possible.</li>
+                    </ul>
+                `;
+            }
+
+            return { level, levelClass, recommendations };
+        }
+
+        function showFinalResults() {
+            clearInterval(timerInterval);
+            nextBtn.classList.add('d-none');
+            finishBtn.classList.add('d-none');
+
+            const percentage = (score / questions.length) * 100;
+            const { level, levelClass, recommendations } = determineLevelAndRecommendations(percentage);
+
+            finalScoreCorrectEl.textContent = score;
+            finalScoreTotalEl.textContent = questions.length;
+            finalScorePercentageEl.textContent = `${percentage.toFixed(0)}%`;
+            finalScorePercentageEl.style.color = getScoreColor(percentage);
+            
+            levelBadgeEl.textContent = level;
+            levelBadgeEl.className = `level-badge ${levelClass}`;
+            finalRecommendationsEl.innerHTML = recommendations;
+
+            resultsModal.show();
+        }
+
+        function getScoreColor(percentage) {
+            if (percentage >= 90) return 'var(--success-green)';
+            if (percentage >= 70) return 'var(--secondary-blue)';
+            if (percentage >= 50) return 'var(--accent-orange)';
+            if (percentage >= 25) return '#e67e22';
+            return 'var(--danger-red)';
+        }
+
+        // Event Listeners
+        nextBtn.addEventListener('click', handleNext);
+        finishBtn.addEventListener('click', showFinalResults);
+        restartQuizBtn.addEventListener('click', () => {
+            resultsModal.hide();
+            setTimeout(startQuiz, 500);
+        });
+        
+        // Initial call
+        document.addEventListener('DOMContentLoaded', startQuiz);
+    </script>
+</body>
+</html>
